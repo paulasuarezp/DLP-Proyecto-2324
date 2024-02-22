@@ -3,7 +3,7 @@ grammar Grammar;
 import Tokenizer;
 
 program
-	: 'class' IDENT ';' ('global' ('types' defTypes*)? ('vars' defVar*)?)? 'create' (IDENT ';')+ featureDef+ 'end' 'run' expr  EOF
+	: 'class' IDENT ';' ('global' ('types' defTypes*)? ('vars' defVar*)?)? 'create' (IDENT ';')+ featureDef+ 'end' 'run' sentence EOF
 	;
 
 defTypes
@@ -23,18 +23,18 @@ param
 	;
 
 featureDef
-	: 'feature' IDENT '(' (param (',' param)*)? ')' ':' type 'is' ('local' defVar*)? 'do' sentence* 'end'
+	: 'feature' IDENT ('(' (param (',' param)*)? ')')? (':' type)? 'is' ('local' defVar*)? 'do' sentence* 'end'
 	;
 
 sentence
-	: 'if' expr 'then' sentence* ('else' sentence*)? 'end' 
-	| 'from' sentence 'until' expr 'loop' sentence* 'end'
+	: 'if' expr+ 'then' sentence* ('else' sentence*)? 'end' 
+	| ('from' sentence*)? 'until' expr+ 'loop' sentence* 'end'
 	| 'read' expr ';'
 	| 'print' (expr (',' expr)*)? ';'
 	| 'println' (expr (',' expr)*)? ';'
-	| IDENT ':=' expr ';'
+	| expr ':=' expr ';'
 	| 'return' expr ';'
-	| expr ';' 
+	| IDENT '(' (expr (',' expr)*)? ')' ';' // function call
 	;
 	
 expr 
@@ -42,17 +42,19 @@ expr
 | REAL_CONSTANT 
 | CHAR_CONSTANT
 | IDENT 
-| IDENT '(' (expr (',' expr)*)? ')'  // function call
 | '(' expr ')' 
+| IDENT '(' (expr (',' expr)*)? ')'  // function call
 | expr '.' IDENT 
 | expr'[' expr ']' 
-| 'to<' type '>(' expr ')' 
+| '-' expr 
 | expr ('*' | '/' | 'mod') expr 
 | expr ('+' | '-') expr 
-| expr ('=' | '<>' | '>' | '<' | '>=' | '<=') 
+| expr ('=' | '<>' | '>' | '<' | '>=' | '<=') expr
+| 'to<' type '>(' expr ')' 
 | 'not' expr 
 | expr 'and' expr 
 | expr 'or' expr 
+
 	;
 
 
