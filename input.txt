@@ -1,0 +1,26 @@
+//*
+Ejemplo Fuente01.
+Perímetro de un rectángulo
+*//
+
+class Fuente01;
+	global
+		vars
+			ladoA, ladoB : INTEGER;
+	
+	create
+		main; 
+			
+	feature	main is
+		/* local
+			
+		do
+			read ladoA;
+			read ladoB;
+
+			print (ladoA + ladoB) * 2;
+	end /*main
+	
+end /* Fuente01
+
+run main();
