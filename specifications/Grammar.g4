@@ -33,7 +33,7 @@ sentence
 	| 'print' (expr (',' expr)*)? ';'
 	| 'println' (expr (',' expr)*)? ';'
 	| expr ':=' expr ';'
-	| 'return' expr ';'
+	| 'return' expr? ';'
 	| IDENT '(' (expr (',' expr)*)? ')' ';' // function call
 	;
 	
