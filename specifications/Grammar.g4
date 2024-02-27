@@ -3,15 +3,31 @@ grammar Grammar;
 import Tokenizer;
 
 program
-	: 'class' IDENT ';' ('global' ('types' defTypes*)? ('vars' defVar*)?)? 'create' (IDENT ';')+ featureDef+ 'end' runCall EOF
+	: 'class' IDENT ';' ('global' ('types' defTypes*)? ('vars' globalVars)?)? 'create' (IDENT ';')+ featureDef+ 'end' runCall EOF
 	;
 
 defTypes
 	: 'deftuple' IDENT 'as' field* 'end'
 	;
 
-defVar 
-	: IDENT (',' IDENT)? ':' type ';' 
+globalVars
+	: globalVarListDefinition*
+	;
+
+globalVarListDefinition 
+	: varListIdents ':' type ';' 
+	;
+
+localVars
+	: localVarListDefinition*
+	;
+
+localVarListDefinition 
+	: varListIdents ':' type ';' 
+	;
+
+varListIdents
+	: IDENT (',' IDENT)* 
 	;
 
 field 
@@ -23,7 +39,7 @@ param
 	;
 
 featureDef
-	: 'feature' IDENT ('(' (param (',' param)*)? ')')? (':' type)? 'is' ('local' defVar*)? 'do' sentence* 'end'
+	: 'feature' IDENT ('(' (param (',' param)*)? ')')? (':' type)? 'is' ('local' localVars)? 'do' sentence* 'end'
 	;
 
 runCall

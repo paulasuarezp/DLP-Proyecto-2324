@@ -50,7 +50,7 @@ public class GrammarLexer extends Lexer {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'class'", "';'", "'global'", "'types'", "'vars'", "'create'", 
-			"'end'", "'deftuple'", "'as'", "','", "':'", "'feature'", "'('", "')'", 
+			"'end'", "'deftuple'", "'as'", "':'", "','", "'feature'", "'('", "')'", 
 			"'is'", "'local'", "'do'", "'run'", "'if'", "'then'", "'else'", "'from'", 
 			"'until'", "'loop'", "'read'", "'print'", "'println'", "':='", "'return'", 
 			"'.'", "'['", "']'", "'-'", "'*'", "'/'", "'mod'", "'+'", "'='", "'<>'", 
@@ -260,8 +260,8 @@ public class GrammarLexer extends Lexer {
 		"\u009f\u00a0\u0005p\u0000\u0000\u00a0\u00a1\u0005l\u0000\u0000\u00a1\u00a2"+
 		"\u0005e\u0000\u0000\u00a2\u0010\u0001\u0000\u0000\u0000\u00a3\u00a4\u0005"+
 		"a\u0000\u0000\u00a4\u00a5\u0005s\u0000\u0000\u00a5\u0012\u0001\u0000\u0000"+
-		"\u0000\u00a6\u00a7\u0005,\u0000\u0000\u00a7\u0014\u0001\u0000\u0000\u0000"+
-		"\u00a8\u00a9\u0005:\u0000\u0000\u00a9\u0016\u0001\u0000\u0000\u0000\u00aa"+
+		"\u0000\u00a6\u00a7\u0005:\u0000\u0000\u00a7\u0014\u0001\u0000\u0000\u0000"+
+		"\u00a8\u00a9\u0005,\u0000\u0000\u00a9\u0016\u0001\u0000\u0000\u0000\u00aa"+
 		"\u00ab\u0005f\u0000\u0000\u00ab\u00ac\u0005e\u0000\u0000\u00ac\u00ad\u0005"+
 		"a\u0000\u0000\u00ad\u00ae\u0005t\u0000\u0000\u00ae\u00af\u0005u\u0000"+
 		"\u0000\u00af\u00b0\u0005r\u0000\u0000\u00b0\u00b1\u0005e\u0000\u0000\u00b1"+
