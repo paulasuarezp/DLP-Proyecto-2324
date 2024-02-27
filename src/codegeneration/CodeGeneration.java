@@ -22,6 +22,10 @@ public class CodeGeneration {
 
     public void generate(String sourceFile, AST ast, Writer out) {
 
+        // This check can be removed in the final version when de AST is generated
+        if (ast == null)
+            return;
+
         var allocator = new MemoryAllocation();
         allocator.process(ast);
 

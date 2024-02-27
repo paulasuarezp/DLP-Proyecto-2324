@@ -3,7 +3,7 @@ grammar Grammar;
 import Tokenizer;
 
 program
-	: 'class' IDENT ';' ('global' ('types' defTypes*)? ('vars' defVar*)?)? 'create' (IDENT ';')+ featureDef+ 'end' 'run' sentence EOF
+	: 'class' IDENT ';' ('global' ('types' defTypes*)? ('vars' defVar*)?)? 'create' (IDENT ';')+ featureDef+ 'end' runCall EOF
 	;
 
 defTypes
@@ -26,6 +26,11 @@ featureDef
 	: 'feature' IDENT ('(' (param (',' param)*)? ')')? (':' type)? 'is' ('local' defVar*)? 'do' sentence* 'end'
 	;
 
+runCall
+	: 'run' IDENT '(' (expr (',' expr)*)? ')' ';'
+	;
+
+
 sentence
 	: 'if' expr+ 'then' sentence* ('else' sentence*)? 'end' 
 	| ('from' sentence*)? 'until' expr+ 'loop' sentence* 'end'
@@ -34,7 +39,7 @@ sentence
 	| 'println' (expr (',' expr)*)? ';'
 	| expr ':=' expr ';'
 	| 'return' expr? ';'
-	| IDENT '(' (expr (',' expr)*)? ')' ';' // function call
+	| IDENT '(' (expr (',' expr)*)? ')' ';' // functionCallSent
 	;
 	
 expr 
@@ -43,7 +48,7 @@ expr
 | CHAR_CONSTANT
 | IDENT 
 | '(' expr ')' 
-| IDENT '(' (expr (',' expr)*)? ')'  // function call
+| IDENT '(' (expr (',' expr)*)? ')'  // functionCallExpr
 | expr '.' IDENT 
 | expr'[' expr ']' 
 | '-' expr 
@@ -54,8 +59,7 @@ expr
 | 'not' expr 
 | expr 'and' expr 
 | expr 'or' expr 
-
-	;
+;
 
 
 

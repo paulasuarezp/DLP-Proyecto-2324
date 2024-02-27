@@ -24,6 +24,10 @@ public class SemanticAnalisys {
 
     public void analize(AST ast) {
 
+        // This check can be removed in the final version when de AST is generated
+        if (ast == null)
+            return;
+
         var identification = new Identification(errorManager);
         identification.process(ast);
 
