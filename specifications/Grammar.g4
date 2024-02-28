@@ -2,6 +2,13 @@ grammar Grammar;
 
 import Tokenizer;
 
+@header {
+	    import ast.sentence.*;
+	    import ast.expression.*;
+	    import ast.type.*;
+	    import ast.*;
+}
+
 program
 	: 'class' IDENT ';' ('global' ('types' defTypes*)? ('vars' globalVars)?)? 'create' (IDENT ';')+ featureDef+ 'end' runCall EOF
 	;
@@ -48,7 +55,7 @@ runCall
 
 
 sentence
-	: 'if' expr+ 'then' sentence* ('else' sentence*)? 'end' 
+	: 'if' expr 'then' sentence* ('else' sentence*)? 'end' 
 	| ('from' sentence*)? 'until' expr+ 'loop' sentence* 'end'
 	| 'read' expr ';'
 	| 'print' (expr (',' expr)*)? ';'
