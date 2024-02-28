@@ -1,5 +1,51 @@
 CATEGORIES
 
+sentence;
+expression;
+type;
+
 NODES
 
-program -> ;
+program -> name:string types:structDefinition* vars:globalVariable* featuresDeclarations:string* features:functionDefinition* runFeature:functionCallExpr ;
+
+
+globalVariable -> varDefinition ;
+localVariable -> varDefinition;
+structDefinition -> name:structType fields:fieldDefinition* ;
+functionDefinition -> name:string params:varDefinition* returnType:type localVariables:localVariable* sentences:sentence* ;
+
+
+functionCallSent: sentence -> name:string params:expression* ;
+assignment: sentence -> left:expression right:expression ;
+loop: sentence -> from:assignment* until:expression body:sentence* ;
+ifElse: sentence -> condition:expression trueBlock:sentence* falseBlock:sentence* ;
+read: sentence -> input:expression ;
+print: sentence -> input:expression ;
+println: sentence -> input:expression ;
+return: sentence -> value: expression ;
+
+
+intConstant: expression -> value:string;
+realConstant: expression -> value:string;
+charConstant: expression -> value:string;
+variable: expression -> name:string;
+cast: expression -> castType:type value:expression;
+arithmeticExpr: expression -> op1:expression operator:string op2:expression ;
+logicalExpr: expression -> op1:expression operator:string op2:expression ;
+comparationExpr: expression -> op1:expression operator:string op2:expression ;
+minusExpr: expression -> op:expression ;
+notExpr: expression -> op:expression ;
+functionCallExpr: expression -> name:string params:expression*;
+fieldAccess: expression -> root:expression field:string ;
+arrayAccess: expression -> array:expression index:expression ;
+
+
+intType: type -> ;
+doubleType: type -> ;
+charType: type -> ;
+structType: type -> name:string;
+arrayType: type -> dimension:intConstant tipo:type;
+
+
+fieldDefinition -> name:string type:type ;
+varDefinition -> name:string type:type ;
