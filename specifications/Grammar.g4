@@ -9,14 +9,33 @@ import Tokenizer;
 	    import ast.*;
 }
 
+// ##INICIO program: Programa principal
 program
-	: 'class' IDENT ';' ('global' ('types' defTypes*)? ('vars' globalVars)?)? 'create' (IDENT ';')+ featureDef+ 'end' runCall EOF
+	: 'class' IDENT ';' ('global' ('types' defTypes)? ('vars' globalVars)?)? 'create' builders features 'end' runCall EOF
 	;
+// ##FIN program
 
+// ##INICIO defTypes: Definición de estructuras 
 defTypes
-	: 'deftuple' IDENT 'as' field* 'end'
+	: defTuple*
 	;
 
+defTuple
+	: 'deftuple' IDENT 'as' fields 'end'
+	;
+
+fields
+	: field*
+	;
+
+
+field 
+	: IDENT ':' type ';' 
+	;
+
+// ##FIN defTypes 
+
+// ##INICIO globalVars: Definición de variables globales 
 globalVars
 	: globalVarListDefinition*
 	;
@@ -25,6 +44,23 @@ globalVarListDefinition
 	: varListIdents ':' type ';' 
 	;
 
+// ##FIN globalVars
+
+
+// ##INICIO builders: Declaración de funciones (constructores)
+builders
+	: (IDENT ';')+
+	;
+// ##FIN builders
+
+// ##INICIO features: Declaración de funciones
+features
+	: featureDef*
+	;
+// ##FIN features
+
+
+// ##INICIO localVars: Declaración de variables locales
 localVars
 	: localVarListDefinition*
 	;
@@ -33,45 +69,74 @@ localVarListDefinition
 	: varListIdents ':' type ';' 
 	;
 
+// ##FIN localVars
+
+
+// ##INICIO varListIdents: Lista de identificadores de variables
 varListIdents
 	: IDENT (',' IDENT)* 
 	;
 
-field 
-	: IDENT ':' type ';' 
+// ##FIN varListIdents
+
+
+// ##INICIO featureDef: Definición de funciones
+featureDef
+	: 'feature' IDENT ('(' params ')')? (':' type)? 'is' ('local' localVars)? 'do' sentences 'end'
+	;
+
+// ##FIN featureDef
+
+// ##INICIO params: Parámetros de funciones
+params
+	: (param (',' param)*)?
 	;
 
 param 
 	: IDENT ':' type 
 	;
 
-featureDef
-	: 'feature' IDENT ('(' (param (',' param)*)? ')')? (':' type)? 'is' ('local' localVars)? 'do' sentence* 'end'
-	;
+// ##FIN params
 
+// ##INICIO runCall: Llamada a función principal
 runCall
-	: 'run' IDENT '(' (expr (',' expr)*)? ')' ';'
+	: 'run' IDENT '(' args ')' ';'
 	;
+// ##FIN runCall
 
+// ##INICIO sentence: Lista de sentencias
+sentences
+	: sentence*
+	;
+// ##FIN sentences
 
+// ##INICIO sentence: Sentencias
 sentence
-	: 'if' expr 'then' sentence* ('else' sentence*)? 'end' 
-	| ('from' sentence*)? 'until' expr+ 'loop' sentence* 'end'
+	: 'if' expr 'then' sentences ('else' sentences)? 'end' 
+	| ('from' sentences)? 'until' expr 'loop' sentences 'end'
 	| 'read' expr ';'
-	| 'print' (expr (',' expr)*)? ';'
-	| 'println' (expr (',' expr)*)? ';'
+	| 'print' args ';'
+	| 'println' args ';'
 	| expr ':=' expr ';'
 	| 'return' expr? ';'
-	| IDENT '(' (expr (',' expr)*)? ')' ';' // functionCallSent
+	| IDENT '(' args ')' ';' // functionCallSent
 	;
-	
+// ##FIN sentence
+
+// ##INICIO args: Lista de argumentos (expresiones) de llamadas a funcion
+args
+	: (expr (',' expr)*)?
+	;
+// ##FIN args
+
+// ##INICIO expr: Expresiones
 expr 
 : INT_CONSTANT 
 | REAL_CONSTANT 
 | CHAR_CONSTANT
 | IDENT 
 | '(' expr ')' 
-| IDENT '(' (expr (',' expr)*)? ')'  // functionCallExpr
+| IDENT '(' args ')'  // functionCallExpr
 | expr '.' IDENT 
 | expr'[' expr ']' 
 | '-' expr 
@@ -83,13 +148,16 @@ expr
 | expr 'and' expr 
 | expr 'or' expr 
 ;
+// ##FIN expr
 
 
-
+// ##INICIO type: Tipos de datos
 type 
 	: 'INTEGER' 
 	| 'DOUBLE' 
 	| 'CHARACTER' 
 	| '[' INT_CONSTANT ']' type  
-	| IDENT 
+	| IDENT
+	| 'void' 
 	;
+// ##FIN type
