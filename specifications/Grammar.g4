@@ -10,8 +10,8 @@ import Tokenizer;
 }
 
 // ##INICIO program: Programa principal
-program
-	: 'class' IDENT ';' ('global' ('types' defTypes)? ('vars' globalVars)?)? 'create' builders features 'end' runCall EOF
+program returns[Program ast]
+	: 'class' name=IDENT ';' ('global' ('types' defTypes)? ('vars' globalVars)?)? 'create' builders features 'end' runCall EOF
 	;
 // ##FIN program
 
@@ -113,7 +113,7 @@ sentences
 // ##INICIO sentence: Sentencias
 sentence
 	: 'if' expr 'then' sentences ('else' sentences)? 'end' 
-	| ('from' sentences)? 'until' expr 'loop' sentences 'end'
+	| fromBody? 'until' expr 'loop' sentences 'end'
 	| 'read' args ';'
 	| 'print' args ';'
 	| 'println' args ';'
@@ -122,6 +122,22 @@ sentence
 	| IDENT '(' args ')' ';' // functionCallSent
 	;
 // ##FIN sentence
+
+
+// ##INICIO fromBody: Inicialización de variables del bucle
+fromBody
+	: 'from' initializations
+	;
+
+initializations
+	: initAssignment* 
+	;
+
+initAssignment
+	: expr ':=' expr ';'
+	;
+
+// ##FIN fromBody
 
 // ##INICIO args: Lista de argumentos (expresiones) de llamadas a funcion
 args
