@@ -114,7 +114,7 @@ sentences
 sentence
 	: 'if' expr 'then' sentences ('else' sentences)? 'end' 
 	| ('from' sentences)? 'until' expr 'loop' sentences 'end'
-	| 'read' expr ';'
+	| 'read' args ';'
 	| 'print' args ';'
 	| 'println' args ';'
 	| expr ':=' expr ';'
