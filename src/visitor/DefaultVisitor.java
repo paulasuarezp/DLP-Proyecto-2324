@@ -60,7 +60,7 @@ public class DefaultVisitor implements Visitor {
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 
 		functionDefinition.getParams().forEach(varDefinition -> varDefinition.accept(this, param));
-		functionDefinition.getReturnType().accept(this, param);
+		functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
 		functionDefinition.getLocalVariables().forEach(localVariable -> localVariable.accept(this, param));
 		functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
 		return null;
@@ -123,7 +123,7 @@ public class DefaultVisitor implements Visitor {
 	@Override
 	public Object visit(Return returnValue, Object param) {
 
-		returnValue.getValue().accept(this, param);
+		returnValue.getValue().ifPresent(value -> value.accept(this, param));
 		return null;
 	}
 

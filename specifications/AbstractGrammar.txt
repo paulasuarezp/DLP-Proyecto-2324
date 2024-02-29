@@ -12,7 +12,7 @@ program -> name:string types:structDefinition* vars:globalVariable* builders:str
 globalVariable -> varDefinition ;
 localVariable -> varDefinition;
 structDefinition -> name:structType fields:fieldDefinition* ;
-functionDefinition -> name:string params:varDefinition* returnType:type localVariables:localVariable* sentences:sentence* ;
+functionDefinition -> name:string params:varDefinition* returnType:type? localVariables:localVariable* sentences:sentence* ;
 
 
 functionCallSent: sentence -> name:string args:expression* ;
@@ -22,7 +22,7 @@ ifElse: sentence -> condition:expression trueBlock:sentence* falseBlock:sentence
 read: sentence -> input:expression* ;
 print: sentence -> input:expression* ;
 println: sentence -> input:expression* ;
-return: sentence -> value: expression ;
+return: sentence -> value: expression? ;
 
 
 intConstant: expression -> value:string;

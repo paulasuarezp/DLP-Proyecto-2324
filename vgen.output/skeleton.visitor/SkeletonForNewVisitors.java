@@ -112,12 +112,12 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 		return null;
 	}
 
-	// class FunctionDefinition(String name, List<VarDefinition> params, Type returnType, List<LocalVariable> localVariables, List<Sentence> sentences)
+	// class FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<LocalVariable> localVariables, List<Sentence> sentences)
 	@Override
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 
 		// functionDefinition.getParams().forEach(varDefinition -> varDefinition.accept(this, param));
-		// functionDefinition.getReturnType().accept(this, param);
+		// functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
 		// functionDefinition.getLocalVariables().forEach(localVariable -> localVariable.accept(this, param));
 		// functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
 		super.visit(functionDefinition, param);
@@ -200,11 +200,11 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 		return null;
 	}
 
-	// class Return(Expression value)
+	// class Return(Optional<Expression> value)
 	@Override
 	public Object visit(Return returnValue, Object param) {
 
-		// returnValue.getValue().accept(this, param);
+		// returnValue.getValue().ifPresent(value -> value.accept(this, param));
 		super.visit(returnValue, param);
 
 		return null;

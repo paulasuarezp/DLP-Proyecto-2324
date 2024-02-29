@@ -65,7 +65,7 @@ class FunctionDefinition {
 }
 AST <|-[#808080]- FunctionDefinition
 FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : params >
-FunctionDefinition o-[#404040,thickness=2]-  Type : returnType >
+FunctionDefinition o-[#404040,thickness=2]- "0..1" Type : returnType >
 FunctionDefinition o-[#404040,thickness=2]- "✱" LocalVariable : localVariables >
 FunctionDefinition o-[#404040,thickness=2]- "✱" Sentence : sentences >
 
@@ -113,7 +113,7 @@ Println o-[#404040,thickness=2]- "✱" Expression : input >
 class Return {
 }
 Sentence <|-[#808080]- Return
-Return o-[#404040,thickness=2]-  Expression : value >
+Return o-[#404040,thickness=2]- "0..1" Expression : value >
 
 class IntConstant {
 	+String value

@@ -47,7 +47,7 @@ varDefinition returns[VarDefinition ast]
 	;
 
 functionDefinition returns[FunctionDefinition ast]
-    : name=IDENT params+=varDefinition* type localVariables+=localVariable* sentences+=sentence* { $ast = new FunctionDefinition($name, $params, $type.ast, $localVariables, $sentences); }
+    : name=IDENT params+=varDefinition* type? localVariables+=localVariable* sentences+=sentence* { $ast = new FunctionDefinition($name, $params, ($type.ctx == null) ? null : $type.ast, $localVariables, $sentences); }
 	;
 
 localVariable returns[LocalVariable ast]
@@ -62,7 +62,7 @@ sentence returns[Sentence ast]
     | input+=expression*                  { $ast = new Read($input); }                           
     | input+=expression*                  { $ast = new Print($input); }                          
     | input+=expression*                  { $ast = new Println($input); }                        
-    | expression                          { $ast = new Return($expression.ast); }                
+    | expression?                         { $ast = new Return(($expression.ctx == null) ? null : $expression.ast); }
 	;
 
 expression returns[Expression ast]

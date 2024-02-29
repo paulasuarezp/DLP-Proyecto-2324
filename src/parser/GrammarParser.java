@@ -1138,7 +1138,7 @@ public class GrammarParser extends Parser {
 
 				setState(259);
 				match(T__1);
-				 ((SentenceContext)_localctx).ast =  new Return(_localctx.expr != null ? ((SentenceContext)_localctx).expr.ast : null); 
+				 ((SentenceContext)_localctx).ast =  new Return(_localctx.expr != null ? ((SentenceContext)_localctx).expr.ast : null); _localctx.ast.updatePositions(_localctx.start);
 				}
 				break;
 			case 8:
@@ -1582,6 +1582,7 @@ public class GrammarParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class TypeContext extends ParserRuleContext {
 		public Type ast;
+		public Token token;
 		public Token INT_CONSTANT;
 		public TypeContext type;
 		public Token IDENT;
@@ -1607,32 +1608,32 @@ public class GrammarParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(374);
-				match(T__48);
-				 ((TypeContext)_localctx).ast =  new IntType(); 
+				((TypeContext)_localctx).token = match(T__48);
+				 ((TypeContext)_localctx).ast =  new IntType(); _localctx.ast.updatePositions(((TypeContext)_localctx).token);
 				}
 				break;
 			case T__49:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(376);
-				match(T__49);
-				 ((TypeContext)_localctx).ast =  new DoubleType(); 
+				((TypeContext)_localctx).token = match(T__49);
+				 ((TypeContext)_localctx).ast =  new DoubleType(); _localctx.ast.updatePositions(((TypeContext)_localctx).token);
 				}
 				break;
 			case T__50:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(378);
-				match(T__50);
-				 ((TypeContext)_localctx).ast =  new CharType(); 
+				((TypeContext)_localctx).token = match(T__50);
+				 ((TypeContext)_localctx).ast =  new CharType(); _localctx.ast.updatePositions(((TypeContext)_localctx).token);
 				}
 				break;
 			case T__51:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(380);
-				match(T__51);
-				 ((TypeContext)_localctx).ast =  new VoidType(); 
+				((TypeContext)_localctx).token = match(T__51);
+				 ((TypeContext)_localctx).ast =  new VoidType(); _localctx.ast.updatePositions(((TypeContext)_localctx).token);
 				}
 				break;
 			case T__30:
@@ -1646,7 +1647,7 @@ public class GrammarParser extends Parser {
 				match(T__31);
 				setState(385);
 				((TypeContext)_localctx).type = type();
-				((TypeContext)_localctx).ast =  new ArrayType(new IntConstant(((TypeContext)_localctx).INT_CONSTANT),((TypeContext)_localctx).type.ast);
+				((TypeContext)_localctx).ast =  new ArrayType(new IntConstant(((TypeContext)_localctx).INT_CONSTANT),((TypeContext)_localctx).type.ast); _localctx.ast.updatePositions(_localctx.start);
 				}
 				break;
 			case IDENT:
@@ -1654,7 +1655,7 @@ public class GrammarParser extends Parser {
 				{
 				setState(388);
 				((TypeContext)_localctx).IDENT = match(IDENT);
-				 ((TypeContext)_localctx).ast =  new StructType(((TypeContext)_localctx).IDENT); 
+				 ((TypeContext)_localctx).ast =  new StructType(((TypeContext)_localctx).IDENT); _localctx.ast.updatePositions(_localctx.start); 
 				}
 				break;
 			default:

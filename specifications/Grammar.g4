@@ -96,7 +96,7 @@ sentence returns [Sentence ast]
 	| 'print' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Print($ctx.args != null ? $args : new ArrayList<>()); }
 	| 'println' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Println($ctx.args != null ? $args : new ArrayList<>()); }
 	| left=expr ':=' right=expr ';'										{ $ast = new Assignment($left.ast, $right.ast); }
-	| 'return' expr? ';'												{ $ast = new Return($ctx.expr != null ? $expr.ast : null); }
+	| 'return' expr? ';'												{ $ast = new Return($ctx.expr != null ? $expr.ast : null); $ast.updatePositions($ctx.start);}
 	| IDENT '(' (args+=expr (',' args+=expr)*)? ')' ';'  				{ $ast = new FunctionCallSent($IDENT, $ctx.args != null ? $args : new ArrayList<>()); }// functionCallSent
 	;
 // ##FIN sentence
@@ -133,11 +133,11 @@ expr returns [Expression ast]
 
 // ##INICIO type: Tipos de datos
 type returns [Type ast]
-	: 'INTEGER' 														{ $ast = new IntType(); }
-	| 'DOUBLE' 															{ $ast = new DoubleType(); }	
-	| 'CHARACTER' 														{ $ast = new CharType(); } 
-	| 'void' 															{ $ast = new VoidType(); }
-	| '[' INT_CONSTANT ']' type  										{$ast = new ArrayType(new IntConstant($INT_CONSTANT),$type.ast);}
-	| IDENT																{ $ast = new StructType($IDENT); }
+	: token='INTEGER' 													{ $ast = new IntType(); $ast.updatePositions($token);}
+	| token='DOUBLE' 													{ $ast = new DoubleType(); $ast.updatePositions($token);}	
+	| token='CHARACTER' 												{ $ast = new CharType(); $ast.updatePositions($token);} 
+	| token='void' 														{ $ast = new VoidType(); $ast.updatePositions($token);}
+	| '[' INT_CONSTANT ']' type  										{$ast = new ArrayType(new IntConstant($INT_CONSTANT),$type.ast); $ast.updatePositions($ctx.start);}
+	| IDENT																{ $ast = new StructType($IDENT); $ast.updatePositions($ctx.start); }
 	;
 // ##FIN type

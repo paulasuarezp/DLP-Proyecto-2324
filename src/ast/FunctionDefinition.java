@@ -7,6 +7,7 @@ import ast.sentence.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Stream;
+import java.util.Optional;
 import org.antlr.v4.runtime.Token;
 import visitor.Visitor;
 
@@ -17,24 +18,24 @@ import visitor.Visitor;
 // %% -------------------------------
 
 /*
-	functionDefinition -> name:string params:varDefinition* returnType:type localVariables:localVariable* sentences:sentence*
+	functionDefinition -> name:string params:varDefinition* returnType:type? localVariables:localVariable* sentences:sentence*
 */
 public class FunctionDefinition extends AbstractAST  {
 
     // ----------------------------------
     // Instance Variables
 
-	// functionDefinition -> name:string params:varDefinition* returnType:type localVariables:localVariable* sentences:sentence*
+	// functionDefinition -> name:string params:varDefinition* returnType:type? localVariables:localVariable* sentences:sentence*
 	private String name;
 	private List<VarDefinition> params;
-	private Type returnType;
+	private Optional<Type> returnType;
 	private List<LocalVariable> localVariables;
 	private List<Sentence> sentences;
 
     // ----------------------------------
     // Constructors
 
-	public FunctionDefinition(String name, List<VarDefinition> params, Type returnType, List<LocalVariable> localVariables, List<Sentence> sentences) {
+	public FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<LocalVariable> localVariables, List<Sentence> sentences) {
 		super();
 
 		if (name == null)
@@ -46,7 +47,7 @@ public class FunctionDefinition extends AbstractAST  {
 		this.params = params;
 
 		if (returnType == null)
-			throw new IllegalArgumentException("Parameter 'returnType' can't be null. Pass a non-null value or use 'type?' in the abstract grammar");
+			returnType = Optional.empty();
 		this.returnType = returnType;
 
 		if (localVariables == null)
@@ -68,10 +69,7 @@ public class FunctionDefinition extends AbstractAST  {
 		this.name = (name instanceof Token) ? ((Token) name).getText() : (String) name;
 
         this.params = castList(params, unwrapIfContext.andThen(VarDefinition.class::cast));
-        if (returnType == null)
-            throw new IllegalArgumentException("Parameter 'returnType' can't be null. Pass a non-null value or use 'type?' in the abstract grammar");
-		this.returnType = (Type) returnType;
-
+        this.returnType = castOptional(returnType, Type.class);
         this.localVariables = castList(localVariables, unwrapIfContext.andThen(LocalVariable.class::cast));
         this.sentences = castList(sentences, unwrapIfContext.andThen(Sentence.class::cast));
 		updatePositions(name, params, returnType, localVariables, sentences);
@@ -79,7 +77,7 @@ public class FunctionDefinition extends AbstractAST  {
 
 
     // ----------------------------------
-    // functionDefinition -> name:string params:varDefinition* returnType:type localVariables:localVariable* sentences:sentence*
+    // functionDefinition -> name:string params:varDefinition* returnType:type? localVariables:localVariable* sentences:sentence*
 
 	// Child 'name:string' 
 
@@ -113,16 +111,16 @@ public class FunctionDefinition extends AbstractAST  {
     }
 
 
-	// Child 'returnType:type' 
+	// Child 'returnType:type?' 
 
-	public void setReturnType(Type returnType) {
+	public void setReturnType(Optional<Type> returnType) {
 		if (returnType == null)
-			throw new IllegalArgumentException("Parameter 'returnType' can't be null. Pass a non-null value or use 'type?' in the abstract grammar");
+			returnType = Optional.empty();
 		this.returnType = returnType;
 
 	}
 
-    public Type getReturnType() {
+    public Optional<Type> getReturnType() {
         return returnType;
     }
 

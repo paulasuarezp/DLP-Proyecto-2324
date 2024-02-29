@@ -171,7 +171,7 @@ public class AstPrinter implements Visitor {
 		// Imprimir los hijos (y recorrer si son nodos del AST)
         printNonNodeChild(indent + 1, "name", "String", functionDefinition.getName());
         printListOfNodesChild(indent + 1, "params", "List<VarDefinition>", functionDefinition.getParams());
-        printNodeChild(indent + 1, "returnType", "Type", functionDefinition.getReturnType());
+        printNodeChild(indent + 1, "returnType", "Optional<Type>", functionDefinition.getReturnType().orElse(null));
         printListOfNodesChild(indent + 1, "localVariables", "List<LocalVariable>", functionDefinition.getLocalVariables());
         printListOfNodesChild(indent + 1, "sentences", "List<Sentence>", functionDefinition.getSentences());
 
@@ -283,7 +283,7 @@ public class AstPrinter implements Visitor {
 		int indent = ((Integer)param);
 
 		// Imprimir los hijos (y recorrer si son nodos del AST)
-        printNodeChild(indent + 1, "value", "Expression", returnValue.getValue());
+        printNodeChild(indent + 1, "value", "Optional<Expression>", returnValue.getValue().orElse(null));
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
 		printUnknownFields(indent + 1, returnValue, "value");

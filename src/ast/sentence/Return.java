@@ -3,6 +3,7 @@
 package ast.sentence;
 
 import ast.expression.*;
+import java.util.Optional;
 import visitor.Visitor;
 
 // %% User Declarations -------------
@@ -12,7 +13,7 @@ import visitor.Visitor;
 // %% -------------------------------
 
 /*
-	return: sentence -> value:expression
+	return: sentence -> value:expression?
 	sentence -> 
 */
 public class Return extends AbstractSentence  {
@@ -20,17 +21,17 @@ public class Return extends AbstractSentence  {
     // ----------------------------------
     // Instance Variables
 
-	// return: sentence -> value:expression
-	private Expression value;
+	// return: sentence -> value:expression?
+	private Optional<Expression> value;
 
     // ----------------------------------
     // Constructors
 
-	public Return(Expression value) {
+	public Return(Optional<Expression> value) {
 		super();
 
 		if (value == null)
-			throw new IllegalArgumentException("Parameter 'value' can't be null. Pass a non-null value or use 'expression?' in the abstract grammar");
+			value = Optional.empty();
 		this.value = value;
 
 		updatePositions(value);
@@ -39,27 +40,24 @@ public class Return extends AbstractSentence  {
 	public Return(Object value) {
 		super();
 
-        if (value == null)
-            throw new IllegalArgumentException("Parameter 'value' can't be null. Pass a non-null value or use 'expression?' in the abstract grammar");
-		this.value = (Expression) value;
-
+        this.value = castOptional(value, Expression.class);
 		updatePositions(value);
 	}
 
 
     // ----------------------------------
-    // return: sentence -> value:expression
+    // return: sentence -> value:expression?
 
-	// Child 'value:expression' 
+	// Child 'value:expression?' 
 
-	public void setValue(Expression value) {
+	public void setValue(Optional<Expression> value) {
 		if (value == null)
-			throw new IllegalArgumentException("Parameter 'value' can't be null. Pass a non-null value or use 'expression?' in the abstract grammar");
+			value = Optional.empty();
 		this.value = value;
 
 	}
 
-    public Expression getValue() {
+    public Optional<Expression> getValue() {
         return value;
     }
 
