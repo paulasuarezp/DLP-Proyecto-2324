@@ -11,169 +11,133 @@ import Tokenizer;
 
 // ##INICIO program: Programa principal
 program returns[Program ast]
-	: 'class' name=IDENT ';' ('global' ('types' defTypes)? ('vars' globalVars)?)? 'create' builders features 'end' runCall EOF
+	: 'class' name=IDENT ';' ('global' ('types' dt+=defTuple*)? ('vars' globalVars)?)? 'create' (b+=IDENT ';')+ fd+=featureDef* 'end' runCall EOF
+		{ $ast = new Program($name.text, $ctx.dt != null ? $dt : null, $ctx.globalVars != null ? $globalVars.list : null, $b, $fd, $runCall.ast); }
 	;
 // ##FIN program
 
-// ##INICIO defTypes: Definición de estructuras 
-defTypes
-	: defTuple*
+// ##INICIO defTtuple: Definición de estructuras 
+
+defTuple returns [StructDefinition ast]
+	: 'deftuple' IDENT 'as' f+=field* 'end'									{ $ast = new StructDefinition(new StructType($IDENT), $f); }
 	;
 
-defTuple
-	: 'deftuple' IDENT 'as' fields 'end'
+field returns [FieldDefinition ast]
+	: IDENT ':' type ';' 													{ $ast = new FieldDefinition($IDENT, $type.ast); }
 	;
 
-fields
-	: field*
+// ##FIN defTtuple 
+
+
+// ##INICIO globalVars: Lista de declaraciones de variables globales
+globalVars returns [List<GlobalVariable> list = new ArrayList<GlobalVariable>()]
+	: (varListDefinition { 
+		for (int i = 0; i < $varListDefinition.list.size(); i++) 
+			$list.add(new GlobalVariable($varListDefinition.list.get(i))); 
+	})*
 	;
-
-
-field 
-	: IDENT ':' type ';' 
-	;
-
-// ##FIN defTypes 
-
-// ##INICIO globalVars: Definición de variables globales 
-globalVars
-	: globalVarListDefinition*
-	;
-
-globalVarListDefinition 
-	: varListIdents ':' type ';' 
-	;
-
 // ##FIN globalVars
 
-
-// ##INICIO builders: Declaración de funciones (constructores)
-builders
-	: (IDENT ';')+
+// ##INICIO localVars: Lista de declaraciones de variables globales
+localVars returns [List<LocalVariable> list = new ArrayList<LocalVariable>()]
+	: (varListDefinition { 
+		for (int i = 0; i < $varListDefinition.list.size(); i++) 
+			$list.add(new LocalVariable($varListDefinition.list.get(i))); 
+	})*
 	;
-// ##FIN builders
+// ##FIN localVars
 
-// ##INICIO features: Declaración de funciones
-features
-	: featureDef*
-	;
-// ##FIN features
-
-
-// ##INICIO localVars: Declaración de variables locales
-localVars
-	: localVarListDefinition*
-	;
-
-localVarListDefinition 
+// ##INICIO vars: Declaración de variables 
+varListDefinition returns [List<VarDefinition> list = new ArrayList<VarDefinition>()]
 	: varListIdents ':' type ';' 
+		{ for (int i = 0; i < $varListIdents.list.size(); i++) 
+			$list.add(new VarDefinition($varListIdents.list.get(i), $type.ast)); 
+		}
 	;
 
 // ##FIN localVars
 
 
 // ##INICIO varListIdents: Lista de identificadores de variables
-varListIdents
-	: IDENT (',' IDENT)* 
+varListIdents returns [List<String> list = new ArrayList<String>()]
+	:( IDENT { $list.add($IDENT.text); }) (',' IDENT { $list.add($IDENT.text); })* 
 	;
 
 // ##FIN varListIdents
 
 
 // ##INICIO featureDef: Definición de funciones
-featureDef
-	: 'feature' IDENT ('(' params ')')? (':' type)? 'is' ('local' localVars)? 'do' sentences 'end'
+featureDef returns [FunctionDefinition ast]
+	: 'feature' IDENT ('(' (p+=param (',' p+=param)*)? ')')? (':' type)? 'is' ('local' localVars)? 'do' s+=sentence* 'end'
+		{ $ast = new FunctionDefinition($IDENT, $ctx.p != null ? $p : new ArrayList<>(), $ctx.type != null ? $type.ast : new VoidType(), $ctx.localVars != null ? $localVars.list : new ArrayList<>(), $s); }
 	;
 
 // ##FIN featureDef
 
-// ##INICIO params: Parámetros de funciones
-params
-	: (param (',' param)*)?
+// ##INICIO param: Parámetros de funciones
+param returns [VarDefinition ast]
+	: IDENT ':' type 													{ $ast = new VarDefinition($IDENT, $type.ast); }
 	;
-
-param 
-	: IDENT ':' type 
-	;
-
 // ##FIN params
 
+
 // ##INICIO runCall: Llamada a función principal
-runCall
-	: 'run' IDENT '(' args ')' ';'
+runCall	returns [FunctionCallSent ast]
+	: 'run' IDENT '(' (args+=expr (',' args+=expr)*)? ')' ';'  			{ $ast = new FunctionCallSent($IDENT, $ctx.args != null ? $args : new ArrayList<>()); }
 	;
 // ##FIN runCall
 
-// ##INICIO sentence: Lista de sentencias
-sentences
-	: sentence*
-	;
-// ##FIN sentences
 
 // ##INICIO sentence: Sentencias
-sentence
-	: 'if' expr 'then' sentences ('else' sentences)? 'end' 
-	| fromBody? 'until' expr 'loop' sentences 'end'
-	| 'read' args ';'
-	| 'print' args ';'
-	| 'println' args ';'
-	| expr ':=' expr ';'
-	| 'return' expr? ';'
-	| IDENT '(' args ')' ';' // functionCallSent
+sentence returns [Sentence ast]
+	: 'if' expr 'then' tb+=sentence* ('else' fb+=sentence*)? 'end' 		{ $ast = new IfElse($expr.ast, $tb, $ctx.fb != null ? $fb : null); }
+	| ('from' initFromLoop)? 'until' expr 'loop' c+=sentence* 'end'		{ $ast = new Loop($ctx.initFromLoop != null ? $initFromLoop.initializations : null, $expr.ast, $c); }
+	| 'read' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Read($ctx.args != null ? $args : new ArrayList<>()); }
+	| 'print' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Print($ctx.args != null ? $args : new ArrayList<>()); }
+	| 'println' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Println($ctx.args != null ? $args : new ArrayList<>()); }
+	| left=expr ':=' right=expr ';'										{ $ast = new Assignment($left.ast, $right.ast); }
+	| 'return' expr? ';'												{ $ast = new Return($ctx.expr != null ? $expr.ast : null); }
+	| IDENT '(' (args+=expr (',' args+=expr)*)? ')' ';'  				{ $ast = new FunctionCallSent($IDENT, $ctx.args != null ? $args : new ArrayList<>()); }// functionCallSent
 	;
 // ##FIN sentence
 
 
-// ##INICIO fromBody: Inicialización de variables del bucle
-fromBody
-	: 'from' initializations
+// ##INICIO initFromLoop: Inicialización de variables del bucle
+initFromLoop returns [List<Assignment> initializations = new ArrayList<Assignment>()]
+	: (left=expr ':=' right=expr ';' { $initializations.add(new Assignment($left.ast, $right.ast)); })*
 	;
+// ##FIN initFromLoop
 
-initializations
-	: initAssignment* 
-	;
-
-initAssignment
-	: expr ':=' expr ';'
-	;
-
-// ##FIN fromBody
-
-// ##INICIO args: Lista de argumentos (expresiones) de llamadas a funcion
-args
-	: (expr (',' expr)*)?
-	;
-// ##FIN args
 
 // ##INICIO expr: Expresiones
-expr 
-: INT_CONSTANT 
-| REAL_CONSTANT 
-| CHAR_CONSTANT
-| IDENT 
-| '(' expr ')' 
-| IDENT '(' args ')'  // functionCallExpr
-| expr '.' IDENT 
-| expr'[' expr ']' 
-| '-' expr 
-| expr ('*' | '/' | 'mod') expr 
-| expr ('+' | '-') expr 
-| expr ('=' | '<>' | '>' | '<' | '>=' | '<=') expr
-| 'to<' type '>(' expr ')' 
-| 'not' expr 
-| expr 'and' expr 
-| expr 'or' expr 
+expr returns [Expression ast]
+: INT_CONSTANT 															{ $ast = new IntConstant($INT_CONSTANT); }
+| REAL_CONSTANT 														{ $ast = new RealConstant($REAL_CONSTANT); }
+| CHAR_CONSTANT															{ $ast = new CharConstant($CHAR_CONSTANT); }
+| IDENT 																{ $ast = new Variable($IDENT); }
+| '(' expr ')' 															{ $ast = $expr.ast; }
+| IDENT '(' (args+=expr (',' args+=expr)*)? ')' 						{ $ast = new FunctionCallExpr($IDENT, $args); } // functionCallExpr
+| root=expr '.' IDENT 													{ $ast = new FieldAccess($root.ast, $IDENT); }
+| array=expr'[' index=expr ']' 											{ $ast = new ArrayAccess($array.ast, $index.ast); }
+| '-' expr 																{ $ast = new MinusExpr($expr.ast); }
+| op1=expr operator=('*' | '/' | 'mod') op2=expr 						{ $ast = new ArithmeticExpr($op1.ast, $operator, $op2.ast); }					
+| op1=expr operator=('+' | '-') op2=expr 								{ $ast = new ArithmeticExpr($op1.ast, $operator, $op2.ast); }
+| op1=expr operator=('=' | '<>' | '>' | '<' | '>=' | '<=') op2=expr		{ $ast = new ComparationExpr($op1.ast, $operator, $op2.ast); }	
+| 'to<' type '>(' expr ')' 												{ $ast = new Cast($type.ast, $expr.ast); }
+| 'not' expr 															{ $ast = new NotExpr($expr.ast); }
+| op1=expr operator='and' op2=expr 										{ $ast = new LogicalExpr($op1.ast, $operator, $op2.ast); }
+| op1=expr operator='or' op2=expr 										{ $ast = new LogicalExpr($op1.ast, $operator, $op2.ast); }
 ;
 // ##FIN expr
 
 
 // ##INICIO type: Tipos de datos
-type 
-	: 'INTEGER' 
-	| 'DOUBLE' 
-	| 'CHARACTER' 
-	| '[' INT_CONSTANT ']' type  
-	| IDENT
-	| 'void' 
+type returns [Type ast]
+	: 'INTEGER' 														{ $ast = new IntType(); }
+	| 'DOUBLE' 															{ $ast = new DoubleType(); }	
+	| 'CHARACTER' 														{ $ast = new CharType(); } 
+	| 'void' 															{ $ast = new VoidType(); }
+	| '[' INT_CONSTANT ']' type  										{$ast = new ArrayType(new IntConstant($INT_CONSTANT),$type.ast);}
+	| IDENT																{ $ast = new StructType($IDENT); }
 	;
 // ##FIN type

@@ -1,0 +1,185 @@
+// Generated with VGen 2.0.0
+
+package ast;
+
+import ast.type.*;
+import ast.sentence.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Stream;
+import org.antlr.v4.runtime.Token;
+import visitor.Visitor;
+
+// %% User Declarations -------------
+
+    // Declarations (e.g. imports) in this section will be preserved. Delete if not needed
+
+// %% -------------------------------
+
+/*
+	functionDefinition -> name:string params:varDefinition* returnType:type localVariables:localVariable* sentences:sentence*
+*/
+public class FunctionDefinition extends AbstractAST  {
+
+    // ----------------------------------
+    // Instance Variables
+
+	// functionDefinition -> name:string params:varDefinition* returnType:type localVariables:localVariable* sentences:sentence*
+	private String name;
+	private List<VarDefinition> params;
+	private Type returnType;
+	private List<LocalVariable> localVariables;
+	private List<Sentence> sentences;
+
+    // ----------------------------------
+    // Constructors
+
+	public FunctionDefinition(String name, List<VarDefinition> params, Type returnType, List<LocalVariable> localVariables, List<Sentence> sentences) {
+		super();
+
+		if (name == null)
+			throw new IllegalArgumentException("Parameter 'name' can't be null. Pass a non-null value or use 'string?' in the abstract grammar");
+		this.name = name;
+
+		if (params == null)
+			params = new ArrayList<>();
+		this.params = params;
+
+		if (returnType == null)
+			throw new IllegalArgumentException("Parameter 'returnType' can't be null. Pass a non-null value or use 'type?' in the abstract grammar");
+		this.returnType = returnType;
+
+		if (localVariables == null)
+			localVariables = new ArrayList<>();
+		this.localVariables = localVariables;
+
+		if (sentences == null)
+			sentences = new ArrayList<>();
+		this.sentences = sentences;
+
+		updatePositions(name, params, returnType, localVariables, sentences);
+	}
+
+	public FunctionDefinition(Object name, Object params, Object returnType, Object localVariables, Object sentences) {
+		super();
+
+        if (name == null)
+            throw new IllegalArgumentException("Parameter 'name' can't be null. Pass a non-null value or use 'string?' in the abstract grammar");
+		this.name = (name instanceof Token) ? ((Token) name).getText() : (String) name;
+
+        this.params = castList(params, unwrapIfContext.andThen(VarDefinition.class::cast));
+        if (returnType == null)
+            throw new IllegalArgumentException("Parameter 'returnType' can't be null. Pass a non-null value or use 'type?' in the abstract grammar");
+		this.returnType = (Type) returnType;
+
+        this.localVariables = castList(localVariables, unwrapIfContext.andThen(LocalVariable.class::cast));
+        this.sentences = castList(sentences, unwrapIfContext.andThen(Sentence.class::cast));
+		updatePositions(name, params, returnType, localVariables, sentences);
+	}
+
+
+    // ----------------------------------
+    // functionDefinition -> name:string params:varDefinition* returnType:type localVariables:localVariable* sentences:sentence*
+
+	// Child 'name:string' 
+
+	public void setName(String name) {
+		if (name == null)
+			throw new IllegalArgumentException("Parameter 'name' can't be null. Pass a non-null value or use 'string?' in the abstract grammar");
+		this.name = name;
+
+	}
+
+    public String getName() {
+        return name;
+    }
+
+
+	// Child 'params:varDefinition*' 
+
+	public void setParams(List<VarDefinition> params) {
+		if (params == null)
+			params = new ArrayList<>();
+		this.params = params;
+
+	}
+
+    public List<VarDefinition> getParams() {
+        return params;
+    }
+
+    public Stream<VarDefinition> params() {
+        return params.stream();
+    }
+
+
+	// Child 'returnType:type' 
+
+	public void setReturnType(Type returnType) {
+		if (returnType == null)
+			throw new IllegalArgumentException("Parameter 'returnType' can't be null. Pass a non-null value or use 'type?' in the abstract grammar");
+		this.returnType = returnType;
+
+	}
+
+    public Type getReturnType() {
+        return returnType;
+    }
+
+
+	// Child 'localVariables:localVariable*' 
+
+	public void setLocalVariables(List<LocalVariable> localVariables) {
+		if (localVariables == null)
+			localVariables = new ArrayList<>();
+		this.localVariables = localVariables;
+
+	}
+
+    public List<LocalVariable> getLocalVariables() {
+        return localVariables;
+    }
+
+    public Stream<LocalVariable> localVariables() {
+        return localVariables.stream();
+    }
+
+
+	// Child 'sentences:sentence*' 
+
+	public void setSentences(List<Sentence> sentences) {
+		if (sentences == null)
+			sentences = new ArrayList<>();
+		this.sentences = sentences;
+
+	}
+
+    public List<Sentence> getSentences() {
+        return sentences;
+    }
+
+    public Stream<Sentence> sentences() {
+        return sentences.stream();
+    }
+
+
+    // ----------------------------------
+    // Helper methods
+
+    @Override
+    public Object accept(Visitor v, Object param) {
+        return v.visit(this, param);
+    }
+
+    @Override
+    public String toString() {
+        return "FunctionDefinition{" + " name=" + this.getName() + " params=" + this.getParams() + " returnType=" + this.getReturnType() + " localVariables=" + this.getLocalVariables() + " sentences=" + this.getSentences() + "}";
+    }
+
+
+    // %% User Members -------------------------
+
+        // Methods/attributes in this section will be preserved. Delete if not needed
+
+    // %% --------------------------------------
+}

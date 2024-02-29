@@ -1,8 +1,8 @@
+// Generated with VGen 2.0.0
+
 package ast;
 
 public class Position {
-
-    private int line, column;
 
     public Position(int line, int column) {
         this.line = line;
@@ -30,4 +30,5 @@ public class Position {
         return line + ":" + column;
     }
 
+    private int line, column;
 }

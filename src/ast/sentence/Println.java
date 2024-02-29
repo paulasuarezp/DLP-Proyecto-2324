@@ -1,0 +1,90 @@
+// Generated with VGen 2.0.0
+
+package ast.sentence;
+
+import ast.expression.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Stream;
+import visitor.Visitor;
+
+// %% User Declarations -------------
+
+    // Declarations (e.g. imports) in this section will be preserved. Delete if not needed
+
+// %% -------------------------------
+
+/*
+	println: sentence -> input:expression*
+	sentence -> 
+*/
+public class Println extends AbstractSentence  {
+
+    // ----------------------------------
+    // Instance Variables
+
+	// println: sentence -> input:expression*
+	private List<Expression> input;
+
+    // ----------------------------------
+    // Constructors
+
+	public Println(List<Expression> input) {
+		super();
+
+		if (input == null)
+			input = new ArrayList<>();
+		this.input = input;
+
+		updatePositions(input);
+	}
+
+	public Println(Object input) {
+		super();
+
+        this.input = castList(input, unwrapIfContext.andThen(Expression.class::cast));
+		updatePositions(input);
+	}
+
+
+    // ----------------------------------
+    // println: sentence -> input:expression*
+
+	// Child 'input:expression*' 
+
+	public void setInput(List<Expression> input) {
+		if (input == null)
+			input = new ArrayList<>();
+		this.input = input;
+
+	}
+
+    public List<Expression> getInput() {
+        return input;
+    }
+
+    public Stream<Expression> input() {
+        return input.stream();
+    }
+
+
+    // ----------------------------------
+    // Helper methods
+
+    @Override
+    public Object accept(Visitor v, Object param) {
+        return v.visit(this, param);
+    }
+
+    @Override
+    public String toString() {
+        return "Println{" + " input=" + this.getInput() + "}";
+    }
+
+
+    // %% User Members -------------------------
+
+        // Methods/attributes in this section will be preserved. Delete if not needed
+
+    // %% --------------------------------------
+}

@@ -1,0 +1,232 @@
+' Generated with VGen 2.0.0
+
+@startuml
+
+class Position {
+    +int getLine()
+    +int getColumn()
+    +boolean lessThan(Position other)
+    +boolean greaterThan(Position other)
+}
+
+interface AST {
+    +updatePositions(Object... children)
+    +updatePositions(Position start, Position end)
+    +Object accept(Visitor visitor, Object param)
+}
+
+AST *-[#404040,thickness=1]- Position : start >
+AST *-[#404040,thickness=1]- Position : end >
+
+
+interface Sentence {
+}
+AST <|-[#808080]- Sentence
+
+interface Expression {
+}
+AST <|-[#808080]- Expression
+
+interface Type {
+}
+AST <|-[#808080]- Type
+
+interface AST {
+}
+
+class Program {
+	+String name
+	+List<String> builders
+}
+AST <|-[#808080]- Program
+Program o-[#404040,thickness=2]- "✱" StructDefinition : types >
+Program o-[#404040,thickness=2]- "✱" GlobalVariable : vars >
+Program o-[#404040,thickness=2]- "✱" FunctionDefinition : features >
+Program o-[#404040,thickness=2]-  FunctionCallSent : runCall >
+
+class GlobalVariable {
+}
+AST <|-[#808080]- GlobalVariable
+GlobalVariable o-[#404040,thickness=2]-  VarDefinition : varDefinition >
+
+class LocalVariable {
+}
+AST <|-[#808080]- LocalVariable
+LocalVariable o-[#404040,thickness=2]-  VarDefinition : varDefinition >
+
+class StructDefinition {
+}
+AST <|-[#808080]- StructDefinition
+StructDefinition o-[#404040,thickness=2]-  StructType : name >
+StructDefinition o-[#404040,thickness=2]- "✱" FieldDefinition : fields >
+
+class FunctionDefinition {
+	+String name
+}
+AST <|-[#808080]- FunctionDefinition
+FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : params >
+FunctionDefinition o-[#404040,thickness=2]-  Type : returnType >
+FunctionDefinition o-[#404040,thickness=2]- "✱" LocalVariable : localVariables >
+FunctionDefinition o-[#404040,thickness=2]- "✱" Sentence : sentences >
+
+class FunctionCallSent {
+	+String name
+}
+Sentence <|-[#808080]- FunctionCallSent
+FunctionCallSent o-[#404040,thickness=2]- "✱" Expression : args >
+
+class Assignment {
+}
+Sentence <|-[#808080]- Assignment
+Assignment o-[#404040,thickness=2]-  Expression : left >
+Assignment o-[#404040,thickness=2]-  Expression : right >
+
+class Loop {
+}
+Sentence <|-[#808080]- Loop
+Loop o-[#404040,thickness=2]- "✱" Assignment : from >
+Loop o-[#404040,thickness=2]-  Expression : until >
+Loop o-[#404040,thickness=2]- "✱" Sentence : body >
+
+class IfElse {
+}
+Sentence <|-[#808080]- IfElse
+IfElse o-[#404040,thickness=2]-  Expression : condition >
+IfElse o-[#404040,thickness=2]- "✱" Sentence : trueBlock >
+IfElse o-[#404040,thickness=2]- "✱" Sentence : falseBlock >
+
+class Read {
+}
+Sentence <|-[#808080]- Read
+Read o-[#404040,thickness=2]- "✱" Expression : input >
+
+class Print {
+}
+Sentence <|-[#808080]- Print
+Print o-[#404040,thickness=2]- "✱" Expression : input >
+
+class Println {
+}
+Sentence <|-[#808080]- Println
+Println o-[#404040,thickness=2]- "✱" Expression : input >
+
+class Return {
+}
+Sentence <|-[#808080]- Return
+Return o-[#404040,thickness=2]-  Expression : value >
+
+class IntConstant {
+	+String value
+}
+Expression <|-[#808080]- IntConstant
+
+class RealConstant {
+	+String value
+}
+Expression <|-[#808080]- RealConstant
+
+class CharConstant {
+	+String value
+}
+Expression <|-[#808080]- CharConstant
+
+class Variable {
+	+String name
+}
+Expression <|-[#808080]- Variable
+
+class Cast {
+}
+Expression <|-[#808080]- Cast
+Cast o-[#404040,thickness=2]-  Type : castType >
+Cast o-[#404040,thickness=2]-  Expression : value >
+
+class ArithmeticExpr {
+	+String operator
+}
+Expression <|-[#808080]- ArithmeticExpr
+ArithmeticExpr o-[#404040,thickness=2]-  Expression : op1 >
+ArithmeticExpr o-[#404040,thickness=2]-  Expression : op2 >
+
+class LogicalExpr {
+	+String operator
+}
+Expression <|-[#808080]- LogicalExpr
+LogicalExpr o-[#404040,thickness=2]-  Expression : op1 >
+LogicalExpr o-[#404040,thickness=2]-  Expression : op2 >
+
+class ComparationExpr {
+	+String operator
+}
+Expression <|-[#808080]- ComparationExpr
+ComparationExpr o-[#404040,thickness=2]-  Expression : op1 >
+ComparationExpr o-[#404040,thickness=2]-  Expression : op2 >
+
+class MinusExpr {
+}
+Expression <|-[#808080]- MinusExpr
+MinusExpr o-[#404040,thickness=2]-  Expression : op >
+
+class NotExpr {
+}
+Expression <|-[#808080]- NotExpr
+NotExpr o-[#404040,thickness=2]-  Expression : op >
+
+class FunctionCallExpr {
+	+String name
+}
+Expression <|-[#808080]- FunctionCallExpr
+FunctionCallExpr o-[#404040,thickness=2]- "✱" Expression : args >
+
+class FieldAccess {
+	+String field
+}
+Expression <|-[#808080]- FieldAccess
+FieldAccess o-[#404040,thickness=2]-  Expression : root >
+
+class ArrayAccess {
+}
+Expression <|-[#808080]- ArrayAccess
+ArrayAccess o-[#404040,thickness=2]-  Expression : array >
+ArrayAccess o-[#404040,thickness=2]-  Expression : index >
+
+class IntType {
+}
+Type <|-[#808080]- IntType
+
+class DoubleType {
+}
+Type <|-[#808080]- DoubleType
+
+class CharType {
+}
+Type <|-[#808080]- CharType
+
+class VoidType {
+}
+Type <|-[#808080]- VoidType
+
+class StructType {
+	+String name
+}
+Type <|-[#808080]- StructType
+
+class ArrayType {
+}
+Type <|-[#808080]- ArrayType
+ArrayType o-[#404040,thickness=2]-  IntConstant : dimension >
+ArrayType o-[#404040,thickness=2]-  Type : tipo >
+
+class FieldDefinition {
+	+String name
+}
+AST <|-[#808080]- FieldDefinition
+FieldDefinition o-[#404040,thickness=2]-  Type : tipo >
+
+class VarDefinition {
+	+String name
+}
+AST <|-[#808080]- VarDefinition
+VarDefinition o-[#404040,thickness=2]-  Type : tipo >
+
+@enduml
