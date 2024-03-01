@@ -28,18 +28,6 @@ public class ExceptionThrowerVisitor implements Visitor {
 	}
 
 	@Override
-	public Object visit(GlobalVariable globalVariable, Object param) {
-
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(GlobalVariable)' has been invoked but it has not been implemented.");
-	}
-
-	@Override
-	public Object visit(LocalVariable localVariable, Object param) {
-
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(LocalVariable)' has been invoked but it has not been implemented.");
-	}
-
-	@Override
 	public Object visit(StructDefinition structDefinition, Object param) {
 
         throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(StructDefinition)' has been invoked but it has not been implemented.");

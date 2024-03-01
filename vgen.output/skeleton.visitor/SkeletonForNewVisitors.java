@@ -68,35 +68,15 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 
     // Visit Methods --------------------------------------------------------------
 
-	// class Program(String name, List<StructDefinition> types, List<GlobalVariable> vars, List<String> builders, List<FunctionDefinition> features, FunctionCallSent runCall)
+	// class Program(String name, List<StructDefinition> types, List<VarDefinition> vars, List<String> builders, List<FunctionDefinition> features, FunctionCallSent runCall)
 	@Override
 	public Object visit(Program program, Object param) {
 
 		// program.getTypes().forEach(structDefinition -> structDefinition.accept(this, param));
-		// program.getVars().forEach(globalVariable -> globalVariable.accept(this, param));
+		// program.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
 		// program.getFeatures().forEach(functionDefinition -> functionDefinition.accept(this, param));
 		// program.getRunCall().accept(this, param);
 		super.visit(program, param);
-
-		return null;
-	}
-
-	// class GlobalVariable(VarDefinition varDefinition)
-	@Override
-	public Object visit(GlobalVariable globalVariable, Object param) {
-
-		// globalVariable.getVarDefinition().accept(this, param);
-		super.visit(globalVariable, param);
-
-		return null;
-	}
-
-	// class LocalVariable(VarDefinition varDefinition)
-	@Override
-	public Object visit(LocalVariable localVariable, Object param) {
-
-		// localVariable.getVarDefinition().accept(this, param);
-		super.visit(localVariable, param);
 
 		return null;
 	}
@@ -112,13 +92,13 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 		return null;
 	}
 
-	// class FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<LocalVariable> localVariables, List<Sentence> sentences)
+	// class FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<VarDefinition> vars, List<Sentence> sentences)
 	@Override
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 
 		// functionDefinition.getParams().forEach(varDefinition -> varDefinition.accept(this, param));
 		// functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
-		// functionDefinition.getLocalVariables().forEach(localVariable -> localVariable.accept(this, param));
+		// functionDefinition.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
 		// functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
 		super.visit(functionDefinition, param);
 

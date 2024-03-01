@@ -16,17 +16,17 @@ import visitor.Visitor;
 // %% -------------------------------
 
 /*
-	program -> name:string types:structDefinition* vars:globalVariable* builders:string* features:functionDefinition* runCall:functionCallSent
+	program -> name:string types:structDefinition* vars:varDefinition* builders:string* features:functionDefinition* runCall:functionCallSent
 */
 public class Program extends AbstractAST  {
 
     // ----------------------------------
     // Instance Variables
 
-	// program -> name:string types:structDefinition* vars:globalVariable* builders:string* features:functionDefinition* runCall:functionCallSent
+	// program -> name:string types:structDefinition* vars:varDefinition* builders:string* features:functionDefinition* runCall:functionCallSent
 	private String name;
 	private List<StructDefinition> types;
-	private List<GlobalVariable> vars;
+	private List<VarDefinition> vars;
 	private List<String> builders;
 	private List<FunctionDefinition> features;
 	private FunctionCallSent runCall;
@@ -34,7 +34,7 @@ public class Program extends AbstractAST  {
     // ----------------------------------
     // Constructors
 
-	public Program(String name, List<StructDefinition> types, List<GlobalVariable> vars, List<String> builders, List<FunctionDefinition> features, FunctionCallSent runCall) {
+	public Program(String name, List<StructDefinition> types, List<VarDefinition> vars, List<String> builders, List<FunctionDefinition> features, FunctionCallSent runCall) {
 		super();
 
 		if (name == null)
@@ -72,7 +72,7 @@ public class Program extends AbstractAST  {
 		this.name = (name instanceof Token) ? ((Token) name).getText() : (String) name;
 
         this.types = castList(types, unwrapIfContext.andThen(StructDefinition.class::cast));
-        this.vars = castList(vars, unwrapIfContext.andThen(GlobalVariable.class::cast));
+        this.vars = castList(vars, unwrapIfContext.andThen(VarDefinition.class::cast));
         this.builders = castList(builders,
             unwrapIfContext
             .andThen(unwrapIfToken)
@@ -88,7 +88,7 @@ public class Program extends AbstractAST  {
 
 
     // ----------------------------------
-    // program -> name:string types:structDefinition* vars:globalVariable* builders:string* features:functionDefinition* runCall:functionCallSent
+    // program -> name:string types:structDefinition* vars:varDefinition* builders:string* features:functionDefinition* runCall:functionCallSent
 
 	// Child 'name:string' 
 
@@ -122,20 +122,20 @@ public class Program extends AbstractAST  {
     }
 
 
-	// Child 'vars:globalVariable*' 
+	// Child 'vars:varDefinition*' 
 
-	public void setVars(List<GlobalVariable> vars) {
+	public void setVars(List<VarDefinition> vars) {
 		if (vars == null)
 			vars = new ArrayList<>();
 		this.vars = vars;
 
 	}
 
-    public List<GlobalVariable> getVars() {
+    public List<VarDefinition> getVars() {
         return vars;
     }
 
-    public Stream<GlobalVariable> vars() {
+    public Stream<VarDefinition> vars() {
         return vars.stream();
     }
 

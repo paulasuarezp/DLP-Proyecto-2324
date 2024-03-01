@@ -51,19 +51,9 @@ class Program {
 }
 AbstractAST <|-[#808080]- Program
 Program o-[#404040,thickness=2]- "✱" StructDefinition : types >
-Program o-[#404040,thickness=2]- "✱" GlobalVariable : vars >
+Program o-[#404040,thickness=2]- "✱" VarDefinition : vars >
 Program o-[#404040,thickness=2]- "✱" FunctionDefinition : features >
 Program o-[#404040,thickness=2]-  FunctionCallSent : runCall >
-
-class GlobalVariable {
-}
-AbstractAST <|-[#808080]- GlobalVariable
-GlobalVariable o-[#404040,thickness=2]-  VarDefinition : varDefinition >
-
-class LocalVariable {
-}
-AbstractAST <|-[#808080]- LocalVariable
-LocalVariable o-[#404040,thickness=2]-  VarDefinition : varDefinition >
 
 class StructDefinition {
 }
@@ -77,7 +67,7 @@ class FunctionDefinition {
 AbstractAST <|-[#808080]- FunctionDefinition
 FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : params >
 FunctionDefinition o-[#404040,thickness=2]- "0..1" Type : returnType >
-FunctionDefinition o-[#404040,thickness=2]- "✱" LocalVariable : localVariables >
+FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : vars >
 FunctionDefinition o-[#404040,thickness=2]- "✱" Sentence : sentences >
 
 class FunctionCallSent {

@@ -10,7 +10,7 @@ grammar Grammar;
 }
 
 program returns[Program ast]
-    : name=IDENT types+=structDefinition* vars+=globalVariable* builders+=IDENT* features+=functionDefinition* functionCallSent { $ast = new Program($name, $types, $vars, $builders, $features, $functionCallSent.ast); }
+    : name=IDENT types+=structDefinition* vars+=varDefinition* builders+=IDENT* features+=functionDefinition* functionCallSent { $ast = new Program($name, $types, $vars, $builders, $features, $functionCallSent.ast); }
 	;
 
 structDefinition returns[StructDefinition ast]
@@ -38,20 +38,12 @@ intConstant returns[IntConstant ast]
     : value=IDENT                         { $ast = new IntConstant($value); }                    
 	;
 
-globalVariable returns[GlobalVariable ast]
-    : varDefinition                       { $ast = new GlobalVariable($varDefinition.ast); }     
-	;
-
 varDefinition returns[VarDefinition ast]
     : name=IDENT type                     { $ast = new VarDefinition($name, $type.ast); }        
 	;
 
 functionDefinition returns[FunctionDefinition ast]
-    : name=IDENT params+=varDefinition* type? localVariables+=localVariable* sentences+=sentence* { $ast = new FunctionDefinition($name, $params, ($type.ctx == null) ? null : $type.ast, $localVariables, $sentences); }
-	;
-
-localVariable returns[LocalVariable ast]
-    : varDefinition                       { $ast = new LocalVariable($varDefinition.ast); }      
+    : name=IDENT params+=varDefinition* type? vars+=varDefinition* sentences+=sentence* { $ast = new FunctionDefinition($name, $params, ($type.ctx == null) ? null : $type.ast, $vars, $sentences); }
 	;
 
 sentence returns[Sentence ast]

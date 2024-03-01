@@ -18,24 +18,24 @@ import visitor.Visitor;
 // %% -------------------------------
 
 /*
-	functionDefinition -> name:string params:varDefinition* returnType:type? localVariables:localVariable* sentences:sentence*
+	functionDefinition -> name:string params:varDefinition* returnType:type? vars:varDefinition* sentences:sentence*
 */
 public class FunctionDefinition extends AbstractAST  {
 
     // ----------------------------------
     // Instance Variables
 
-	// functionDefinition -> name:string params:varDefinition* returnType:type? localVariables:localVariable* sentences:sentence*
+	// functionDefinition -> name:string params:varDefinition* returnType:type? vars:varDefinition* sentences:sentence*
 	private String name;
 	private List<VarDefinition> params;
 	private Optional<Type> returnType;
-	private List<LocalVariable> localVariables;
+	private List<VarDefinition> vars;
 	private List<Sentence> sentences;
 
     // ----------------------------------
     // Constructors
 
-	public FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<LocalVariable> localVariables, List<Sentence> sentences) {
+	public FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<VarDefinition> vars, List<Sentence> sentences) {
 		super();
 
 		if (name == null)
@@ -50,18 +50,18 @@ public class FunctionDefinition extends AbstractAST  {
 			returnType = Optional.empty();
 		this.returnType = returnType;
 
-		if (localVariables == null)
-			localVariables = new ArrayList<>();
-		this.localVariables = localVariables;
+		if (vars == null)
+			vars = new ArrayList<>();
+		this.vars = vars;
 
 		if (sentences == null)
 			sentences = new ArrayList<>();
 		this.sentences = sentences;
 
-		updatePositions(name, params, returnType, localVariables, sentences);
+		updatePositions(name, params, returnType, vars, sentences);
 	}
 
-	public FunctionDefinition(Object name, Object params, Object returnType, Object localVariables, Object sentences) {
+	public FunctionDefinition(Object name, Object params, Object returnType, Object vars, Object sentences) {
 		super();
 
         if (name == null)
@@ -70,14 +70,14 @@ public class FunctionDefinition extends AbstractAST  {
 
         this.params = castList(params, unwrapIfContext.andThen(VarDefinition.class::cast));
         this.returnType = castOptional(returnType, Type.class);
-        this.localVariables = castList(localVariables, unwrapIfContext.andThen(LocalVariable.class::cast));
+        this.vars = castList(vars, unwrapIfContext.andThen(VarDefinition.class::cast));
         this.sentences = castList(sentences, unwrapIfContext.andThen(Sentence.class::cast));
-		updatePositions(name, params, returnType, localVariables, sentences);
+		updatePositions(name, params, returnType, vars, sentences);
 	}
 
 
     // ----------------------------------
-    // functionDefinition -> name:string params:varDefinition* returnType:type? localVariables:localVariable* sentences:sentence*
+    // functionDefinition -> name:string params:varDefinition* returnType:type? vars:varDefinition* sentences:sentence*
 
 	// Child 'name:string' 
 
@@ -125,21 +125,21 @@ public class FunctionDefinition extends AbstractAST  {
     }
 
 
-	// Child 'localVariables:localVariable*' 
+	// Child 'vars:varDefinition*' 
 
-	public void setLocalVariables(List<LocalVariable> localVariables) {
-		if (localVariables == null)
-			localVariables = new ArrayList<>();
-		this.localVariables = localVariables;
+	public void setVars(List<VarDefinition> vars) {
+		if (vars == null)
+			vars = new ArrayList<>();
+		this.vars = vars;
 
 	}
 
-    public List<LocalVariable> getLocalVariables() {
-        return localVariables;
+    public List<VarDefinition> getVars() {
+        return vars;
     }
 
-    public Stream<LocalVariable> localVariables() {
-        return localVariables.stream();
+    public Stream<VarDefinition> vars() {
+        return vars.stream();
     }
 
 
@@ -171,7 +171,7 @@ public class FunctionDefinition extends AbstractAST  {
 
     @Override
     public String toString() {
-        return "FunctionDefinition{" + " name=" + this.getName() + " params=" + this.getParams() + " returnType=" + this.getReturnType() + " localVariables=" + this.getLocalVariables() + " sentences=" + this.getSentences() + "}";
+        return "FunctionDefinition{" + " name=" + this.getName() + " params=" + this.getParams() + " returnType=" + this.getReturnType() + " vars=" + this.getVars() + " sentences=" + this.getSentences() + "}";
     }
 
 

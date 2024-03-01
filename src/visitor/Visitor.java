@@ -17,10 +17,6 @@ import ast.type.*;
 public interface Visitor {
 	public Object visit(Program program, Object param);
 
-	public Object visit(GlobalVariable globalVariable, Object param);
-
-	public Object visit(LocalVariable localVariable, Object param);
-
 	public Object visit(StructDefinition structDefinition, Object param);
 
 	public Object visit(FunctionDefinition functionDefinition, Object param);

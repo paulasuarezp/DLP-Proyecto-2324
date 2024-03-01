@@ -6,13 +6,11 @@ type;
 
 NODES
 
-program -> name:string types:structDefinition* vars:globalVariable* builders:string* features:functionDefinition* runCall:functionCallSent ;
+program -> name:string types:structDefinition* vars:varDefinition* builders:string* features:functionDefinition* runCall:functionCallSent ;
 
 
-globalVariable -> varDefinition ;
-localVariable -> varDefinition;
 structDefinition -> name:structType fields:fieldDefinition* ;
-functionDefinition -> name:string params:varDefinition* returnType:type? localVariables:localVariable* sentences:sentence* ;
+functionDefinition -> name:string params:varDefinition* returnType:type? vars:varDefinition* sentences:sentence* ;
 
 
 functionCallSent: sentence -> name:string args:expression* ;

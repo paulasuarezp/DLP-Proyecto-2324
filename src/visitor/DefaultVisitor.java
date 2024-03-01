@@ -28,23 +28,9 @@ public class DefaultVisitor implements Visitor {
 	public Object visit(Program program, Object param) {
 
 		program.getTypes().forEach(structDefinition -> structDefinition.accept(this, param));
-		program.getVars().forEach(globalVariable -> globalVariable.accept(this, param));
+		program.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
 		program.getFeatures().forEach(functionDefinition -> functionDefinition.accept(this, param));
 		program.getRunCall().accept(this, param);
-		return null;
-	}
-
-	@Override
-	public Object visit(GlobalVariable globalVariable, Object param) {
-
-		globalVariable.getVarDefinition().accept(this, param);
-		return null;
-	}
-
-	@Override
-	public Object visit(LocalVariable localVariable, Object param) {
-
-		localVariable.getVarDefinition().accept(this, param);
 		return null;
 	}
 
@@ -61,7 +47,7 @@ public class DefaultVisitor implements Visitor {
 
 		functionDefinition.getParams().forEach(varDefinition -> varDefinition.accept(this, param));
 		functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
-		functionDefinition.getLocalVariables().forEach(localVariable -> localVariable.accept(this, param));
+		functionDefinition.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
 		functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
 		return null;
 	}

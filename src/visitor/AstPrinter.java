@@ -113,39 +113,13 @@ public class AstPrinter implements Visitor {
 		// Imprimir los hijos (y recorrer si son nodos del AST)
         printNonNodeChild(indent + 1, "name", "String", program.getName());
         printListOfNodesChild(indent + 1, "types", "List<StructDefinition>", program.getTypes());
-        printListOfNodesChild(indent + 1, "vars", "List<GlobalVariable>", program.getVars());
+        printListOfNodesChild(indent + 1, "vars", "List<VarDefinition>", program.getVars());
         printNonNodeChild(indent + 1, "builders", "List<String>", program.getBuilders());
         printListOfNodesChild(indent + 1, "features", "List<FunctionDefinition>", program.getFeatures());
         printNodeChild(indent + 1, "runCall", "FunctionCallSent", program.getRunCall());
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
 		printUnknownFields(indent + 1, program, "name", "types", "vars", "builders", "features", "runCall");
-		return null;
-	}
-
-	@Override
-	public Object visit(GlobalVariable globalVariable, Object param) {
-
-		int indent = ((Integer)param);
-
-		// Imprimir los hijos (y recorrer si son nodos del AST)
-        printNodeChild(indent + 1, "varDefinition", "VarDefinition", globalVariable.getVarDefinition());
-
-		// Imprimir el 'toString()' de los atributos (pero no recorrer)
-		printUnknownFields(indent + 1, globalVariable, "varDefinition");
-		return null;
-	}
-
-	@Override
-	public Object visit(LocalVariable localVariable, Object param) {
-
-		int indent = ((Integer)param);
-
-		// Imprimir los hijos (y recorrer si son nodos del AST)
-        printNodeChild(indent + 1, "varDefinition", "VarDefinition", localVariable.getVarDefinition());
-
-		// Imprimir el 'toString()' de los atributos (pero no recorrer)
-		printUnknownFields(indent + 1, localVariable, "varDefinition");
 		return null;
 	}
 
@@ -172,11 +146,11 @@ public class AstPrinter implements Visitor {
         printNonNodeChild(indent + 1, "name", "String", functionDefinition.getName());
         printListOfNodesChild(indent + 1, "params", "List<VarDefinition>", functionDefinition.getParams());
         printNodeChild(indent + 1, "returnType", "Optional<Type>", functionDefinition.getReturnType().orElse(null));
-        printListOfNodesChild(indent + 1, "localVariables", "List<LocalVariable>", functionDefinition.getLocalVariables());
+        printListOfNodesChild(indent + 1, "vars", "List<VarDefinition>", functionDefinition.getVars());
         printListOfNodesChild(indent + 1, "sentences", "List<Sentence>", functionDefinition.getSentences());
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
-		printUnknownFields(indent + 1, functionDefinition, "name", "params", "returnType", "localVariables", "sentences");
+		printUnknownFields(indent + 1, functionDefinition, "name", "params", "returnType", "vars", "sentences");
 		return null;
 	}
 

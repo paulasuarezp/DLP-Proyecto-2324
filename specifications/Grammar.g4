@@ -11,8 +11,8 @@ import Tokenizer;
 
 // ##INICIO program: Programa principal
 program returns[Program ast]
-	: 'class' name=IDENT ';' ('global' ('types' dt+=defTuple*)? ('vars' globalVars)?)? 'create' (b+=IDENT ';')+ fd+=featureDef* 'end' runCall EOF
-		{ $ast = new Program($name.text, $ctx.dt != null ? $dt : null, $ctx.globalVars != null ? $globalVars.list : null, $b, $fd, $runCall.ast); }
+	: 'class' name=IDENT ';' ('global' ('types' dt+=defTuple*)? ('vars' vars)?)? 'create' (b+=IDENT ';')+ fd+=featureDef* 'end' runCall EOF
+		{ $ast = new Program($name.text, $ctx.dt != null ? $dt : null, $ctx.vars != null ? $vars.list : new ArrayList<VarDefinition>(), $b, $fd, $runCall.ast); }
 	;
 // ##FIN program
 
@@ -29,23 +29,11 @@ field returns [FieldDefinition ast]
 // ##FIN defTtuple 
 
 
-// ##INICIO globalVars: Lista de declaraciones de variables globales
-globalVars returns [List<GlobalVariable> list = new ArrayList<GlobalVariable>()]
-	: (varListDefinition { 
-		for (int i = 0; i < $varListDefinition.list.size(); i++) 
-			$list.add(new GlobalVariable($varListDefinition.list.get(i))); 
-	})*
+// ##INICIO vars: Lista de declaraciones de variables
+vars returns [List<VarDefinition> list = new ArrayList<VarDefinition>()]
+	: (varListDefinition { $list.addAll($varListDefinition.list); })*
 	;
-// ##FIN globalVars
-
-// ##INICIO localVars: Lista de declaraciones de variables globales
-localVars returns [List<LocalVariable> list = new ArrayList<LocalVariable>()]
-	: (varListDefinition { 
-		for (int i = 0; i < $varListDefinition.list.size(); i++) 
-			$list.add(new LocalVariable($varListDefinition.list.get(i))); 
-	})*
-	;
-// ##FIN localVars
+// ##FIN vars
 
 // ##INICIO vars: Declaración de variables 
 varListDefinition returns [List<VarDefinition> list = new ArrayList<VarDefinition>()]
@@ -55,7 +43,7 @@ varListDefinition returns [List<VarDefinition> list = new ArrayList<VarDefinitio
 		}
 	;
 
-// ##FIN localVars
+// ##FIN vars
 
 
 // ##INICIO varListIdents: Lista de identificadores de variables
@@ -68,8 +56,8 @@ varListIdents returns [List<String> list = new ArrayList<String>()]
 
 // ##INICIO featureDef: Definición de funciones
 featureDef returns [FunctionDefinition ast]
-	: 'feature' IDENT ('(' (p+=param (',' p+=param)*)? ')')? (':' type)? 'is' ('local' localVars)? 'do' s+=sentence* 'end'
-		{ $ast = new FunctionDefinition($IDENT, $ctx.p != null ? $p : new ArrayList<>(), $ctx.type != null ? $type.ast : new VoidType(), $ctx.localVars != null ? $localVars.list : new ArrayList<>(), $s); }
+	: 'feature' IDENT ('(' (p+=param (',' p+=param)*)? ')')? (':' type)? 'is' ('local' vars)? 'do' s+=sentence* 'end'
+		{ $ast = new FunctionDefinition($IDENT, $ctx.p != null ? $p : new ArrayList<>(), $ctx.type != null ? $type.ast : new VoidType(), $ctx.vars != null ? $vars.list : new ArrayList<VarDefinition>(), $s); }
 	;
 
 // ##FIN featureDef
