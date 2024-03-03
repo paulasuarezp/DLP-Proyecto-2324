@@ -15,15 +15,53 @@
 
 package visitor;
 
+import ast.type.*;
 import ast.*;
 import ast.sentence.*;
 import ast.expression.*;
-import ast.type.*;
 
 
 
 
 public class DefaultVisitor implements Visitor {
+	@Override
+	public Object visit(IntType intType, Object param) {
+
+		return null;
+	}
+
+	@Override
+	public Object visit(DoubleType doubleType, Object param) {
+
+		return null;
+	}
+
+	@Override
+	public Object visit(CharType charType, Object param) {
+
+		return null;
+	}
+
+	@Override
+	public Object visit(VoidType voidType, Object param) {
+
+		return null;
+	}
+
+	@Override
+	public Object visit(StructType structType, Object param) {
+
+		return null;
+	}
+
+	@Override
+	public Object visit(ArrayType arrayType, Object param) {
+
+		arrayType.getDimension().accept(this, param);
+		arrayType.getTipo().accept(this, param);
+		return null;
+	}
+
 	@Override
 	public Object visit(Program program, Object param) {
 
@@ -138,10 +176,10 @@ public class DefaultVisitor implements Visitor {
 	}
 
 	@Override
-	public Object visit(Cast cast, Object param) {
+	public Object visit(CastExpr castExpr, Object param) {
 
-		cast.getCastType().accept(this, param);
-		cast.getValue().accept(this, param);
+		castExpr.getCastType().accept(this, param);
+		castExpr.getValue().accept(this, param);
 		return null;
 	}
 
@@ -202,44 +240,6 @@ public class DefaultVisitor implements Visitor {
 
 		arrayAccess.getArray().accept(this, param);
 		arrayAccess.getIndex().accept(this, param);
-		return null;
-	}
-
-	@Override
-	public Object visit(IntType intType, Object param) {
-
-		return null;
-	}
-
-	@Override
-	public Object visit(DoubleType doubleType, Object param) {
-
-		return null;
-	}
-
-	@Override
-	public Object visit(CharType charType, Object param) {
-
-		return null;
-	}
-
-	@Override
-	public Object visit(VoidType voidType, Object param) {
-
-		return null;
-	}
-
-	@Override
-	public Object visit(StructType structType, Object param) {
-
-		return null;
-	}
-
-	@Override
-	public Object visit(ArrayType arrayType, Object param) {
-
-		arrayType.getDimension().accept(this, param);
-		arrayType.getTipo().accept(this, param);
 		return null;
 	}
 

@@ -12,22 +12,22 @@ import visitor.Visitor;
 // %% -------------------------------
 
 /*
-	cast: expression -> castType:type value:expression
+	castExpr: expression -> castType:type value:expression
 	expression -> 
 */
-public class Cast extends AbstractExpression  {
+public class CastExpr extends AbstractExpression  {
 
     // ----------------------------------
     // Instance Variables
 
-	// cast: expression -> castType:type value:expression
+	// castExpr: expression -> castType:type value:expression
 	private Type castType;
 	private Expression value;
 
     // ----------------------------------
     // Constructors
 
-	public Cast(Type castType, Expression value) {
+	public CastExpr(Type castType, Expression value) {
 		super();
 
 		if (castType == null)
@@ -41,7 +41,7 @@ public class Cast extends AbstractExpression  {
 		updatePositions(castType, value);
 	}
 
-	public Cast(Object castType, Object value) {
+	public CastExpr(Object castType, Object value) {
 		super();
 
         if (castType == null)
@@ -57,7 +57,7 @@ public class Cast extends AbstractExpression  {
 
 
     // ----------------------------------
-    // cast: expression -> castType:type value:expression
+    // castExpr: expression -> castType:type value:expression
 
 	// Child 'castType:type' 
 
@@ -97,7 +97,7 @@ public class Cast extends AbstractExpression  {
 
     @Override
     public String toString() {
-        return "Cast{" + " castType=" + this.getCastType() + " value=" + this.getValue() + "}";
+        return "CastExpr{" + " castType=" + this.getCastType() + " value=" + this.getValue() + "}";
     }
 
 

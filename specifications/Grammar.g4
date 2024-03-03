@@ -107,11 +107,11 @@ expr returns [Expression ast]
 | IDENT '(' (args+=expr (',' args+=expr)*)? ')' 						{ $ast = new FunctionCallExpr($IDENT, $args); } // functionCallExpr
 | root=expr '.' IDENT 													{ $ast = new FieldAccess($root.ast, $IDENT); }
 | array=expr'[' index=expr ']' 											{ $ast = new ArrayAccess($array.ast, $index.ast); }
+| 'to<' castType=type '>(' value=expr ')' 								{ $ast = new CastExpr($castType.ast, $value.ast); }
 | '-' expr 																{ $ast = new MinusExpr($expr.ast); }
 | op1=expr operator=('*' | '/' | 'mod') op2=expr 						{ $ast = new ArithmeticExpr($op1.ast, $operator, $op2.ast); }					
 | op1=expr operator=('+' | '-') op2=expr 								{ $ast = new ArithmeticExpr($op1.ast, $operator, $op2.ast); }
 | op1=expr operator=('=' | '<>' | '>' | '<' | '>=' | '<=') op2=expr		{ $ast = new ComparationExpr($op1.ast, $operator, $op2.ast); }	
-| 'to<' type '>(' expr ')' 												{ $ast = new Cast($type.ast, $expr.ast); }
 | 'not' expr 															{ $ast = new NotExpr($expr.ast); }
 | op1=expr operator='and' op2=expr 										{ $ast = new LogicalExpr($op1.ast, $operator, $op2.ast); }
 | op1=expr operator='or' op2=expr 										{ $ast = new LogicalExpr($op1.ast, $operator, $op2.ast); }

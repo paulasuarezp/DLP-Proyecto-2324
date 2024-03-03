@@ -9,7 +9,8 @@
             "name": "Main",
             "request": "launch",
             "mainClass": "main.Main",
-            "projectName": "z"
+            "projectName": "z",
+            "args": ""
         }
     ]
 }

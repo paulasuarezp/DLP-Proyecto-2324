@@ -6,15 +6,27 @@
 
 package visitor;
 
+import ast.type.*;
 import ast.*;
 import ast.sentence.*;
 import ast.expression.*;
-import ast.type.*;
 
 
 
 
 public interface Visitor {
+	public Object visit(IntType intType, Object param);
+
+	public Object visit(DoubleType doubleType, Object param);
+
+	public Object visit(CharType charType, Object param);
+
+	public Object visit(VoidType voidType, Object param);
+
+	public Object visit(StructType structType, Object param);
+
+	public Object visit(ArrayType arrayType, Object param);
+
 	public Object visit(Program program, Object param);
 
 	public Object visit(StructDefinition structDefinition, Object param);
@@ -45,7 +57,7 @@ public interface Visitor {
 
 	public Object visit(Variable variable, Object param);
 
-	public Object visit(Cast cast, Object param);
+	public Object visit(CastExpr castExpr, Object param);
 
 	public Object visit(ArithmeticExpr arithmeticExpr, Object param);
 
@@ -62,18 +74,6 @@ public interface Visitor {
 	public Object visit(FieldAccess fieldAccess, Object param);
 
 	public Object visit(ArrayAccess arrayAccess, Object param);
-
-	public Object visit(IntType intType, Object param);
-
-	public Object visit(DoubleType doubleType, Object param);
-
-	public Object visit(CharType charType, Object param);
-
-	public Object visit(VoidType voidType, Object param);
-
-	public Object visit(StructType structType, Object param);
-
-	public Object visit(ArrayType arrayType, Object param);
 
 	public Object visit(FieldDefinition fieldDefinition, Object param);
 

@@ -6,6 +6,14 @@ type;
 
 NODES
 
+
+intType: type -> ;
+doubleType: type -> ;
+charType: type -> ;
+voidType: type -> ;
+structType: type -> name:string;
+arrayType: type -> dimension:intConstant tipo:type;
+
 program -> name:string types:structDefinition* vars:varDefinition* builders:string* features:functionDefinition* runCall:functionCallSent ;
 
 
@@ -27,7 +35,7 @@ intConstant: expression -> value:string;
 realConstant: expression -> value:string;
 charConstant: expression -> value:string;
 variable: expression -> name:string;
-cast: expression -> castType:type value:expression;
+castExpr: expression -> castType:type value:expression ;
 arithmeticExpr: expression -> op1:expression operator:string op2:expression ;
 logicalExpr: expression -> op1:expression operator:string op2:expression ;
 comparationExpr: expression -> op1:expression operator:string op2:expression ;
@@ -38,12 +46,6 @@ fieldAccess: expression -> root:expression field:string ;
 arrayAccess: expression -> array:expression index:expression ;
 
 
-intType: type -> ;
-doubleType: type -> ;
-charType: type -> ;
-voidType: type -> ;
-structType: type -> name:string;
-arrayType: type -> dimension:intConstant tipo:type;
 
 
 fieldDefinition -> name:string tipo:type ;

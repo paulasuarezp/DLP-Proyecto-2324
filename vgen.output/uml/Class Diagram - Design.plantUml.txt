@@ -34,6 +34,33 @@ AST <|-[#808080]- Type
 interface AST {
 }
 
+class IntType {
+}
+Type <|-[#808080]- IntType
+
+class DoubleType {
+}
+Type <|-[#808080]- DoubleType
+
+class CharType {
+}
+Type <|-[#808080]- CharType
+
+class VoidType {
+}
+Type <|-[#808080]- VoidType
+
+class StructType {
+	+String name
+}
+Type <|-[#808080]- StructType
+
+class ArrayType {
+}
+Type <|-[#808080]- ArrayType
+ArrayType o-[#404040,thickness=2]-  IntConstant : dimension >
+ArrayType o-[#404040,thickness=2]-  Type : tipo >
+
 class Program {
 	+String name
 	+List<String> builders
@@ -125,11 +152,11 @@ class Variable {
 }
 Expression <|-[#808080]- Variable
 
-class Cast {
+class CastExpr {
 }
-Expression <|-[#808080]- Cast
-Cast o-[#404040,thickness=2]-  Type : castType >
-Cast o-[#404040,thickness=2]-  Expression : value >
+Expression <|-[#808080]- CastExpr
+CastExpr o-[#404040,thickness=2]-  Type : castType >
+CastExpr o-[#404040,thickness=2]-  Expression : value >
 
 class ArithmeticExpr {
 	+String operator
@@ -179,33 +206,6 @@ class ArrayAccess {
 Expression <|-[#808080]- ArrayAccess
 ArrayAccess o-[#404040,thickness=2]-  Expression : array >
 ArrayAccess o-[#404040,thickness=2]-  Expression : index >
-
-class IntType {
-}
-Type <|-[#808080]- IntType
-
-class DoubleType {
-}
-Type <|-[#808080]- DoubleType
-
-class CharType {
-}
-Type <|-[#808080]- CharType
-
-class VoidType {
-}
-Type <|-[#808080]- VoidType
-
-class StructType {
-	+String name
-}
-Type <|-[#808080]- StructType
-
-class ArrayType {
-}
-Type <|-[#808080]- ArrayType
-ArrayType o-[#404040,thickness=2]-  IntConstant : dimension >
-ArrayType o-[#404040,thickness=2]-  Type : tipo >
 
 class FieldDefinition {
 	+String name

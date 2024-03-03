@@ -54,10 +54,10 @@ Por tanto, hay tres opciones a la hora de implementar cada visit:
 // package ...;
 
 import visitor.DefaultVisitor;
+import ast.type.*;
 import ast.*;
 import ast.sentence.*;
 import ast.expression.*;
-import ast.type.*;
 
 
 public class SkeletonForNewVisitors extends DefaultVisitor {
@@ -67,6 +67,52 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
     }
 
     // Visit Methods --------------------------------------------------------------
+
+	// class IntType()
+	@Override
+	public Object visit(IntType intType, Object param) {
+
+		return null;
+	}
+
+	// class DoubleType()
+	@Override
+	public Object visit(DoubleType doubleType, Object param) {
+
+		return null;
+	}
+
+	// class CharType()
+	@Override
+	public Object visit(CharType charType, Object param) {
+
+		return null;
+	}
+
+	// class VoidType()
+	@Override
+	public Object visit(VoidType voidType, Object param) {
+
+		return null;
+	}
+
+	// class StructType(String name)
+	@Override
+	public Object visit(StructType structType, Object param) {
+
+		return null;
+	}
+
+	// class ArrayType(IntConstant dimension, Type tipo)
+	@Override
+	public Object visit(ArrayType arrayType, Object param) {
+
+		// arrayType.getDimension().accept(this, param);
+		// arrayType.getTipo().accept(this, param);
+		super.visit(arrayType, param);
+
+		return null;
+	}
 
 	// class Program(String name, List<StructDefinition> types, List<VarDefinition> vars, List<String> builders, List<FunctionDefinition> features, FunctionCallSent runCall)
 	@Override
@@ -218,13 +264,13 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 		return null;
 	}
 
-	// class Cast(Type castType, Expression value)
+	// class CastExpr(Type castType, Expression value)
 	@Override
-	public Object visit(Cast cast, Object param) {
+	public Object visit(CastExpr castExpr, Object param) {
 
-		// cast.getCastType().accept(this, param);
-		// cast.getValue().accept(this, param);
-		super.visit(cast, param);
+		// castExpr.getCastType().accept(this, param);
+		// castExpr.getValue().accept(this, param);
+		super.visit(castExpr, param);
 
 		return null;
 	}
@@ -309,52 +355,6 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 		// arrayAccess.getArray().accept(this, param);
 		// arrayAccess.getIndex().accept(this, param);
 		super.visit(arrayAccess, param);
-
-		return null;
-	}
-
-	// class IntType()
-	@Override
-	public Object visit(IntType intType, Object param) {
-
-		return null;
-	}
-
-	// class DoubleType()
-	@Override
-	public Object visit(DoubleType doubleType, Object param) {
-
-		return null;
-	}
-
-	// class CharType()
-	@Override
-	public Object visit(CharType charType, Object param) {
-
-		return null;
-	}
-
-	// class VoidType()
-	@Override
-	public Object visit(VoidType voidType, Object param) {
-
-		return null;
-	}
-
-	// class StructType(String name)
-	@Override
-	public Object visit(StructType structType, Object param) {
-
-		return null;
-	}
-
-	// class ArrayType(IntConstant dimension, Type tipo)
-	@Override
-	public Object visit(ArrayType arrayType, Object param) {
-
-		// arrayType.getDimension().accept(this, param);
-		// arrayType.getTipo().accept(this, param);
-		super.visit(arrayType, param);
 
 		return null;
 	}
