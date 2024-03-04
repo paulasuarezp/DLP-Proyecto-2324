@@ -259,7 +259,8 @@ public class GrammarParser extends Parser {
 			((ProgramContext)_localctx).runCall = runCall();
 			setState(60);
 			match(EOF);
-			 ((ProgramContext)_localctx).ast =  new Program((((ProgramContext)_localctx).name!=null?((ProgramContext)_localctx).name.getText():null), _localctx.dt != null ? ((ProgramContext)_localctx).dt : null, _localctx.vars != null ? ((ProgramContext)_localctx).vars.list : new ArrayList<VarDefinition>(), ((ProgramContext)_localctx).b, ((ProgramContext)_localctx).fd, ((ProgramContext)_localctx).runCall.ast); 
+			 ((ProgramContext)_localctx).ast =  new Program((((ProgramContext)_localctx).name!=null?((ProgramContext)_localctx).name.getText():null), _localctx.dt != null ? ((ProgramContext)_localctx).dt : null, _localctx.vars != null ? ((ProgramContext)_localctx).vars.list : new ArrayList<VarDefinition>(), ((ProgramContext)_localctx).b, ((ProgramContext)_localctx).fd, 
+											(_localctx.runCall.ast != null ? ((ProgramContext)_localctx).runCall.ast : new FunctionCallSent("error", new ArrayList<>()))); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -365,7 +366,7 @@ public class GrammarParser extends Parser {
 			((FieldContext)_localctx).type = type();
 			setState(78);
 			match(T__1);
-			 ((FieldContext)_localctx).ast =  new FieldDefinition(((FieldContext)_localctx).IDENT, ((FieldContext)_localctx).type.ast); 
+			 ((FieldContext)_localctx).ast =  _localctx.type.ast != null ? new FieldDefinition(((FieldContext)_localctx).IDENT, ((FieldContext)_localctx).type.ast) : new FieldDefinition(((FieldContext)_localctx).IDENT, new VoidType()); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -462,7 +463,8 @@ public class GrammarParser extends Parser {
 			setState(92);
 			match(T__1);
 			 for (int i = 0; i < ((VarListDefinitionContext)_localctx).varListIdents.list.size(); i++) 
-						_localctx.list.add(new VarDefinition(((VarListDefinitionContext)_localctx).varListIdents.list.get(i), ((VarListDefinitionContext)_localctx).type.ast)); 
+						_localctx.list.add(
+							 _localctx.type.ast != null ? new VarDefinition(((VarListDefinitionContext)_localctx).varListIdents.list.get(i), ((VarListDefinitionContext)_localctx).type.ast) : new VarDefinition(((VarListDefinitionContext)_localctx).varListIdents.list.get(i), new VoidType())); 
 					
 			}
 		}
@@ -705,7 +707,7 @@ public class GrammarParser extends Parser {
 			match(T__9);
 			setState(143);
 			((ParamContext)_localctx).type = type();
-			 ((ParamContext)_localctx).ast =  new VarDefinition(((ParamContext)_localctx).IDENT, ((ParamContext)_localctx).type.ast); 
+			 ((ParamContext)_localctx).ast =  _localctx.type.ast != null ? new VarDefinition(((ParamContext)_localctx).IDENT, ((ParamContext)_localctx).type.ast) : new VarDefinition(((ParamContext)_localctx).IDENT, new VoidType()) ; 
 			}
 		}
 		catch (RecognitionException re) {
@@ -1341,7 +1343,7 @@ public class GrammarParser extends Parser {
 				((ExprContext)_localctx).value = ((ExprContext)_localctx).expr = expr(0);
 				setState(311);
 				match(T__13);
-				 ((ExprContext)_localctx).ast =  new CastExpr(((ExprContext)_localctx).castType.ast, ((ExprContext)_localctx).value.ast); 
+				 ((ExprContext)_localctx).ast =  _localctx.castType.ast != null ? new CastExpr(((ExprContext)_localctx).castType.ast, ((ExprContext)_localctx).value.ast) : new CastExpr(new VoidType(), ((ExprContext)_localctx).value.ast);
 				}
 				break;
 			case 8:

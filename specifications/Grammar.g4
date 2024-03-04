@@ -12,7 +12,8 @@ import Tokenizer;
 // ##INICIO program: Programa principal
 program returns[Program ast]
 	: 'class' name=IDENT ';' ('global' ('types' dt+=defTuple*)? ('vars' vars)?)? 'create' (b+=IDENT ';')+ fd+=featureDef* 'end' runCall EOF
-		{ $ast = new Program($name.text, $ctx.dt != null ? $dt : null, $ctx.vars != null ? $vars.list : new ArrayList<VarDefinition>(), $b, $fd, $runCall.ast); }
+		{ $ast = new Program($name.text, $ctx.dt != null ? $dt : null, $ctx.vars != null ? $vars.list : new ArrayList<VarDefinition>(), $b, $fd, 
+								($ctx.runCall.ast != null ? $runCall.ast : new FunctionCallSent("error", new ArrayList<>()))); }
 	;
 // ##FIN program
 
@@ -23,7 +24,7 @@ defTuple returns [StructDefinition ast]
 	;
 
 field returns [FieldDefinition ast]
-	: IDENT ':' type ';' 													{ $ast = new FieldDefinition($IDENT, $type.ast); }
+	: IDENT ':' type ';' 													{ $ast = $ctx.type.ast != null ? new FieldDefinition($IDENT, $type.ast) : new FieldDefinition($IDENT, new VoidType()); }
 	;
 
 // ##FIN defTtuple 
@@ -39,7 +40,8 @@ vars returns [List<VarDefinition> list = new ArrayList<VarDefinition>()]
 varListDefinition returns [List<VarDefinition> list = new ArrayList<VarDefinition>()]
 	: varListIdents ':' type ';' 
 		{ for (int i = 0; i < $varListIdents.list.size(); i++) 
-			$list.add(new VarDefinition($varListIdents.list.get(i), $type.ast)); 
+			$list.add(
+				 $ctx.type.ast != null ? new VarDefinition($varListIdents.list.get(i), $type.ast) : new VarDefinition($varListIdents.list.get(i), new VoidType())); 
 		}
 	;
 
@@ -64,7 +66,7 @@ featureDef returns [FunctionDefinition ast]
 
 // ##INICIO param: Parámetros de funciones
 param returns [VarDefinition ast]
-	: IDENT ':' type 													{ $ast = new VarDefinition($IDENT, $type.ast); }
+	: IDENT ':' type 													{ $ast = $ctx.type.ast != null ? new VarDefinition($IDENT, $type.ast) : new VarDefinition($IDENT, new VoidType()) ; }
 	;
 // ##FIN params
 
@@ -107,7 +109,7 @@ expr returns [Expression ast]
 | IDENT '(' (args+=expr (',' args+=expr)*)? ')' 						{ $ast = new FunctionCallExpr($IDENT, $args); } // functionCallExpr
 | root=expr '.' IDENT 													{ $ast = new FieldAccess($root.ast, $IDENT); }
 | array=expr'[' index=expr ']' 											{ $ast = new ArrayAccess($array.ast, $index.ast); }
-| 'to<' castType=type '>(' value=expr ')' 								{ $ast = new CastExpr($castType.ast, $value.ast); }
+| 'to<' castType=type '>(' value=expr ')' 								{ $ast = $ctx.castType.ast != null ? new CastExpr($castType.ast, $value.ast) : new CastExpr(new VoidType(), $value.ast);}
 | '-' expr 																{ $ast = new MinusExpr($expr.ast); }
 | op1=expr operator=('*' | '/' | 'mod') op2=expr 						{ $ast = new ArithmeticExpr($op1.ast, $operator, $op2.ast); }					
 | op1=expr operator=('+' | '-') op2=expr 								{ $ast = new ArithmeticExpr($op1.ast, $operator, $op2.ast); }
