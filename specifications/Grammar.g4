@@ -11,7 +11,7 @@ import Tokenizer;
 
 // ##INICIO program: Programa principal
 program returns[Program ast]
-	: 'class' name=IDENT ';' ('global' ('types' dt+=defTuple*)? ('vars' vars)?)? 'create' (b+=IDENT ';')+ fd+=featureDef* 'end' runCall EOF
+	: 'class' name=IDENT ';' ('global' ('types' dt+=defTuple*)? ('vars' vars)?)? 'create' (b+=featureBuilder ';')+ fd+=featureDef* 'end' runCall EOF
 		{ $ast = new Program($name.text, $ctx.dt != null ? $dt : null, $ctx.vars != null ? $vars.list : new ArrayList<VarDefinition>(), $b, $fd, 
 								($ctx.runCall.ast != null ? $runCall.ast : new FunctionCallSent("error", new ArrayList<>()))); }
 	;
@@ -55,6 +55,11 @@ varListIdents returns [List<String> list = new ArrayList<String>()]
 
 // ##FIN varListIdents
 
+// ##INICIO featureBuilder: Declaración de funciones (constructores)
+featureBuilder returns [FeatureBuilder ast]
+	: IDENT { $ast = new FeatureBuilder($IDENT.text); }
+	;
+// ##FIN featureBuilder
 
 // ##INICIO featureDef: Definición de funciones
 featureDef returns [FunctionDefinition ast]
@@ -111,10 +116,11 @@ expr returns [Expression ast]
 | array=expr'[' index=expr ']' 											{ $ast = new ArrayAccess($array.ast, $index.ast); }
 | 'to<' castType=type '>(' value=expr ')' 								{ $ast = $ctx.castType.ast != null ? new CastExpr($castType.ast, $value.ast) : new CastExpr(new VoidType(), $value.ast);}
 | '-' expr 																{ $ast = new MinusExpr($expr.ast); }
+| 'not' expr 															{ $ast = new NotExpr($expr.ast); }
 | op1=expr operator=('*' | '/' | 'mod') op2=expr 						{ $ast = new ArithmeticExpr($op1.ast, $operator, $op2.ast); }					
 | op1=expr operator=('+' | '-') op2=expr 								{ $ast = new ArithmeticExpr($op1.ast, $operator, $op2.ast); }
-| op1=expr operator=('=' | '<>' | '>' | '<' | '>=' | '<=') op2=expr		{ $ast = new ComparationExpr($op1.ast, $operator, $op2.ast); }	
-| 'not' expr 															{ $ast = new NotExpr($expr.ast); }
+| op1=expr operator=( '>' | '<' | '>=' | '<=') op2=expr					{ $ast = new ComparationExpr($op1.ast, $operator, $op2.ast); }	
+| op1=expr operator=('=' | '<>' ) op2=expr								{ $ast = new ComparationExpr($op1.ast, $operator, $op2.ast); }	
 | op1=expr operator='and' op2=expr 										{ $ast = new LogicalExpr($op1.ast, $operator, $op2.ast); }
 | op1=expr operator='or' op2=expr 										{ $ast = new LogicalExpr($op1.ast, $operator, $op2.ast); }
 ;
