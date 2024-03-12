@@ -132,7 +132,6 @@ type returns [Type ast]
 	: token='INTEGER' 													{ $ast = new IntType(); $ast.updatePositions($token);}
 	| token='DOUBLE' 													{ $ast = new DoubleType(); $ast.updatePositions($token);}	
 	| token='CHARACTER' 												{ $ast = new CharType(); $ast.updatePositions($token);} 
-	| token='void' 														{ $ast = new VoidType(); $ast.updatePositions($token);}
 	| '[' INT_CONSTANT ']' type  										{$ast = new ArrayType(new IntConstant($INT_CONSTANT),$type.ast); $ast.updatePositions($ctx.start);}
 	| IDENT																{ $ast = new StructType($IDENT); $ast.updatePositions($ctx.start); }
 	;
