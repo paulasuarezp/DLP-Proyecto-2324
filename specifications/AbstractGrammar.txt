@@ -7,18 +7,15 @@ type;
 NODES
 
 
-intType: type -> ;
-doubleType: type -> ;
-charType: type -> ;
-voidType: type -> ;
-structType: type -> name:string;
-arrayType: type -> dimension:intConstant tipo:type;
+program -> name:string types:structDefinition* vars:varDefinition* builders:functionBuilder* features:functionDefinition* runCall:runCall ;
 
-program -> name:string types:structDefinition* vars:varDefinition* builders:string* features:functionDefinition* runCall:functionCallSent ;
-
+runCall -> name:string args:expression* ;
 
 structDefinition -> name:structType fields:fieldDefinition* ;
 functionDefinition -> name:string params:varDefinition* returnType:type? vars:varDefinition* sentences:sentence* ;
+fieldDefinition -> name:string tipo:type ;
+varDefinition -> name:string tipo:type ;
+functionBuilder -> name:string;
 
 
 functionCallSent: sentence -> name:string args:expression* ;
@@ -26,8 +23,7 @@ assignment: sentence -> left:expression right:expression ;
 loop: sentence -> from:assignment* until:expression body:sentence* ;
 ifElse: sentence -> condition:expression trueBlock:sentence* falseBlock:sentence* ;
 read: sentence -> input:expression* ;
-print: sentence -> input:expression* ;
-println: sentence -> input:expression* ;
+print: sentence -> op:string input:expression* ;
 return: sentence -> value: expression? ;
 
 
@@ -44,9 +40,12 @@ notExpr: expression -> op:expression ;
 functionCallExpr: expression -> name:string args:expression*;
 fieldAccess: expression -> root:expression field:string ;
 arrayAccess: expression -> array:expression index:expression ;
+nullExpr: expression -> ;
 
 
-
-
-fieldDefinition -> name:string tipo:type ;
-varDefinition -> name:string tipo:type ;
+intType: type -> ;
+doubleType: type -> ;
+charType: type -> ;
+voidType: type -> ;
+structType: type -> name:string;
+arrayType: type -> dimension:intConstant tipo:type;

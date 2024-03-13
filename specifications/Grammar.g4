@@ -56,8 +56,8 @@ varListIdents returns [List<String> list = new ArrayList<String>()]
 // ##FIN varListIdents
 
 // ##INICIO featureBuilder: Declaración de funciones (constructores)
-featureBuilder returns [FeatureBuilder ast]
-	: IDENT { $ast = new FeatureBuilder($IDENT.text); }
+featureBuilder returns [FunctionBuilder ast]
+	: name=IDENT 															{ $ast = new FunctionBuilder($name); $ast.updatePositions($name);}
 	;
 // ##FIN featureBuilder
 
@@ -77,8 +77,8 @@ param returns [VarDefinition ast]
 
 
 // ##INICIO runCall: Llamada a función principal
-runCall	returns [FunctionCallSent ast]
-	: 'run' IDENT '(' (args+=expr (',' args+=expr)*)? ')' ';'  			{ $ast = new FunctionCallSent($IDENT, $ctx.args != null ? $args : new ArrayList<>()); }
+runCall	returns [RunCall ast]
+	: 'run' IDENT '(' (args+=expr (',' args+=expr)*)? ')' ';'  			{ $ast = new RunCall($IDENT, $ctx.args != null ? $args : new ArrayList<>()); }
 	;
 // ##FIN runCall
 
@@ -88,10 +88,9 @@ sentence returns [Sentence ast]
 	: 'if' expr 'then' tb+=sentence* ('else' fb+=sentence*)? 'end' 		{ $ast = new IfElse($expr.ast, $tb, $ctx.fb != null ? $fb : null); }
 	| ('from' initFromLoop)? 'until' expr 'loop' c+=sentence* 'end'		{ $ast = new Loop($ctx.initFromLoop != null ? $initFromLoop.initializations : null, $expr.ast, $c); }
 	| 'read' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Read($ctx.args != null ? $args : new ArrayList<>()); }
-	| 'print' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Print($ctx.args != null ? $args : new ArrayList<>()); }
-	| 'println' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Println($ctx.args != null ? $args : new ArrayList<>()); }
+	| op=('print'|'println') (args+=expr (',' args+=expr)*)? ';'		{ $ast = new Print($op, $ctx.args != null ? $args : new ArrayList<>()); }
 	| left=expr ':=' right=expr ';'										{ $ast = new Assignment($left.ast, $right.ast); }
-	| 'return' expr? ';'												{ $ast = new Return($ctx.expr != null ? $expr.ast : null); $ast.updatePositions($ctx.start);}
+	| token='return' expr? ';'											{ $ast = new Return($ctx.expr != null ? $expr.ast : new NullExpr()); $ast.updatePositions($token);}
 	| IDENT '(' (args+=expr (',' args+=expr)*)? ')' ';'  				{ $ast = new FunctionCallSent($IDENT, $ctx.args != null ? $args : new ArrayList<>()); }// functionCallSent
 	;
 // ##FIN sentence

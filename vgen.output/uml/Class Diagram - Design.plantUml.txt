@@ -34,42 +34,21 @@ AST <|-[#808080]- Type
 interface AST {
 }
 
-class IntType {
-}
-Type <|-[#808080]- IntType
-
-class DoubleType {
-}
-Type <|-[#808080]- DoubleType
-
-class CharType {
-}
-Type <|-[#808080]- CharType
-
-class VoidType {
-}
-Type <|-[#808080]- VoidType
-
-class StructType {
-	+String name
-}
-Type <|-[#808080]- StructType
-
-class ArrayType {
-}
-Type <|-[#808080]- ArrayType
-ArrayType o-[#404040,thickness=2]-  IntConstant : dimension >
-ArrayType o-[#404040,thickness=2]-  Type : tipo >
-
 class Program {
 	+String name
-	+List<String> builders
 }
 AST <|-[#808080]- Program
 Program o-[#404040,thickness=2]- "✱" StructDefinition : types >
 Program o-[#404040,thickness=2]- "✱" VarDefinition : vars >
+Program o-[#404040,thickness=2]- "✱" FunctionBuilder : builders >
 Program o-[#404040,thickness=2]- "✱" FunctionDefinition : features >
-Program o-[#404040,thickness=2]-  FunctionCallSent : runCall >
+Program o-[#404040,thickness=2]-  RunCall : runCall >
+
+class RunCall {
+	+String name
+}
+AST <|-[#808080]- RunCall
+RunCall o-[#404040,thickness=2]- "✱" Expression : args >
 
 class StructDefinition {
 }
@@ -85,6 +64,23 @@ FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : params >
 FunctionDefinition o-[#404040,thickness=2]- "0..1" Type : returnType >
 FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : vars >
 FunctionDefinition o-[#404040,thickness=2]- "✱" Sentence : sentences >
+
+class FieldDefinition {
+	+String name
+}
+AST <|-[#808080]- FieldDefinition
+FieldDefinition o-[#404040,thickness=2]-  Type : tipo >
+
+class VarDefinition {
+	+String name
+}
+AST <|-[#808080]- VarDefinition
+VarDefinition o-[#404040,thickness=2]-  Type : tipo >
+
+class FunctionBuilder {
+	+String name
+}
+AST <|-[#808080]- FunctionBuilder
 
 class FunctionCallSent {
 	+String name
@@ -118,14 +114,10 @@ Sentence <|-[#808080]- Read
 Read o-[#404040,thickness=2]- "✱" Expression : input >
 
 class Print {
+	+String op
 }
 Sentence <|-[#808080]- Print
 Print o-[#404040,thickness=2]- "✱" Expression : input >
-
-class Println {
-}
-Sentence <|-[#808080]- Println
-Println o-[#404040,thickness=2]- "✱" Expression : input >
 
 class Return {
 }
@@ -207,16 +199,35 @@ Expression <|-[#808080]- ArrayAccess
 ArrayAccess o-[#404040,thickness=2]-  Expression : array >
 ArrayAccess o-[#404040,thickness=2]-  Expression : index >
 
-class FieldDefinition {
-	+String name
+class NullExpr {
 }
-AST <|-[#808080]- FieldDefinition
-FieldDefinition o-[#404040,thickness=2]-  Type : tipo >
+Expression <|-[#808080]- NullExpr
 
-class VarDefinition {
+class IntType {
+}
+Type <|-[#808080]- IntType
+
+class DoubleType {
+}
+Type <|-[#808080]- DoubleType
+
+class CharType {
+}
+Type <|-[#808080]- CharType
+
+class VoidType {
+}
+Type <|-[#808080]- VoidType
+
+class StructType {
 	+String name
 }
-AST <|-[#808080]- VarDefinition
-VarDefinition o-[#404040,thickness=2]-  Type : tipo >
+Type <|-[#808080]- StructType
+
+class ArrayType {
+}
+Type <|-[#808080]- ArrayType
+ArrayType o-[#404040,thickness=2]-  IntConstant : dimension >
+ArrayType o-[#404040,thickness=2]-  Type : tipo >
 
 @enduml

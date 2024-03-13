@@ -54,10 +54,10 @@ Por tanto, hay tres opciones a la hora de implementar cada visit:
 // package ...;
 
 import visitor.DefaultVisitor;
-import ast.type.*;
 import ast.*;
 import ast.sentence.*;
 import ast.expression.*;
+import ast.type.*;
 
 
 public class SkeletonForNewVisitors extends DefaultVisitor {
@@ -68,61 +68,26 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 
     // Visit Methods --------------------------------------------------------------
 
-	// class IntType()
-	@Override
-	public Object visit(IntType intType, Object param) {
-
-		return null;
-	}
-
-	// class DoubleType()
-	@Override
-	public Object visit(DoubleType doubleType, Object param) {
-
-		return null;
-	}
-
-	// class CharType()
-	@Override
-	public Object visit(CharType charType, Object param) {
-
-		return null;
-	}
-
-	// class VoidType()
-	@Override
-	public Object visit(VoidType voidType, Object param) {
-
-		return null;
-	}
-
-	// class StructType(String name)
-	@Override
-	public Object visit(StructType structType, Object param) {
-
-		return null;
-	}
-
-	// class ArrayType(IntConstant dimension, Type tipo)
-	@Override
-	public Object visit(ArrayType arrayType, Object param) {
-
-		// arrayType.getDimension().accept(this, param);
-		// arrayType.getTipo().accept(this, param);
-		super.visit(arrayType, param);
-
-		return null;
-	}
-
-	// class Program(String name, List<StructDefinition> types, List<VarDefinition> vars, List<String> builders, List<FunctionDefinition> features, FunctionCallSent runCall)
+	// class Program(String name, List<StructDefinition> types, List<VarDefinition> vars, List<FunctionBuilder> builders, List<FunctionDefinition> features, RunCall runCall)
 	@Override
 	public Object visit(Program program, Object param) {
 
 		// program.getTypes().forEach(structDefinition -> structDefinition.accept(this, param));
 		// program.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
+		// program.getBuilders().forEach(functionBuilder -> functionBuilder.accept(this, param));
 		// program.getFeatures().forEach(functionDefinition -> functionDefinition.accept(this, param));
 		// program.getRunCall().accept(this, param);
 		super.visit(program, param);
+
+		return null;
+	}
+
+	// class RunCall(String name, List<Expression> args)
+	@Override
+	public Object visit(RunCall runCall, Object param) {
+
+		// runCall.getArgs().forEach(expression -> expression.accept(this, param));
+		super.visit(runCall, param);
 
 		return null;
 	}
@@ -147,6 +112,33 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 		// functionDefinition.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
 		// functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
 		super.visit(functionDefinition, param);
+
+		return null;
+	}
+
+	// class FieldDefinition(String name, Type tipo)
+	@Override
+	public Object visit(FieldDefinition fieldDefinition, Object param) {
+
+		// fieldDefinition.getTipo().accept(this, param);
+		super.visit(fieldDefinition, param);
+
+		return null;
+	}
+
+	// class VarDefinition(String name, Type tipo)
+	@Override
+	public Object visit(VarDefinition varDefinition, Object param) {
+
+		// varDefinition.getTipo().accept(this, param);
+		super.visit(varDefinition, param);
+
+		return null;
+	}
+
+	// class FunctionBuilder(String name)
+	@Override
+	public Object visit(FunctionBuilder functionBuilder, Object param) {
 
 		return null;
 	}
@@ -206,22 +198,12 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 		return null;
 	}
 
-	// class Print(List<Expression> input)
+	// class Print(String op, List<Expression> input)
 	@Override
 	public Object visit(Print print, Object param) {
 
 		// print.getInput().forEach(expression -> expression.accept(this, param));
 		super.visit(print, param);
-
-		return null;
-	}
-
-	// class Println(List<Expression> input)
-	@Override
-	public Object visit(Println println, Object param) {
-
-		// println.getInput().forEach(expression -> expression.accept(this, param));
-		super.visit(println, param);
 
 		return null;
 	}
@@ -359,22 +341,55 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 		return null;
 	}
 
-	// class FieldDefinition(String name, Type tipo)
+	// class NullExpr()
 	@Override
-	public Object visit(FieldDefinition fieldDefinition, Object param) {
-
-		// fieldDefinition.getTipo().accept(this, param);
-		super.visit(fieldDefinition, param);
+	public Object visit(NullExpr nullExpr, Object param) {
 
 		return null;
 	}
 
-	// class VarDefinition(String name, Type tipo)
+	// class IntType()
 	@Override
-	public Object visit(VarDefinition varDefinition, Object param) {
+	public Object visit(IntType intType, Object param) {
 
-		// varDefinition.getTipo().accept(this, param);
-		super.visit(varDefinition, param);
+		return null;
+	}
+
+	// class DoubleType()
+	@Override
+	public Object visit(DoubleType doubleType, Object param) {
+
+		return null;
+	}
+
+	// class CharType()
+	@Override
+	public Object visit(CharType charType, Object param) {
+
+		return null;
+	}
+
+	// class VoidType()
+	@Override
+	public Object visit(VoidType voidType, Object param) {
+
+		return null;
+	}
+
+	// class StructType(String name)
+	@Override
+	public Object visit(StructType structType, Object param) {
+
+		return null;
+	}
+
+	// class ArrayType(IntConstant dimension, Type tipo)
+	@Override
+	public Object visit(ArrayType arrayType, Object param) {
+
+		// arrayType.getDimension().accept(this, param);
+		// arrayType.getTipo().accept(this, param);
+		super.visit(arrayType, param);
 
 		return null;
 	}

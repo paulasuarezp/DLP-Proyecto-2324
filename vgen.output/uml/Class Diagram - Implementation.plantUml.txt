@@ -45,42 +45,21 @@ interface AST {
 abstract AbstractAST
 AST <|-[#808080]- AbstractAST
 
-class IntType {
-}
-AbstractType <|-[#808080]- IntType
-
-class DoubleType {
-}
-AbstractType <|-[#808080]- DoubleType
-
-class CharType {
-}
-AbstractType <|-[#808080]- CharType
-
-class VoidType {
-}
-AbstractType <|-[#808080]- VoidType
-
-class StructType {
-	+String name
-}
-AbstractType <|-[#808080]- StructType
-
-class ArrayType {
-}
-AbstractType <|-[#808080]- ArrayType
-ArrayType o-[#404040,thickness=2]-  IntConstant : dimension >
-ArrayType o-[#404040,thickness=2]-  Type : tipo >
-
 class Program {
 	+String name
-	+List<String> builders
 }
 AbstractAST <|-[#808080]- Program
 Program o-[#404040,thickness=2]- "✱" StructDefinition : types >
 Program o-[#404040,thickness=2]- "✱" VarDefinition : vars >
+Program o-[#404040,thickness=2]- "✱" FunctionBuilder : builders >
 Program o-[#404040,thickness=2]- "✱" FunctionDefinition : features >
-Program o-[#404040,thickness=2]-  FunctionCallSent : runCall >
+Program o-[#404040,thickness=2]-  RunCall : runCall >
+
+class RunCall {
+	+String name
+}
+AbstractAST <|-[#808080]- RunCall
+RunCall o-[#404040,thickness=2]- "✱" Expression : args >
 
 class StructDefinition {
 }
@@ -96,6 +75,23 @@ FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : params >
 FunctionDefinition o-[#404040,thickness=2]- "0..1" Type : returnType >
 FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : vars >
 FunctionDefinition o-[#404040,thickness=2]- "✱" Sentence : sentences >
+
+class FieldDefinition {
+	+String name
+}
+AbstractAST <|-[#808080]- FieldDefinition
+FieldDefinition o-[#404040,thickness=2]-  Type : tipo >
+
+class VarDefinition {
+	+String name
+}
+AbstractAST <|-[#808080]- VarDefinition
+VarDefinition o-[#404040,thickness=2]-  Type : tipo >
+
+class FunctionBuilder {
+	+String name
+}
+AbstractAST <|-[#808080]- FunctionBuilder
 
 class FunctionCallSent {
 	+String name
@@ -129,14 +125,10 @@ AbstractSentence <|-[#808080]- Read
 Read o-[#404040,thickness=2]- "✱" Expression : input >
 
 class Print {
+	+String op
 }
 AbstractSentence <|-[#808080]- Print
 Print o-[#404040,thickness=2]- "✱" Expression : input >
-
-class Println {
-}
-AbstractSentence <|-[#808080]- Println
-Println o-[#404040,thickness=2]- "✱" Expression : input >
 
 class Return {
 }
@@ -218,16 +210,35 @@ AbstractExpression <|-[#808080]- ArrayAccess
 ArrayAccess o-[#404040,thickness=2]-  Expression : array >
 ArrayAccess o-[#404040,thickness=2]-  Expression : index >
 
-class FieldDefinition {
-	+String name
+class NullExpr {
 }
-AbstractAST <|-[#808080]- FieldDefinition
-FieldDefinition o-[#404040,thickness=2]-  Type : tipo >
+AbstractExpression <|-[#808080]- NullExpr
 
-class VarDefinition {
+class IntType {
+}
+AbstractType <|-[#808080]- IntType
+
+class DoubleType {
+}
+AbstractType <|-[#808080]- DoubleType
+
+class CharType {
+}
+AbstractType <|-[#808080]- CharType
+
+class VoidType {
+}
+AbstractType <|-[#808080]- VoidType
+
+class StructType {
 	+String name
 }
-AbstractAST <|-[#808080]- VarDefinition
-VarDefinition o-[#404040,thickness=2]-  Type : tipo >
+AbstractType <|-[#808080]- StructType
+
+class ArrayType {
+}
+AbstractType <|-[#808080]- ArrayType
+ArrayType o-[#404040,thickness=2]-  IntConstant : dimension >
+ArrayType o-[#404040,thickness=2]-  Type : tipo >
 
 @enduml

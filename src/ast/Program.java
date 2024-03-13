@@ -2,7 +2,6 @@
 
 package ast;
 
-import ast.sentence.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Stream;
@@ -16,25 +15,25 @@ import visitor.Visitor;
 // %% -------------------------------
 
 /*
-	program -> name:string types:structDefinition* vars:varDefinition* builders:string* features:functionDefinition* runCall:functionCallSent
+	program -> name:string types:structDefinition* vars:varDefinition* builders:functionBuilder* features:functionDefinition* runCall:runCall
 */
 public class Program extends AbstractAST  {
 
     // ----------------------------------
     // Instance Variables
 
-	// program -> name:string types:structDefinition* vars:varDefinition* builders:string* features:functionDefinition* runCall:functionCallSent
+	// program -> name:string types:structDefinition* vars:varDefinition* builders:functionBuilder* features:functionDefinition* runCall:runCall
 	private String name;
 	private List<StructDefinition> types;
 	private List<VarDefinition> vars;
-	private List<String> builders;
+	private List<FunctionBuilder> builders;
 	private List<FunctionDefinition> features;
-	private FunctionCallSent runCall;
+	private RunCall runCall;
 
     // ----------------------------------
     // Constructors
 
-	public Program(String name, List<StructDefinition> types, List<VarDefinition> vars, List<String> builders, List<FunctionDefinition> features, FunctionCallSent runCall) {
+	public Program(String name, List<StructDefinition> types, List<VarDefinition> vars, List<FunctionBuilder> builders, List<FunctionDefinition> features, RunCall runCall) {
 		super();
 
 		if (name == null)
@@ -58,7 +57,7 @@ public class Program extends AbstractAST  {
 		this.features = features;
 
 		if (runCall == null)
-			throw new IllegalArgumentException("Parameter 'runCall' can't be null. Pass a non-null value or use 'functionCallSent?' in the abstract grammar");
+			throw new IllegalArgumentException("Parameter 'runCall' can't be null. Pass a non-null value or use 'runCall?' in the abstract grammar");
 		this.runCall = runCall;
 
 		updatePositions(name, types, vars, builders, features, runCall);
@@ -73,22 +72,18 @@ public class Program extends AbstractAST  {
 
         this.types = castList(types, unwrapIfContext.andThen(StructDefinition.class::cast));
         this.vars = castList(vars, unwrapIfContext.andThen(VarDefinition.class::cast));
-        this.builders = castList(builders,
-            unwrapIfContext
-            .andThen(unwrapIfToken)
-            .andThen(String.class::cast));
-
+        this.builders = castList(builders, unwrapIfContext.andThen(FunctionBuilder.class::cast));
         this.features = castList(features, unwrapIfContext.andThen(FunctionDefinition.class::cast));
         if (runCall == null)
-            throw new IllegalArgumentException("Parameter 'runCall' can't be null. Pass a non-null value or use 'functionCallSent?' in the abstract grammar");
-		this.runCall = (FunctionCallSent) runCall;
+            throw new IllegalArgumentException("Parameter 'runCall' can't be null. Pass a non-null value or use 'runCall?' in the abstract grammar");
+		this.runCall = (RunCall) runCall;
 
 		updatePositions(name, types, vars, builders, features, runCall);
 	}
 
 
     // ----------------------------------
-    // program -> name:string types:structDefinition* vars:varDefinition* builders:string* features:functionDefinition* runCall:functionCallSent
+    // program -> name:string types:structDefinition* vars:varDefinition* builders:functionBuilder* features:functionDefinition* runCall:runCall
 
 	// Child 'name:string' 
 
@@ -140,20 +135,20 @@ public class Program extends AbstractAST  {
     }
 
 
-	// Child 'builders:string*' 
+	// Child 'builders:functionBuilder*' 
 
-	public void setBuilders(List<String> builders) {
+	public void setBuilders(List<FunctionBuilder> builders) {
 		if (builders == null)
 			builders = new ArrayList<>();
 		this.builders = builders;
 
 	}
 
-    public List<String> getBuilders() {
+    public List<FunctionBuilder> getBuilders() {
         return builders;
     }
 
-    public Stream<String> builders() {
+    public Stream<FunctionBuilder> builders() {
         return builders.stream();
     }
 
@@ -176,16 +171,16 @@ public class Program extends AbstractAST  {
     }
 
 
-	// Child 'runCall:functionCallSent' 
+	// Child 'runCall:runCall' 
 
-	public void setRunCall(FunctionCallSent runCall) {
+	public void setRunCall(RunCall runCall) {
 		if (runCall == null)
-			throw new IllegalArgumentException("Parameter 'runCall' can't be null. Pass a non-null value or use 'functionCallSent?' in the abstract grammar");
+			throw new IllegalArgumentException("Parameter 'runCall' can't be null. Pass a non-null value or use 'runCall?' in the abstract grammar");
 		this.runCall = runCall;
 
 	}
 
-    public FunctionCallSent getRunCall() {
+    public RunCall getRunCall() {
         return runCall;
     }
 

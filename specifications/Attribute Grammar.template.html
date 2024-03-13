@@ -110,13 +110,43 @@
 
 
         <tr>
-            <td><span class="symbol-name">program</span> &rarr; <span class="att-name">name</span>:<span class="att-type">string</span> <span class="att-name">types</span>:<span class="att-type">structDefinition*</span> <span class="att-name">vars</span>:<span class="att-type">varDefinition*</span> <span class="att-name">builders</span>:<span class="att-type">functionBuilder*</span> <span class="att-name">features</span>:<span class="att-type">functionDefinition*</span> <span class="att-name">runCall</span>:<span class="att-type">runCall</span></td>
+            <td><span class="symbol-name">intType</span><span class="parents">:type</span> &rarr; &epsilon;</td>
             <td></td>
             <td></td>
         </tr>
 
         <tr>
-            <td><span class="symbol-name">runCall</span> &rarr; <span class="att-name">name</span>:<span class="att-type">string</span> <span class="att-name">args</span>:<span class="att-type">expression*</span></td>
+            <td><span class="symbol-name">doubleType</span><span class="parents">:type</span> &rarr; &epsilon;</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td><span class="symbol-name">charType</span><span class="parents">:type</span> &rarr; &epsilon;</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td><span class="symbol-name">voidType</span><span class="parents">:type</span> &rarr; &epsilon;</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td><span class="symbol-name">structType</span><span class="parents">:type</span> &rarr; <span class="att-name">name</span>:<span class="att-type">string</span></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td><span class="symbol-name">arrayType</span><span class="parents">:type</span> &rarr; <span class="att-name">dimension</span>:<span class="att-type">intConstant</span> <span class="att-name">tipo</span>:<span class="att-type">type</span></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td><span class="symbol-name">program</span> &rarr; <span class="att-name">name</span>:<span class="att-type">string</span> <span class="att-name">types</span>:<span class="att-type">structDefinition*</span> <span class="att-name">vars</span>:<span class="att-type">varDefinition*</span> <span class="att-name">builders</span>:<span class="att-type">string*</span> <span class="att-name">features</span>:<span class="att-type">functionDefinition*</span> <span class="att-name">runCall</span>:<span class="att-type">functionCallSent</span></td>
             <td></td>
             <td></td>
         </tr>
@@ -129,24 +159,6 @@
 
         <tr>
             <td><span class="symbol-name">functionDefinition</span> &rarr; <span class="att-name">name</span>:<span class="att-type">string</span> <span class="att-name">params</span>:<span class="att-type">varDefinition*</span> <span class="att-name">returnType</span>:<span class="att-type">type?</span> <span class="att-name">vars</span>:<span class="att-type">varDefinition*</span> <span class="att-name">sentences</span>:<span class="att-type">sentence*</span></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td><span class="symbol-name">fieldDefinition</span> &rarr; <span class="att-name">name</span>:<span class="att-type">string</span> <span class="att-name">tipo</span>:<span class="att-type">type</span></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td><span class="symbol-name">varDefinition</span> &rarr; <span class="att-name">name</span>:<span class="att-type">string</span> <span class="att-name">tipo</span>:<span class="att-type">type</span></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td><span class="symbol-name">functionBuilder</span> &rarr; <span class="att-name">name</span>:<span class="att-type">string</span></td>
             <td></td>
             <td></td>
         </tr>
@@ -182,7 +194,13 @@
         </tr>
 
         <tr>
-            <td><span class="symbol-name">print</span><span class="parents">:sentence</span> &rarr; <span class="att-name">op</span>:<span class="att-type">string</span> <span class="att-name">input</span>:<span class="att-type">expression*</span></td>
+            <td><span class="symbol-name">print</span><span class="parents">:sentence</span> &rarr; <span class="att-name">input</span>:<span class="att-type">expression*</span></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td><span class="symbol-name">println</span><span class="parents">:sentence</span> &rarr; <span class="att-name">input</span>:<span class="att-type">expression*</span></td>
             <td></td>
             <td></td>
         </tr>
@@ -272,43 +290,13 @@
         </tr>
 
         <tr>
-            <td><span class="symbol-name">nullExpr</span><span class="parents">:expression</span> &rarr; &epsilon;</td>
+            <td><span class="symbol-name">fieldDefinition</span> &rarr; <span class="att-name">name</span>:<span class="att-type">string</span> <span class="att-name">tipo</span>:<span class="att-type">type</span></td>
             <td></td>
             <td></td>
         </tr>
 
         <tr>
-            <td><span class="symbol-name">intType</span><span class="parents">:type</span> &rarr; &epsilon;</td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td><span class="symbol-name">doubleType</span><span class="parents">:type</span> &rarr; &epsilon;</td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td><span class="symbol-name">charType</span><span class="parents">:type</span> &rarr; &epsilon;</td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td><span class="symbol-name">voidType</span><span class="parents">:type</span> &rarr; &epsilon;</td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td><span class="symbol-name">structType</span><span class="parents">:type</span> &rarr; <span class="att-name">name</span>:<span class="att-type">string</span></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td><span class="symbol-name">arrayType</span><span class="parents">:type</span> &rarr; <span class="att-name">dimension</span>:<span class="att-type">intConstant</span> <span class="att-name">tipo</span>:<span class="att-type">type</span></td>
+            <td><span class="symbol-name">varDefinition</span> &rarr; <span class="att-name">name</span>:<span class="att-type">string</span> <span class="att-name">tipo</span>:<span class="att-type">type</span></td>
             <td></td>
             <td></td>
         </tr>

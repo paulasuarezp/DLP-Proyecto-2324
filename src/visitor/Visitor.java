@@ -6,32 +6,28 @@
 
 package visitor;
 
-import ast.type.*;
 import ast.*;
 import ast.sentence.*;
 import ast.expression.*;
+import ast.type.*;
 
 
 
 
 public interface Visitor {
-	public Object visit(IntType intType, Object param);
-
-	public Object visit(DoubleType doubleType, Object param);
-
-	public Object visit(CharType charType, Object param);
-
-	public Object visit(VoidType voidType, Object param);
-
-	public Object visit(StructType structType, Object param);
-
-	public Object visit(ArrayType arrayType, Object param);
-
 	public Object visit(Program program, Object param);
+
+	public Object visit(RunCall runCall, Object param);
 
 	public Object visit(StructDefinition structDefinition, Object param);
 
 	public Object visit(FunctionDefinition functionDefinition, Object param);
+
+	public Object visit(FieldDefinition fieldDefinition, Object param);
+
+	public Object visit(VarDefinition varDefinition, Object param);
+
+	public Object visit(FunctionBuilder functionBuilder, Object param);
 
 	public Object visit(FunctionCallSent functionCallSent, Object param);
 
@@ -44,8 +40,6 @@ public interface Visitor {
 	public Object visit(Read read, Object param);
 
 	public Object visit(Print print, Object param);
-
-	public Object visit(Println println, Object param);
 
 	public Object visit(Return returnValue, Object param);
 
@@ -75,9 +69,19 @@ public interface Visitor {
 
 	public Object visit(ArrayAccess arrayAccess, Object param);
 
-	public Object visit(FieldDefinition fieldDefinition, Object param);
+	public Object visit(NullExpr nullExpr, Object param);
 
-	public Object visit(VarDefinition varDefinition, Object param);
+	public Object visit(IntType intType, Object param);
+
+	public Object visit(DoubleType doubleType, Object param);
+
+	public Object visit(CharType charType, Object param);
+
+	public Object visit(VoidType voidType, Object param);
+
+	public Object visit(StructType structType, Object param);
+
+	public Object visit(ArrayType arrayType, Object param);
 
 
 }

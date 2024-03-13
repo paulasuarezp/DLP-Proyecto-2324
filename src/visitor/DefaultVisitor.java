@@ -15,60 +15,30 @@
 
 package visitor;
 
-import ast.type.*;
 import ast.*;
 import ast.sentence.*;
 import ast.expression.*;
+import ast.type.*;
 
 
 
 
 public class DefaultVisitor implements Visitor {
 	@Override
-	public Object visit(IntType intType, Object param) {
-
-		return null;
-	}
-
-	@Override
-	public Object visit(DoubleType doubleType, Object param) {
-
-		return null;
-	}
-
-	@Override
-	public Object visit(CharType charType, Object param) {
-
-		return null;
-	}
-
-	@Override
-	public Object visit(VoidType voidType, Object param) {
-
-		return null;
-	}
-
-	@Override
-	public Object visit(StructType structType, Object param) {
-
-		return null;
-	}
-
-	@Override
-	public Object visit(ArrayType arrayType, Object param) {
-
-		arrayType.getDimension().accept(this, param);
-		arrayType.getTipo().accept(this, param);
-		return null;
-	}
-
-	@Override
 	public Object visit(Program program, Object param) {
 
 		program.getTypes().forEach(structDefinition -> structDefinition.accept(this, param));
 		program.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
+		program.getBuilders().forEach(functionBuilder -> functionBuilder.accept(this, param));
 		program.getFeatures().forEach(functionDefinition -> functionDefinition.accept(this, param));
 		program.getRunCall().accept(this, param);
+		return null;
+	}
+
+	@Override
+	public Object visit(RunCall runCall, Object param) {
+
+		runCall.getArgs().forEach(expression -> expression.accept(this, param));
 		return null;
 	}
 
@@ -87,6 +57,26 @@ public class DefaultVisitor implements Visitor {
 		functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
 		functionDefinition.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
 		functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
+		return null;
+	}
+
+	@Override
+	public Object visit(FieldDefinition fieldDefinition, Object param) {
+
+		fieldDefinition.getTipo().accept(this, param);
+		return null;
+	}
+
+	@Override
+	public Object visit(VarDefinition varDefinition, Object param) {
+
+		varDefinition.getTipo().accept(this, param);
+		return null;
+	}
+
+	@Override
+	public Object visit(FunctionBuilder functionBuilder, Object param) {
+
 		return null;
 	}
 
@@ -134,13 +124,6 @@ public class DefaultVisitor implements Visitor {
 	public Object visit(Print print, Object param) {
 
 		print.getInput().forEach(expression -> expression.accept(this, param));
-		return null;
-	}
-
-	@Override
-	public Object visit(Println println, Object param) {
-
-		println.getInput().forEach(expression -> expression.accept(this, param));
 		return null;
 	}
 
@@ -244,16 +227,46 @@ public class DefaultVisitor implements Visitor {
 	}
 
 	@Override
-	public Object visit(FieldDefinition fieldDefinition, Object param) {
+	public Object visit(NullExpr nullExpr, Object param) {
 
-		fieldDefinition.getTipo().accept(this, param);
 		return null;
 	}
 
 	@Override
-	public Object visit(VarDefinition varDefinition, Object param) {
+	public Object visit(IntType intType, Object param) {
 
-		varDefinition.getTipo().accept(this, param);
+		return null;
+	}
+
+	@Override
+	public Object visit(DoubleType doubleType, Object param) {
+
+		return null;
+	}
+
+	@Override
+	public Object visit(CharType charType, Object param) {
+
+		return null;
+	}
+
+	@Override
+	public Object visit(VoidType voidType, Object param) {
+
+		return null;
+	}
+
+	@Override
+	public Object visit(StructType structType, Object param) {
+
+		return null;
+	}
+
+	@Override
+	public Object visit(ArrayType arrayType, Object param) {
+
+		arrayType.getDimension().accept(this, param);
+		arrayType.getTipo().accept(this, param);
 		return null;
 	}
 

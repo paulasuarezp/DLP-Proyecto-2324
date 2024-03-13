@@ -8,10 +8,10 @@
 
 package visitor;
 
-import ast.type.*;
 import ast.*;
 import ast.sentence.*;
 import ast.expression.*;
+import ast.type.*;
 
 // %% User Declarations -------------
 
@@ -22,45 +22,15 @@ import ast.expression.*;
 
 public class ExceptionThrowerVisitor implements Visitor {
 	@Override
-	public Object visit(IntType intType, Object param) {
-
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(IntType)' has been invoked but it has not been implemented.");
-	}
-
-	@Override
-	public Object visit(DoubleType doubleType, Object param) {
-
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(DoubleType)' has been invoked but it has not been implemented.");
-	}
-
-	@Override
-	public Object visit(CharType charType, Object param) {
-
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(CharType)' has been invoked but it has not been implemented.");
-	}
-
-	@Override
-	public Object visit(VoidType voidType, Object param) {
-
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(VoidType)' has been invoked but it has not been implemented.");
-	}
-
-	@Override
-	public Object visit(StructType structType, Object param) {
-
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(StructType)' has been invoked but it has not been implemented.");
-	}
-
-	@Override
-	public Object visit(ArrayType arrayType, Object param) {
-
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(ArrayType)' has been invoked but it has not been implemented.");
-	}
-
-	@Override
 	public Object visit(Program program, Object param) {
 
         throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(Program)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
+	public Object visit(RunCall runCall, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(RunCall)' has been invoked but it has not been implemented.");
 	}
 
 	@Override
@@ -73,6 +43,24 @@ public class ExceptionThrowerVisitor implements Visitor {
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 
         throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(FunctionDefinition)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
+	public Object visit(FieldDefinition fieldDefinition, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(FieldDefinition)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
+	public Object visit(VarDefinition varDefinition, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(VarDefinition)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
+	public Object visit(FunctionBuilder functionBuilder, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(FunctionBuilder)' has been invoked but it has not been implemented.");
 	}
 
 	@Override
@@ -109,12 +97,6 @@ public class ExceptionThrowerVisitor implements Visitor {
 	public Object visit(Print print, Object param) {
 
         throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(Print)' has been invoked but it has not been implemented.");
-	}
-
-	@Override
-	public Object visit(Println println, Object param) {
-
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(Println)' has been invoked but it has not been implemented.");
 	}
 
 	@Override
@@ -202,15 +184,45 @@ public class ExceptionThrowerVisitor implements Visitor {
 	}
 
 	@Override
-	public Object visit(FieldDefinition fieldDefinition, Object param) {
+	public Object visit(NullExpr nullExpr, Object param) {
 
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(FieldDefinition)' has been invoked but it has not been implemented.");
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(NullExpr)' has been invoked but it has not been implemented.");
 	}
 
 	@Override
-	public Object visit(VarDefinition varDefinition, Object param) {
+	public Object visit(IntType intType, Object param) {
 
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(VarDefinition)' has been invoked but it has not been implemented.");
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(IntType)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
+	public Object visit(DoubleType doubleType, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(DoubleType)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
+	public Object visit(CharType charType, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(CharType)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
+	public Object visit(VoidType voidType, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(VoidType)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
+	public Object visit(StructType structType, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(StructType)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
+	public Object visit(ArrayType arrayType, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(ArrayType)' has been invoked but it has not been implemented.");
 	}
 
     // %% User Members -------------------------

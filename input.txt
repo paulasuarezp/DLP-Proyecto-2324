@@ -1,15 +1,19 @@
-class EJEMPLO;
-	
+class Test_91_PROC_CALL;
 	create
-		inicio; 
+		main; 
+		//* Se podrían declarar varios constructores, pero
+		sólo hemos puesto uno *//
+	feature hacer is
+        do
+			println 'H','o','l','a',' ','M','u','n','d','o','!';
+			print '\n';
+	end /* hacer
 
-	feature otroInicio is
-		/*local
+	feature main is
 		do
-			a := pair.complejo.campo[22];
-
-	end /*otroInicio
+			hacer();
+	end /* main
 	
-end /*EJEMPLO
+end /* Test_91_PROC_CALL
 
-run inicio(); 
+run main();
