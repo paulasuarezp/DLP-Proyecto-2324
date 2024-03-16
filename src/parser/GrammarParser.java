@@ -1092,7 +1092,7 @@ public class GrammarParser extends Parser {
 
 				setState(242);
 				match(T__1);
-				 ((SentenceContext)_localctx).ast =  new Return(_localctx.expr != null ? ((SentenceContext)_localctx).expr.ast : new NullExpr()); _localctx.ast.updatePositions(((SentenceContext)_localctx).token);
+				 ((SentenceContext)_localctx).ast =  new Return(_localctx.expr != null ? ((SentenceContext)_localctx).expr.ast : null); _localctx.ast.updatePositions(((SentenceContext)_localctx).token);
 				}
 				break;
 			case 7:

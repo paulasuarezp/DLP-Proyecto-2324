@@ -3,6 +3,7 @@
 package ast.sentence;
 
 import ast.expression.*;
+import ast.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Stream;
@@ -18,6 +19,9 @@ import visitor.Visitor;
 /*
 	functionCallSent: sentence -> name:string args:expression*
 	sentence -> 
+	
+	PHASE Identification
+	functionCallSent -> definition:functionDefinition
 */
 public class FunctionCallSent extends AbstractSentence  {
 
@@ -27,6 +31,9 @@ public class FunctionCallSent extends AbstractSentence  {
 	// functionCallSent: sentence -> name:string args:expression*
 	private String name;
 	private List<Expression> args;
+
+    // PHASE Identification
+	private FunctionDefinition definition;
 
     // ----------------------------------
     // Constructors
@@ -89,6 +96,24 @@ public class FunctionCallSent extends AbstractSentence  {
 
     public Stream<Expression> args() {
         return args.stream();
+    }
+
+
+
+    // --------------------------------
+    // PHASE Identification
+
+	// Attribute 'definition:functionDefinition' 
+
+	public void setDefinition(FunctionDefinition definition) {
+		if (definition == null)
+			throw new IllegalArgumentException("Parameter 'definition' can't be null. Pass a non-null value or use 'functionDefinition?' in the abstract grammar");
+		this.definition = definition;
+
+	}
+
+    public FunctionDefinition getDefinition() {
+        return definition;
     }
 
 

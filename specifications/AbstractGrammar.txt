@@ -40,8 +40,6 @@ notExpr: expression -> op:expression ;
 functionCallExpr: expression -> name:string args:expression*;
 fieldAccess: expression -> root:expression field:string ;
 arrayAccess: expression -> array:expression index:expression ;
-nullExpr: expression -> ;
-
 
 intType: type -> ;
 doubleType: type -> ;
@@ -49,3 +47,16 @@ charType: type -> ;
 voidType: type -> ;
 structType: type -> name:string;
 arrayType: type -> dimension:intConstant tipo:type;
+
+
+
+//---------------------------------
+ATTRIBUTE GRAMMAR Identification
+varDefinition -> [inh] Scope;
+variable -> definition:varDefinition;
+
+functionDefinition -> builder: functionBuilder;
+functionCallSent -> definition: functionDefinition;
+functionCallExpr -> definition: functionDefinition;
+
+structType -> definition: structDefinition;

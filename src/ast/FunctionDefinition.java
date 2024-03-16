@@ -19,6 +19,9 @@ import visitor.Visitor;
 
 /*
 	functionDefinition -> name:string params:varDefinition* returnType:type? vars:varDefinition* sentences:sentence*
+	
+	PHASE Identification
+	functionDefinition -> builder:functionBuilder
 */
 public class FunctionDefinition extends AbstractAST  {
 
@@ -31,6 +34,9 @@ public class FunctionDefinition extends AbstractAST  {
 	private Optional<Type> returnType;
 	private List<VarDefinition> vars;
 	private List<Sentence> sentences;
+
+    // PHASE Identification
+	private FunctionBuilder builder;
 
     // ----------------------------------
     // Constructors
@@ -158,6 +164,24 @@ public class FunctionDefinition extends AbstractAST  {
 
     public Stream<Sentence> sentences() {
         return sentences.stream();
+    }
+
+
+
+    // --------------------------------
+    // PHASE Identification
+
+	// Attribute 'builder:functionBuilder' 
+
+	public void setBuilder(FunctionBuilder builder) {
+		if (builder == null)
+			throw new IllegalArgumentException("Parameter 'builder' can't be null. Pass a non-null value or use 'functionBuilder?' in the abstract grammar");
+		this.builder = builder;
+
+	}
+
+    public FunctionBuilder getBuilder() {
+        return builder;
     }
 
 

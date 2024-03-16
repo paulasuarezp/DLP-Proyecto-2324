@@ -75,6 +75,7 @@ FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : params >
 FunctionDefinition o-[#404040,thickness=2]- "0..1" Type : returnType >
 FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : vars >
 FunctionDefinition o-[#404040,thickness=2]- "✱" Sentence : sentences >
+FunctionDefinition -[#ff6600,thickness=3]-  FunctionBuilder #text:ff6600 : builder >
 
 class FieldDefinition {
 	+String name
@@ -84,6 +85,8 @@ FieldDefinition o-[#404040,thickness=2]-  Type : tipo >
 
 class VarDefinition {
 	+String name
+	..<color:#ff6600> Identification </color>..
+	+<color:#ff6600>Scope scope</color>
 }
 AbstractAST <|-[#808080]- VarDefinition
 VarDefinition o-[#404040,thickness=2]-  Type : tipo >
@@ -98,6 +101,7 @@ class FunctionCallSent {
 }
 AbstractSentence <|-[#808080]- FunctionCallSent
 FunctionCallSent o-[#404040,thickness=2]- "✱" Expression : args >
+FunctionCallSent -[#ff6600,thickness=3]-  FunctionDefinition #text:ff6600 : definition >
 
 class Assignment {
 }
@@ -154,6 +158,7 @@ class Variable {
 	+String name
 }
 AbstractExpression <|-[#808080]- Variable
+Variable -[#ff6600,thickness=3]-  VarDefinition #text:ff6600 : definition >
 
 class CastExpr {
 }
@@ -197,6 +202,7 @@ class FunctionCallExpr {
 }
 AbstractExpression <|-[#808080]- FunctionCallExpr
 FunctionCallExpr o-[#404040,thickness=2]- "✱" Expression : args >
+FunctionCallExpr -[#ff6600,thickness=3]-  FunctionDefinition #text:ff6600 : definition >
 
 class FieldAccess {
 	+String field
@@ -209,10 +215,6 @@ class ArrayAccess {
 AbstractExpression <|-[#808080]- ArrayAccess
 ArrayAccess o-[#404040,thickness=2]-  Expression : array >
 ArrayAccess o-[#404040,thickness=2]-  Expression : index >
-
-class NullExpr {
-}
-AbstractExpression <|-[#808080]- NullExpr
 
 class IntType {
 }
@@ -234,6 +236,7 @@ class StructType {
 	+String name
 }
 AbstractType <|-[#808080]- StructType
+StructType -[#ff6600,thickness=3]-  StructDefinition #text:ff6600 : definition >
 
 class ArrayType {
 }

@@ -14,6 +14,9 @@ import visitor.Visitor;
 
 /*
 	varDefinition -> name:string tipo:type
+	
+	PHASE Identification
+	varDefinition -> scope:Scope
 */
 public class VarDefinition extends AbstractAST  {
 
@@ -23,6 +26,9 @@ public class VarDefinition extends AbstractAST  {
 	// varDefinition -> name:string tipo:type
 	private String name;
 	private Type tipo;
+
+    // PHASE Identification
+	private Scope scope;
 
     // ----------------------------------
     // Constructors
@@ -84,6 +90,24 @@ public class VarDefinition extends AbstractAST  {
 
     public Type getTipo() {
         return tipo;
+    }
+
+
+
+    // --------------------------------
+    // PHASE Identification
+
+	// Attribute 'Scope' 
+
+	public void setScope(Scope scope) {
+		if (scope == null)
+			throw new IllegalArgumentException("Parameter 'scope' can't be null. Pass a non-null value or use 'Scope?' in the abstract grammar");
+		this.scope = scope;
+
+	}
+
+    public Scope getScope() {
+        return scope;
     }
 
 
