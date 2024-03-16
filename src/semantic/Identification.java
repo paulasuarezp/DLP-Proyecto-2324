@@ -1,5 +1,10 @@
 package semantic;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import ast.*;
 import main.ErrorManager;
 import visitor.DefaultVisitor;
@@ -13,6 +18,21 @@ import ast.type.*;
 public class Identification extends DefaultVisitor {
 
     private ErrorManager errorManager;
+
+    /* Conjunto de las variables declaradas */
+    private ContextMap<String, VarDefinition> variables = new ContextMap<String, VarDefinition>();
+
+    /* Conjunto de constructores declarados */
+    private List<String> builders = new ArrayList<String>();
+    
+    /* Conjunto de las funciones definidas */
+    private Map<String, FunctionDefinition> functions = new HashMap<String, FunctionDefinition>();
+
+    /* Conjunto de los structs (defTuple) definidos */
+    private Map<String, StructDefinition> structs = new HashMap<String, StructDefinition>();
+
+    /* Conjunto de los campos declarados en un struct */
+    private Map<String, FieldDefinition> structFields = new HashMap<String, FieldDefinition>();
 
     public Identification(ErrorManager errorManager) {
         this.errorManager = errorManager;
@@ -28,9 +48,9 @@ public class Identification extends DefaultVisitor {
 	@Override
 	public Object visit(Program program, Object param) {
 
+        // Regla -> vars.forEach(v -> v.scope = GLOBAL)
 		for (var varDefinition : program.getVars()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// varDefinition.setScope(?);
+			varDefinition.setScope(Scope.GLOBAL);
 		}
 
 		// program.getTypes().forEach(structDefinition -> structDefinition.accept(this, param));
@@ -47,9 +67,17 @@ public class Identification extends DefaultVisitor {
 	@Override
 	public Object visit(StructDefinition structDefinition, Object param) {
 
-		// structDefinition.getName().accept(this, param);
-		// structDefinition.getFields().forEach(fieldDefinition -> fieldDefinition.accept(this, param));
+        StructDefinition def = structs.get(structDefinition.getName().getName());
+
+        // Predicado -> structs[name] == ∅
+        predicate(def == null, "Struct:" + structDefinition.getName().getName() + " ya definida", structDefinition);
+        structs.put(structDefinition.getName().getName(), structDefinition);
+
+        // Regla -> visit(fields)
 		super.visit(structDefinition, param);
+
+        // Regla -> structFields = ∅
+        structFields.clear();
 
 		return null;
 	}
@@ -59,24 +87,44 @@ public class Identification extends DefaultVisitor {
 	@Override
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 
+        // Regla -> variables.set()
+        variables.set();
+
+        
+        FunctionDefinition def = functions.get(functionDefinition.getName());
+
+        // Predicado -> functions[name] == ∅
+        predicate(def == null, "Función: " + functionDefinition.getName() + " ya definida", functionDefinition);
+        // Predicado -> builders[name] != ∅
+        predicate(builders.contains(functionDefinition.getName()), "Función: " + functionDefinition.getName() + " no tiene constructor", functionDefinition);
+       
+        // Regla -> functions[name] = functionDefinition
+        functions.put(functionDefinition.getName(), functionDefinition);
+        // Regla -> builder[name] = ∅
+        builders.remove(functionDefinition.getName());
+
+
+        // Regla -> params.forEach(p -> p.scope = PARAMETER); visit(params)
 		for (var varDefinition : functionDefinition.getParams()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// varDefinition.setScope(?);
+			varDefinition.setScope(Scope.PARAMETER);
+            varDefinition.accept(this, param);
 		}
 
+        // Regla -> visit(returnType)
+        functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
+
+        // Regla -> vars.forEach(v -> v.scope = LOCAL); visit(vars)
 		for (var varDefinition : functionDefinition.getVars()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// varDefinition.setScope(?);
+			varDefinition.setScope(Scope.LOCAL);
+            varDefinition.accept(this, param);
 		}
 
-		// functionDefinition.getParams().forEach(varDefinition -> varDefinition.accept(this, param));
-		// functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
-		// functionDefinition.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
-		// functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
-		super.visit(functionDefinition, param);
+        // Regla -> visit(sentences)
+		functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
+		
+        // Regla -> variables.reset();
+        variables.reset();
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// functionDefinition.setBuilder(?);
 		return null;
 	}
 
@@ -94,9 +142,37 @@ public class Identification extends DefaultVisitor {
 	// phase Identification { Scope scope }
 	@Override
 	public Object visit(VarDefinition varDefinition, Object param) {
+        super.visit(varDefinition, param);
 
-		// varDefinition.getTipo().accept(this, param);
-		super.visit(varDefinition, param);
+		//varDefinition.getTipo().accept(this, param);
+
+        // Predicados y reglas para variables globales
+        if(varDefinition.getScope() == Scope.GLOBAL) {
+            VarDefinition def = variables.getFromAny(varDefinition.getName());
+            // Predicado -> variables[name] == ∅
+            predicate(def == null, "Variable global: " + varDefinition.getName() + " ya definida.", varDefinition);
+            // Regla -> variables[name] = varDefinition
+            variables.put(varDefinition.getName(), varDefinition);
+        }
+
+        // Predicados y reglas para variables locales
+        if(varDefinition.getScope() == Scope.LOCAL) {
+            VarDefinition def = variables.getFromTop(varDefinition.getName());
+            // Predicado -> variables[name] == ∅
+            predicate(def == null, "Variable local: " + varDefinition.getName() + " ya definida.", varDefinition);
+            // Regla -> variables[name] = varDefinition
+            variables.put(varDefinition.getName(), varDefinition);
+        }
+
+        // Predicados y reglas para variables parámetros
+        if(varDefinition.getScope() == Scope.PARAMETER) {
+            VarDefinition def = variables.getFromTop(varDefinition.getName());
+            // Predicado -> variables[name] == ∅
+            predicate(def == null, "Variable parámetro: " + varDefinition.getName() + " ya definida.", varDefinition);
+            // Regla -> variables[name] = varDefinition
+            variables.put(varDefinition.getName(), varDefinition);
+        }
+		
 
 		return null;
 	}
@@ -104,6 +180,11 @@ public class Identification extends DefaultVisitor {
 	// class FunctionBuilder(String name)
 	@Override
 	public Object visit(FunctionBuilder functionBuilder, Object param) {
+
+        // Predicado -> builders[name] == ∅
+        predicate(!builders.contains(functionBuilder.getName()), "Constructor: " + functionBuilder.getName() + " ya definido.", functionBuilder);
+        // Regla -> builders.add(name)
+        builders.add(functionBuilder.getName());
 
 		return null;
 	}
@@ -113,11 +194,17 @@ public class Identification extends DefaultVisitor {
 	@Override
 	public Object visit(FunctionCallSent functionCallSent, Object param) {
 
-		// functionCallSent.getArgs().forEach(expression -> expression.accept(this, param));
+        FunctionDefinition def = functions.get(functionCallSent.getName());
+
+        // Predicado -> functions[name] != ∅
+        predicate(def != null, "Función: " + functionCallSent.getName() + " no definida.", functionCallSent);
+
+        // Regla -> functionCallSent.definition = functions[name]
+        functionCallSent.setDefinition(def);
+
+        // functionCallSent.getArgs().forEach(expression -> expression.accept(this, param));
 		super.visit(functionCallSent, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// functionCallSent.setDefinition(?);
 		return null;
 	}
 
@@ -129,8 +216,13 @@ public class Identification extends DefaultVisitor {
 	@Override
 	public Object visit(Variable variable, Object param) {
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// variable.setDefinition(?);
+        // Predicado -> variables[name] != ∅
+        VarDefinition def = variables.getFromAny(variable.getName());
+        predicate(def != null, "Variable: " + variable.getName() + " no definida.", variable);
+
+        // Regla -> variable.definition = variables[name]
+        variable.setDefinition(def);
+
 		return null;
 	}
 
@@ -140,11 +232,17 @@ public class Identification extends DefaultVisitor {
 	@Override
 	public Object visit(FunctionCallExpr functionCallExpr, Object param) {
 
+        FunctionDefinition def = functions.get(functionCallExpr.getName());
+
+        // Predicado -> functions[name] != ∅
+        predicate(def != null, "Función: " + functionCallExpr.getName() + " no definida.", functionCallExpr);
+
+        // Regla -> functionCallExpr.definition = functions[name]
+        functionCallExpr.setDefinition(def);
+
 		// functionCallExpr.getArgs().forEach(expression -> expression.accept(this, param));
 		super.visit(functionCallExpr, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// functionCallExpr.setDefinition(?);
 		return null;
 	}
 
@@ -154,8 +252,14 @@ public class Identification extends DefaultVisitor {
 	@Override
 	public Object visit(StructType structType, Object param) {
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// structType.setDefinition(?);
+        StructDefinition def = structs.get(structType.getName());
+
+        // Predicado -> structs[name] != ∅
+        predicate(def != null, "Struct: " + structType.getName() + " no definida.", structType);
+
+        // Regla -> structType.definition = structs[name]
+        structType.setDefinition(def);
+
 		return null;
 	}
 

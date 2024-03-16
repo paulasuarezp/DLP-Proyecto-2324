@@ -104,7 +104,6 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<VarDefinition> vars, List<Sentence> sentences)
-	// phase Identification { FunctionBuilder builder }
 	@Override
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 

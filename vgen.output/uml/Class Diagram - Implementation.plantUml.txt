@@ -75,7 +75,6 @@ FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : params >
 FunctionDefinition o-[#404040,thickness=2]- "0..1" Type : returnType >
 FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : vars >
 FunctionDefinition o-[#404040,thickness=2]- "✱" Sentence : sentences >
-FunctionDefinition -[#ff6600,thickness=3]-  FunctionBuilder #text:ff6600 : builder >
 
 class FieldDefinition {
 	+String name
