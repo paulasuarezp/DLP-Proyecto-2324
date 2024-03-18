@@ -17,6 +17,9 @@ import visitor.Visitor;
 
 /*
 	runCall -> name:string args:expression*
+	
+	PHASE Identification
+	runCall -> definition:functionDefinition
 */
 public class RunCall extends AbstractAST  {
 
@@ -26,6 +29,9 @@ public class RunCall extends AbstractAST  {
 	// runCall -> name:string args:expression*
 	private String name;
 	private List<Expression> args;
+
+    // PHASE Identification
+	private FunctionDefinition definition;
 
     // ----------------------------------
     // Constructors
@@ -88,6 +94,24 @@ public class RunCall extends AbstractAST  {
 
     public Stream<Expression> args() {
         return args.stream();
+    }
+
+
+
+    // --------------------------------
+    // PHASE Identification
+
+	// Attribute 'definition:functionDefinition' 
+
+	public void setDefinition(FunctionDefinition definition) {
+		if (definition == null)
+			throw new IllegalArgumentException("Parameter 'definition' can't be null. Pass a non-null value or use 'functionDefinition?' in the abstract grammar");
+		this.definition = definition;
+
+	}
+
+    public FunctionDefinition getDefinition() {
+        return definition;
     }
 
 

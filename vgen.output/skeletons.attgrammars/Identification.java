@@ -95,12 +95,15 @@ public class Identification extends DefaultVisitor {
 	}
 
 	// class RunCall(String name, List<Expression> args)
+	// phase Identification { FunctionDefinition definition }
 	@Override
 	public Object visit(RunCall runCall, Object param) {
 
 		// runCall.getArgs().forEach(expression -> expression.accept(this, param));
 		super.visit(runCall, param);
 
+		// TODO: Remember to initialize SYNTHESIZED attributes <-----
+		// runCall.setDefinition(?);
 		return null;
 	}
 
@@ -139,12 +142,15 @@ public class Identification extends DefaultVisitor {
 	}
 
 	// class FieldDefinition(String name, Type tipo)
+	// phase Identification { StructType fieldOwner }
 	@Override
 	public Object visit(FieldDefinition fieldDefinition, Object param) {
 
 		// fieldDefinition.getTipo().accept(this, param);
 		super.visit(fieldDefinition, param);
 
+		// TODO: Remember to initialize SYNTHESIZED attributes <-----
+		// fieldDefinition.setFieldOwner(?);
 		return null;
 	}
 

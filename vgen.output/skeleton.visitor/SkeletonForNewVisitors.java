@@ -83,6 +83,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class RunCall(String name, List<Expression> args)
+	// phase Identification { FunctionDefinition definition }
 	@Override
 	public Object visit(RunCall runCall, Object param) {
 
@@ -117,6 +118,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class FieldDefinition(String name, Type tipo)
+	// phase Identification { StructType fieldOwner }
 	@Override
 	public Object visit(FieldDefinition fieldDefinition, Object param) {
 

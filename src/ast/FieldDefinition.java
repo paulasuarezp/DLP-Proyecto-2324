@@ -14,6 +14,9 @@ import visitor.Visitor;
 
 /*
 	fieldDefinition -> name:string tipo:type
+	
+	PHASE Identification
+	fieldDefinition -> fieldOwner:structType
 */
 public class FieldDefinition extends AbstractAST  {
 
@@ -23,6 +26,9 @@ public class FieldDefinition extends AbstractAST  {
 	// fieldDefinition -> name:string tipo:type
 	private String name;
 	private Type tipo;
+
+    // PHASE Identification
+	private StructType fieldOwner;
 
     // ----------------------------------
     // Constructors
@@ -84,6 +90,24 @@ public class FieldDefinition extends AbstractAST  {
 
     public Type getTipo() {
         return tipo;
+    }
+
+
+
+    // --------------------------------
+    // PHASE Identification
+
+	// Attribute 'fieldOwner:structType' 
+
+	public void setFieldOwner(StructType fieldOwner) {
+		if (fieldOwner == null)
+			throw new IllegalArgumentException("Parameter 'fieldOwner' can't be null. Pass a non-null value or use 'structType?' in the abstract grammar");
+		this.fieldOwner = fieldOwner;
+
+	}
+
+    public StructType getFieldOwner() {
+        return fieldOwner;
     }
 
 

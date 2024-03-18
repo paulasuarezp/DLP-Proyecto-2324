@@ -1,19 +1,17 @@
 class Test_91_PROC_CALL;
+	global
+		types
+			deftuple tuple1 as /*estructura
+				a: INTEGER;
+			end
 	create
-		main; 
-		//* Se podrían declarar varios constructores, pero
-		sólo hemos puesto uno *//
+		hacer;
+		
 	feature hacer is
         do
-			println 'H','o','l','a',' ','M','u','n','d','o','!';
-			print '\n';
+			print tuple1.a;
 	end /* hacer
-
-	feature main is
-		do
-			hacer();
-	end /* main
 	
-end /* Test_91_PROC_CALL
+end
 
-run main();
+run hacer();

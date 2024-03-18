@@ -49,7 +49,7 @@ public class Identification extends DefaultVisitor {
 	public Object visit(Program program, Object param) {
 
         // Regla -> vars.forEach(v -> v.scope = GLOBAL)
-		for (var varDefinition : program.getVars()) {
+		for (VarDefinition varDefinition : program.getVars()) {
 			varDefinition.setScope(Scope.GLOBAL);
 		}
 
@@ -60,88 +60,36 @@ public class Identification extends DefaultVisitor {
 		// program.getRunCall().accept(this, param);
 		super.visit(program, param);
 
-		return null;
-	}
-
-	// class StructDefinition(StructType name, List<FieldDefinition> fields)
-	@Override
-	public Object visit(StructDefinition structDefinition, Object param) {
-
-        StructDefinition def = structs.get(structDefinition.getName().getName());
-
-        // Predicado -> structs[name] == ∅
-        predicate(def == null, "Struct:" + structDefinition.getName().getName() + " ya definida", structDefinition);
-        structs.put(structDefinition.getName().getName(), structDefinition);
-
-        // Regla -> visit(fields)
-		super.visit(structDefinition, param);
-
-        // Regla -> structFields = ∅
-        structFields.clear();
+        predicate(builders.size()==0, "Se han definido constructores que no se utilizan.", program.getBuilders().get(0));
 
 		return null;
 	}
 
-	// class FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<VarDefinition> vars, List<Sentence> sentences)
-	// phase Identification { FunctionBuilder builder }
+    
+	// class Variable(String name)
+	// phase Identification { VarDefinition definition }
 	@Override
-	public Object visit(FunctionDefinition functionDefinition, Object param) {
+	public Object visit(Variable variable, Object param) {
 
-        // Regla -> variables.set()
-        variables.set();
-
+        // Predicado -> variables[name] != ∅
+        VarDefinition def = variables.getFromAny(variable.getName());
+        predicate(def != null, "Variable: " + variable.getName() + " no definida.", variable);
         
-        FunctionDefinition def = functions.get(functionDefinition.getName());
-
-        // Predicado -> functions[name] == ∅
-        predicate(def == null, "Función: " + functionDefinition.getName() + " ya definida", functionDefinition);
-        // Predicado -> builders[name] != ∅
-        predicate(builders.contains(functionDefinition.getName()), "Función: " + functionDefinition.getName() + " no tiene constructor", functionDefinition);
-       
-        // Regla -> functions[name] = functionDefinition
-        functions.put(functionDefinition.getName(), functionDefinition);
-        // Regla -> builder[name] = ∅
-        builders.remove(functionDefinition.getName());
-
-
-        // Regla -> params.forEach(p -> p.scope = PARAMETER); visit(params)
-		for (var varDefinition : functionDefinition.getParams()) {
-			varDefinition.setScope(Scope.PARAMETER);
-            varDefinition.accept(this, param);
-		}
-
-        // Regla -> visit(returnType)
-        functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
-
-        // Regla -> vars.forEach(v -> v.scope = LOCAL); visit(vars)
-		for (var varDefinition : functionDefinition.getVars()) {
-			varDefinition.setScope(Scope.LOCAL);
-            varDefinition.accept(this, param);
-		}
-
-        // Regla -> visit(sentences)
-		functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
-		
-        // Regla -> variables.reset();
-        variables.reset();
+        if(def == null) 
+            return null;
+            
+        // Regla -> variable.definition = variables[name]
+        variable.setDefinition(def);
 
 		return null;
 	}
 
-	// class FieldDefinition(String name, Type tipo)
-	@Override
-	public Object visit(FieldDefinition fieldDefinition, Object param) {
-
-		// fieldDefinition.getTipo().accept(this, param);
-		super.visit(fieldDefinition, param);
-
-		return null;
-	}
-
+    
 	// class VarDefinition(String name, Type tipo)
 	// phase Identification { Scope scope }
 	@Override
 	public Object visit(VarDefinition varDefinition, Object param) {
+        System.out.println("VarDefinition: " + varDefinition.getName());
         super.visit(varDefinition, param);
 
 		//varDefinition.getTipo().accept(this, param);
@@ -177,6 +125,76 @@ public class Identification extends DefaultVisitor {
 		return null;
 	}
 
+	
+
+	// class FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<VarDefinition> vars, List<Sentence> sentences)
+	// phase Identification { FunctionBuilder builder }
+	@Override
+	public Object visit(FunctionDefinition functionDefinition, Object param) {
+
+        // Regla -> variables.set()
+        variables.set();
+
+        
+        FunctionDefinition def = functions.get(functionDefinition.getName());
+
+        // Predicado -> functions[name] == ∅
+        predicate(def == null, "Función: " + functionDefinition.getName() + " ya definida", functionDefinition);
+        // Predicado -> builders[name] != ∅
+        predicate(builders.contains(functionDefinition.getName()), "Función: " + functionDefinition.getName() + " no tiene constructor", functionDefinition);
+       
+        // Regla -> functions[name] = functionDefinition
+        functions.put(functionDefinition.getName(), functionDefinition);
+        // Regla -> builder[name] = ∅
+        builders.remove(functionDefinition.getName());
+
+
+        // Regla -> params.forEach(p -> p.scope = PARAMETER); visit(params)
+		for (VarDefinition varDefinition : functionDefinition.getParams()) {
+			varDefinition.setScope(Scope.PARAMETER);
+            varDefinition.accept(this, param);
+		}
+
+        // Regla -> visit(returnType)
+        functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
+
+        // Regla -> vars.forEach(v -> v.scope = LOCAL); visit(vars)
+		for (VarDefinition varDefinition : functionDefinition.getVars()) {
+			varDefinition.setScope(Scope.LOCAL);
+            varDefinition.accept(this, param);
+		}
+
+        // Regla -> visit(sentences)
+		functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
+		
+        // Regla -> variables.reset();
+        variables.reset();
+
+		return null;
+	}
+
+    // class RunCall(String name, List<Expression> args)
+	// phase Identification { FunctionDefinition definition }
+	@Override
+	public Object visit(RunCall runCall, Object param) {
+
+        FunctionDefinition def = functions.get(runCall.getName());
+
+        // Predicado -> functions[name] != ∅
+        predicate(def != null, "Función: " + runCall.getName() + " no definida.", runCall);
+
+        // Regla -> runCall.definition = functions[name]
+        runCall.setDefinition(def);
+
+		// runCall.getArgs().forEach(expression -> expression.accept(this, param));
+		super.visit(runCall, param);
+
+		return null;
+	}
+
+
+
+
 	// class FunctionBuilder(String name)
 	@Override
 	public Object visit(FunctionBuilder functionBuilder, Object param) {
@@ -208,24 +226,6 @@ public class Identification extends DefaultVisitor {
 		return null;
 	}
 
-	
-
-	
-	// class Variable(String name)
-	// phase Identification { VarDefinition definition }
-	@Override
-	public Object visit(Variable variable, Object param) {
-
-        // Predicado -> variables[name] != ∅
-        VarDefinition def = variables.getFromAny(variable.getName());
-        predicate(def != null, "Variable: " + variable.getName() + " no definida.", variable);
-
-        // Regla -> variable.definition = variables[name]
-        variable.setDefinition(def);
-
-		return null;
-	}
-
 
 	// class FunctionCallExpr(String name, List<Expression> args)
 	// phase Identification { FunctionDefinition definition }
@@ -247,6 +247,39 @@ public class Identification extends DefaultVisitor {
 	}
 
 
+    // class StructDefinition(StructType name, List<FieldDefinition> fields)
+	@Override
+	public Object visit(StructDefinition structDefinition, Object param) {
+
+        StructDefinition def = structs.get(structDefinition.getName().getName());
+
+        // Predicado -> structs[name] == ∅
+        predicate(def == null, "Struct:" + structDefinition.getName().getName() + " ya definida", structDefinition);
+        structs.put(structDefinition.getName().getName(), structDefinition);
+        
+        VarDefinition varDef = variables.getFromTop(structDefinition.getName().getName());
+
+        predicate(varDef == null, "El nombre del struct:" + structDefinition.getName().getName() + " colisiona con el nombre de una variable global.", structDefinition);
+        varDef = new VarDefinition(structDefinition.getName().getName(), structDefinition.getName());
+        varDef.setScope(Scope.GLOBAL);
+        
+        variables.put(structDefinition.getName().getName(), varDef);
+
+
+        // Regla -> fields.forEach(f -> f.fieldOwner = structDefinition.getName())
+        for (FieldDefinition fieldDefinition : structDefinition.getFields()) {
+            fieldDefinition.setFieldOwner(structDefinition.getName());
+        }
+
+        // Regla -> visit(fields)
+		super.visit(structDefinition, param);
+
+        // Regla -> structFields = ∅
+        structFields.clear();
+
+		return null;
+	}
+
 	// class StructType(String name)
 	// phase Identification { StructDefinition definition }
 	@Override
@@ -260,8 +293,29 @@ public class Identification extends DefaultVisitor {
         // Regla -> structType.definition = structs[name]
         structType.setDefinition(def);
 
+        super.visit(structType, param);
+
 		return null;
 	}
+
+    
+	// class FieldDefinition(String name, Type tipo)
+	@Override
+	public Object visit(FieldDefinition fieldDefinition, Object param) {
+
+        fieldDefinition.getTipo().accept(this, param);
+
+       
+        FieldDefinition field = structFields.get(fieldDefinition.getName());
+        // Predicado -> structFields[name] == ∅
+        predicate(field == null, "El campo " + fieldDefinition.getName() + " del Struct ya está definido.", fieldDefinition);
+        
+        // Regla -> structFields[name] = fieldDefinition
+        structFields.put(fieldDefinition.getName(), fieldDefinition);
+
+		return null;
+	}
+
 
 
     // # --------------------------------------------------------

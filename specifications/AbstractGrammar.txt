@@ -58,4 +58,7 @@ variable -> definition:varDefinition;
 functionCallSent -> definition: functionDefinition;
 functionCallExpr -> definition: functionDefinition;
 
+runCall -> definition: functionDefinition;
+
 structType -> definition: structDefinition;
+fieldDefinition -> fieldOwner: structType;

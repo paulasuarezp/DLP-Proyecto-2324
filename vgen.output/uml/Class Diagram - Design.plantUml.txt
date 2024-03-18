@@ -49,6 +49,7 @@ class RunCall {
 }
 AST <|-[#808080]- RunCall
 RunCall o-[#404040,thickness=2]- "✱" Expression : args >
+RunCall -[#ff6600,thickness=3]-  FunctionDefinition #text:ff6600 : definition >
 
 class StructDefinition {
 }
@@ -70,6 +71,7 @@ class FieldDefinition {
 }
 AST <|-[#808080]- FieldDefinition
 FieldDefinition o-[#404040,thickness=2]-  Type : tipo >
+FieldDefinition -[#ff6600,thickness=3]-  StructType #text:ff6600 : fieldOwner >
 
 class VarDefinition {
 	+String name
