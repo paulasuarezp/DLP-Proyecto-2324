@@ -8,8 +8,10 @@ class Test_91_PROC_CALL;
 		hacer;
 		
 	feature hacer is
+		local
+			tuuu : tuple1;
         do
-			print tuple1.a;
+			print tuuu.a;
 	end /* hacer
 	
 end

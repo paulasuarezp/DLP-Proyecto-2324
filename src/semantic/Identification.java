@@ -89,7 +89,6 @@ public class Identification extends DefaultVisitor {
 	// phase Identification { Scope scope }
 	@Override
 	public Object visit(VarDefinition varDefinition, Object param) {
-        System.out.println("VarDefinition: " + varDefinition.getName());
         super.visit(varDefinition, param);
 
 		//varDefinition.getTipo().accept(this, param);
@@ -258,13 +257,6 @@ public class Identification extends DefaultVisitor {
         structs.put(structDefinition.getName().getName(), structDefinition);
         
         VarDefinition varDef = variables.getFromTop(structDefinition.getName().getName());
-
-        predicate(varDef == null, "El nombre del struct:" + structDefinition.getName().getName() + " colisiona con el nombre de una variable global.", structDefinition);
-        varDef = new VarDefinition(structDefinition.getName().getName(), structDefinition.getName());
-        varDef.setScope(Scope.GLOBAL);
-        
-        variables.put(structDefinition.getName().getName(), varDef);
-
 
         // Regla -> fields.forEach(f -> f.fieldOwner = structDefinition.getName())
         for (FieldDefinition fieldDefinition : structDefinition.getFields()) {
