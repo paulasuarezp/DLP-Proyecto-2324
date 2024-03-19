@@ -256,7 +256,6 @@ public class Identification extends DefaultVisitor {
         predicate(def == null, "Struct:" + structDefinition.getName().getName() + " ya definida", structDefinition);
         structs.put(structDefinition.getName().getName(), structDefinition);
         
-        VarDefinition varDef = variables.getFromTop(structDefinition.getName().getName());
 
         // Regla -> fields.forEach(f -> f.fieldOwner = structDefinition.getName())
         for (FieldDefinition fieldDefinition : structDefinition.getFields()) {
