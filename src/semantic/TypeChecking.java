@@ -381,7 +381,7 @@ public class TypeChecking extends DefaultVisitor {
 		//Predicado -> op1.type == INTEGER
 		predicate(logicalExpr.getOp1().getType() instanceof IntType, "El tipo de la expresión de la izquierda debe de ser integer.", logicalExpr);
 		//Predicado -> sameType(op1.type, op2.type)
-		predicate(checkSameType(logicalExpr.getOp1().getType(), logicalExpr.getOp2().getType()), "Los tipos de la condición deben de ser del mismo tipo.", logicalExpr)
+		predicate(checkSameType(logicalExpr.getOp1().getType(), logicalExpr.getOp2().getType()), "Los tipos de la condición deben de ser del mismo tipo.", logicalExpr);
 
 		// logicalExpr.getOp1().accept(this, param);
 		// logicalExpr.getOp2().accept(this, param);
@@ -399,13 +399,17 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(ComparationExpr comparationExpr, Object param) {
 
-		// comparationExpr.getOp1().accept(this, param);
-		// comparationExpr.getOp2().accept(this, param);
+		//Predicado -> op1.type == INTEGER || op1.type == DOUBLE
+		boolean checkType = comparationExpr.getOp1().getType() instanceof IntType || comparationExpr.getOp1().getType() instanceof DoubleType;
+		predicate(checkType, "El tipo de la expresión de la izquierda debe de ser integer o double.", comparationExpr);
+		//Predicado -> sameType(op1.type, op2.type)
+		predicate(checkSameType(comparationExpr.getOp1().getType(), comparationExpr.getOp2().getType()), "Los tipos de las expresiones no coinciden", comparationExpr);
 		super.visit(comparationExpr, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// comparationExpr.setLvalue(?);
-		// comparationExpr.setType(?);
+		//Regla -> comparationExpr.lValue = FALSE
+		comparationExpr.setLvalue(false);
+		//Regla -> comparationExpr.type = INTEGER
+		comparationExpr.setType(new IntType());
 		return null;
 	}
 
@@ -414,12 +418,16 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(MinusExpr minusExpr, Object param) {
 
-		// minusExpr.getOp().accept(this, param);
+		//Predicado -> op.type == INTEGER || op.type == DOUBLE
+		boolean checkType = minusExpr.getOp().getType() instanceof IntType || minusExpr.getOp().getType() instanceof DoubleType;
+		predicate(checkType, "El tipo de la expresión debe de ser integer o double.", minusExpr);
+
 		super.visit(minusExpr, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// minusExpr.setLvalue(?);
-		// minusExpr.setType(?);
+		//Regla -> minusExpr.lValue = FALSE
+		minusExpr.setLvalue(false);
+		//Regla -> minusExpr.type = op.type
+		minusExpr.setType(minusExpr.getOp().getType());
 		return null;
 	}
 
@@ -428,12 +436,15 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(NotExpr notExpr, Object param) {
 
+		//Predicado -> op.type == INTEGER
+		predicate(notExpr.getOp().getType() instanceof IntType, "El tipo de la expresión debe de ser integer.", notExpr);
 		// notExpr.getOp().accept(this, param);
 		super.visit(notExpr, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// notExpr.setLvalue(?);
-		// notExpr.setType(?);
+		//Regla -> notExpr.lValue = FALSE
+		notExpr.setLvalue(false);
+		//Regla -> notExpr.type = INTEGER
+		notExpr.setType(new IntType());
 		return null;
 	}
 
@@ -443,12 +454,18 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(FunctionCallExpr functionCallExpr, Object param) {
 
+		//Predicado -> functionCallExpr.args.size() == definition.params.size()
+		if(predicate(functionCallExpr.getArgs().size() == functionCallExpr.getDefinition().getParams().size(), "El número de argumentos no coincide con el número de parámetros", functionCallExpr)){
+			//Predicado -> checkArgs(args, definition.params)
+			predicate(checkArgs(functionCallExpr.getArgs(), functionCallExpr.getDefinition().getParams()), "Los tipos de los argumentos no coinciden con los definidos en la función " + functionCallExpr.getName(), functionCallExpr);
+		}
 		// functionCallExpr.getArgs().forEach(expression -> expression.accept(this, param));
 		super.visit(functionCallExpr, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// functionCallExpr.setLvalue(?);
-		// functionCallExpr.setType(?);
+		//Regla -> functionCallExpr.lValue = FALSE
+		functionCallExpr.setLvalue(false);
+		//Regla -> functionCallExpr.type = definition.returnType
+		functionCallExpr.setType(functionCallExpr.getDefinition().getReturnType().orElse(new VoidType()));
 		return null;
 	}
 
@@ -457,12 +474,22 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(FieldAccess fieldAccess, Object param) {
 
+		//Predicado -> root.type == StructType
+		predicate(fieldAccess.getRoot().getType() instanceof StructType, "El tipo de la expresión debe de ser un StructType", fieldAccess);
+
+		//Predicado -> field es un campo de root.type
+		boolean checkField = ((StructType) fieldAccess.getRoot()).getDefinition().getFields().stream().anyMatch(f -> f.getName().equals(fieldAccess.getField()));
+		predicate(checkField, "No hay ningún campo en la deftuple " + ((StructType) fieldAccess.getRoot()).getName() + " con el nombre " + fieldAccess.getField(), fieldAccess);
 		// fieldAccess.getRoot().accept(this, param);
 		super.visit(fieldAccess, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// fieldAccess.setLvalue(?);
-		// fieldAccess.setType(?);
+		
+		//Regla -> fieldAccess.lValue = TRUE
+		fieldAccess.setLvalue(true);
+
+		//Regla -> fieldAccess.type = field.type
+		FieldDefinition field = ((StructType) fieldAccess.getRoot()).getDefinition().getFields().stream().filter(f -> f.getName().equals(fieldAccess.getField())).findFirst().orElse(null);
+		fieldAccess.setType(field.getTipo());
 		return null;
 	}
 
@@ -471,13 +498,18 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(ArrayAccess arrayAccess, Object param) {
 
-		// arrayAccess.getArray().accept(this, param);
-		// arrayAccess.getIndex().accept(this, param);
+		//Predicado -> array.type == ArrayType
+		predicate(arrayAccess.getArray().getType() instanceof ArrayType, "El tipo de la expresión debe de ser un ArrayType", arrayAccess);
+
+		//Predicado -> index.type == IntType
+		predicate(arrayAccess.getIndex().getType() instanceof IntType, "El tipo de la expresión debe de ser integer", arrayAccess);
+
 		super.visit(arrayAccess, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// arrayAccess.setLvalue(?);
-		// arrayAccess.setType(?);
+		//Regla -> arrayAccess.lValue = TRUE
+		arrayAccess.setLvalue(true);
+		//Regla -> arrayAccess.type = array.type.type
+		arrayAccess.setType(((ArrayType) arrayAccess.getArray().getType()).getTipo());
 		return null;
 	}
 
