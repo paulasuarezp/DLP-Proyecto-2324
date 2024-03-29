@@ -36,24 +36,11 @@ public class TypeChecking extends DefaultVisitor {
 
 	// Visit Methods --------------------------------------------------------------
 
-	// class Program(String name, List<StructDefinition> types, List<VarDefinition> vars, List<FunctionBuilder> builders, List<FunctionDefinition> features, RunCall runCall)
-	@Override
-	public Object visit(Program program, Object param) {
-
-		// program.getTypes().forEach(structDefinition -> structDefinition.accept(this, param));
-		// program.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
-		// program.getBuilders().forEach(functionBuilder -> functionBuilder.accept(this, param));
-		// program.getFeatures().forEach(functionDefinition -> functionDefinition.accept(this, param));
-		// program.getRunCall().accept(this, param);
-		super.visit(program, param);
-
-		return null;
-	}
-
 	// class RunCall(String name, List<Expression> args)
 	// phase Identification { FunctionDefinition definition }
 	@Override
 	public Object visit(RunCall runCall, Object param) {
+		super.visit(runCall, param);
 
 		List<Expression> args = runCall.getArgs();
 		List<VarDefinition> params = runCall.getDefinition().getParams();
@@ -62,9 +49,7 @@ public class TypeChecking extends DefaultVisitor {
 		if (predicate(args.size() == params.size(), "La llamada a la función " + runCall.getDefinition().getName() +
 			" esperaba " + params.size() + " argumentos y se le han proporcionado " + args.size() + "." , runCall)){
 			// Predicado -> checkArgs(args, params)
-			if(predicate(checkArgs(args,params), "Los tipos de los parámetros no coinciden con los definidos en la función " + runCall.getDefinition().getName() , runCall))
-				// runCall.getArgs().forEach(expression -> expression.accept(this, param));
-				super.visit(runCall, param);
+			predicate(checkArgs(args,params), "Los tipos de los parámetros no coinciden con los definidos en la función " + runCall.getDefinition().getName() , runCall);		
 		}
 
 		return null;
@@ -90,12 +75,6 @@ public class TypeChecking extends DefaultVisitor {
 
 		
 		super.visit(functionDefinition, param);
-
-		// functionDefinition.getParams().forEach(varDefinition -> varDefinition.accept(this, param));
-		// functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
-		// functionDefinition.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
-		// functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
-		
 		
 		functionDefinition.setHasReturn(false);
 		// Regla -> sentences.forEach(s -> if (s.hasReturn) functionDefinition.hasReturn = true)
@@ -114,8 +93,6 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(FunctionCallSent functionCallSent, Object param) {
-
-		// functionCallSent.getArgs().forEach(expression -> expression.accept(this, param));
 		super.visit(functionCallSent, param);
 
 		List<Expression> args = functionCallSent.getArgs();
@@ -125,9 +102,8 @@ public class TypeChecking extends DefaultVisitor {
 		if (predicate(args.size() == params.size(), "La llamada a la función " + functionCallSent.getDefinition().getName() +
 			" esperaba " + params.size() + " argumentos y se le han proporcionado " + args.size() + "." , functionCallSent)){
 			// Predicado -> checkArgs(args, params)
-			if(predicate(checkArgs(args,params), "Los tipos de los parámetros no coinciden con los definidos en la función " + functionCallSent.getDefinition().getName() , functionCallSent))
-				// functionCallSent.getArgs().forEach(expression -> expression.accept(this, param));
-				super.visit(functionCallSent, param);
+			predicate(checkArgs(args,params), "Los tipos de los parámetros no coinciden con los definidos en la función " + functionCallSent.getDefinition().getName() , functionCallSent);
+		
 		}
 
 		// Regla -> functionCallSent.hasReturn = FALSE
@@ -140,6 +116,8 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Assignment assignment, Object param) {
+		
+		super.visit(assignment, param);
 
 		//Predicado -> left.lvalue == TRUE
 		predicate(assignment.getLeft().isLvalue(), "La expresión de la izquierda no es modificable", assignment);
@@ -150,9 +128,6 @@ public class TypeChecking extends DefaultVisitor {
 		//Predicado -> checkSameType(left.type, right.type)
 		predicate(checkSameType(assignment.getLeft().getType(), assignment.getRight().getType()), "Los tipos de las expresiones no coinciden", assignment);
 
-
-		super.visit(assignment, param);
-
 		// Regla -> assignment.hasReturn = FALSE
 		assignment.setHasReturn(false);
 		return null;
@@ -162,6 +137,8 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Loop loop, Object param) {
+
+		super.visit(loop, param);
 
 		// Predicado -> until.type == INTEGER
 		predicate(loop.getUntil().getType() instanceof IntType, "La expresión del until debe de ser de tipo integer", loop);
@@ -176,8 +153,6 @@ public class TypeChecking extends DefaultVisitor {
 		for (var sentence : loop.getBody()) {
 			sentence.setOwner(loop.getOwner());
 		}
-
-		super.visit(loop, param);
 
 		// Regla -> body.forEach( s-> if (s.hasReturn) loop.hasReturn = TRUE)
 		for(var sentence: loop.getBody()){
@@ -195,6 +170,8 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(IfElse ifElse, Object param) {
 
+		super.visit(ifElse, param);
+
 		// Predicado -> condition.type == INTEGER
 		predicate(ifElse.getCondition().getType() instanceof IntType, "La condición del if debe de ser de tipo boolean", ifElse);
 
@@ -209,7 +186,6 @@ public class TypeChecking extends DefaultVisitor {
 			sentence.setOwner(ifElse.getOwner());
 		}
 
-		super.visit(ifElse, param);
 
 		// Regla -> trueBlock.forEach(s -> if (s.hasReturn) ifElse.hasReturn = TRUE)
 		for (var sentence : ifElse.getTrueBlock()) {
@@ -234,6 +210,7 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Read read, Object param) {
+		super.visit(read, param);
 
 		// Regla -> input.all(e -> e.lValue == TRUE)
 		boolean checkLValue = read.getInput().stream().allMatch(e -> e.isLvalue());
@@ -243,8 +220,6 @@ public class TypeChecking extends DefaultVisitor {
 		boolean checkTypes = read.getInput().stream().allMatch(e -> isPrimitive(e.getType()));
 		predicate(checkTypes, "Alguna de las expresiones de la sentencia Read no es de tipo simple (integer, double o character)", read);
 
-		// read.getInput().forEach(expression -> expression.accept(this, param));
-		super.visit(read, param);
 
 		// Regla -> read.hasReturn = FALSE
 		read.setHasReturn(false);
@@ -255,11 +230,11 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Print print, Object param) {
+		super.visit(print, param);
+
 		//Regla -> input.all(e -> isPrimitive(e.type))
 		boolean checkTypes = print.getInput().stream().allMatch(e -> isPrimitive(e.getType()));
 		predicate(checkTypes, "Alguna de las expresiones de la sentencia Print no es de tipo simple (integer, double o character)", print);
-
-		super.visit(print, param);
 
 		// Regla -> print.hasReturn = FALSE
 		print.setHasReturn(false);
@@ -274,6 +249,10 @@ public class TypeChecking extends DefaultVisitor {
 		// Regla -> returnValue.hasReturn = TRUE
 		returnValue.setHasReturn(true);
 
+		
+		// returnValue.getValue().ifPresent(value -> value.accept(this, param));
+		super.visit(returnValue, param);
+
 		// Predicado -> owner.returnType == value.type
 		if (returnValue.getValue().isPresent() && returnValue.getOwner().getReturnType().isPresent()) {
 			if(returnValue.getOwner().getReturnType().get().getClass() == VoidType.class){
@@ -283,8 +262,6 @@ public class TypeChecking extends DefaultVisitor {
 			predicate(checkSameType(returnValue.getOwner().getReturnType().get(), returnValue.getValue().get().getType()), "El tipo de retorno de la función no coincide con el tipo de la expresión de retorno", returnValue);
 		}
 
-		// returnValue.getValue().ifPresent(value -> value.accept(this, param));
-		super.visit(returnValue, param);
 
 		return null;
 	}
@@ -341,11 +318,10 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(CastExpr castExpr, Object param) {
+		super.visit(castExpr, param);
 
 		// Predicado -> checkCastType(castExpr.castType, castExpr.value.type)
 		predicate(checkCastType(castExpr.getCastType(), castExpr.getValue().getType()), "Los tipos de cast no son compatibles.", castExpr);
-
-		super.visit(castExpr, param);
 
 		//Regla -> castExpr.lValue = FALSE
 		castExpr.setLvalue(false);
@@ -358,14 +334,14 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(ArithmeticExpr arithmeticExpr, Object param) {
+		super.visit(arithmeticExpr, param);
+
 		// Predicado -> isPrimitive(op1.type)
 		boolean checkType = arithmeticExpr.getOp1().getType() instanceof IntType || arithmeticExpr.getOp1().getType() instanceof DoubleType;
 		predicate(checkType, "El tipo de la expresión de la izquierda debe de ser integer o double.", arithmeticExpr);
 		// Predicado -> op1.type == op2.type
 		predicate(checkSameType(arithmeticExpr.getOp1().getType(), arithmeticExpr.getOp2().getType()), "Los tipos de las expresiones no coinciden", arithmeticExpr);
 		
-		super.visit(arithmeticExpr, param);
-
 		//Regla -> arithmeticExpr.lValue = FALSE
 		arithmeticExpr.setLvalue(false);
 		//Regla -> arithmeticExpr.type = op1.type
@@ -377,15 +353,12 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(LogicalExpr logicalExpr, Object param) {
+		super.visit(logicalExpr, param);
 
 		//Predicado -> op1.type == INTEGER
 		predicate(logicalExpr.getOp1().getType() instanceof IntType, "El tipo de la expresión de la izquierda debe de ser integer.", logicalExpr);
 		//Predicado -> sameType(op1.type, op2.type)
 		predicate(checkSameType(logicalExpr.getOp1().getType(), logicalExpr.getOp2().getType()), "Los tipos de la condición deben de ser del mismo tipo.", logicalExpr);
-
-		// logicalExpr.getOp1().accept(this, param);
-		// logicalExpr.getOp2().accept(this, param);
-		super.visit(logicalExpr, param);
 
 		//Regla -> logicalExpr.lValue = FALSE
 		logicalExpr.setLvalue(false);
@@ -398,14 +371,14 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(ComparationExpr comparationExpr, Object param) {
+		super.visit(comparationExpr, param);
 
 		//Predicado -> op1.type == INTEGER || op1.type == DOUBLE
 		boolean checkType = comparationExpr.getOp1().getType() instanceof IntType || comparationExpr.getOp1().getType() instanceof DoubleType;
 		predicate(checkType, "El tipo de la expresión de la izquierda debe de ser integer o double.", comparationExpr);
 		//Predicado -> sameType(op1.type, op2.type)
 		predicate(checkSameType(comparationExpr.getOp1().getType(), comparationExpr.getOp2().getType()), "Los tipos de las expresiones no coinciden", comparationExpr);
-		super.visit(comparationExpr, param);
-
+		
 		//Regla -> comparationExpr.lValue = FALSE
 		comparationExpr.setLvalue(false);
 		//Regla -> comparationExpr.type = INTEGER
@@ -417,12 +390,10 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(MinusExpr minusExpr, Object param) {
-
+		super.visit(minusExpr, param);
 		//Predicado -> op.type == INTEGER || op.type == DOUBLE
 		boolean checkType = minusExpr.getOp().getType() instanceof IntType || minusExpr.getOp().getType() instanceof DoubleType;
 		predicate(checkType, "El tipo de la expresión debe de ser integer o double.", minusExpr);
-
-		super.visit(minusExpr, param);
 
 		//Regla -> minusExpr.lValue = FALSE
 		minusExpr.setLvalue(false);
@@ -435,12 +406,11 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(NotExpr notExpr, Object param) {
-
-		//Predicado -> op.type == INTEGER
-		predicate(notExpr.getOp().getType() instanceof IntType, "El tipo de la expresión debe de ser integer.", notExpr);
-		// notExpr.getOp().accept(this, param);
 		super.visit(notExpr, param);
-
+		//Predicado -> op.type == INTEGER
+		predicate(notExpr.getOp().getType() instanceof IntType, "El operador 'not' sólo puede aplicarse a expresiones de tipo INTEGER", notExpr);
+		// notExpr.getOp().accept(this, param);
+		
 		//Regla -> notExpr.lValue = FALSE
 		notExpr.setLvalue(false);
 		//Regla -> notExpr.type = INTEGER
@@ -453,14 +423,13 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(FunctionCallExpr functionCallExpr, Object param) {
+		super.visit(functionCallExpr, param);
 
 		//Predicado -> functionCallExpr.args.size() == definition.params.size()
 		if(predicate(functionCallExpr.getArgs().size() == functionCallExpr.getDefinition().getParams().size(), "El número de argumentos no coincide con el número de parámetros", functionCallExpr)){
 			//Predicado -> checkArgs(args, definition.params)
 			predicate(checkArgs(functionCallExpr.getArgs(), functionCallExpr.getDefinition().getParams()), "Los tipos de los argumentos no coinciden con los definidos en la función " + functionCallExpr.getName(), functionCallExpr);
 		}
-		// functionCallExpr.getArgs().forEach(expression -> expression.accept(this, param));
-		super.visit(functionCallExpr, param);
 
 		//Regla -> functionCallExpr.lValue = FALSE
 		functionCallExpr.setLvalue(false);
@@ -473,6 +442,7 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(FieldAccess fieldAccess, Object param) {
+		super.visit(fieldAccess, param);
 
 		//Predicado -> root.type == StructType
 		predicate(fieldAccess.getRoot().getType() instanceof StructType, "El tipo de la expresión debe de ser un StructType", fieldAccess);
@@ -480,9 +450,6 @@ public class TypeChecking extends DefaultVisitor {
 		//Predicado -> field es un campo de root.type
 		boolean checkField = ((StructType) fieldAccess.getRoot()).getDefinition().getFields().stream().anyMatch(f -> f.getName().equals(fieldAccess.getField()));
 		predicate(checkField, "No hay ningún campo en la deftuple " + ((StructType) fieldAccess.getRoot()).getName() + " con el nombre " + fieldAccess.getField(), fieldAccess);
-		// fieldAccess.getRoot().accept(this, param);
-		super.visit(fieldAccess, param);
-
 		
 		//Regla -> fieldAccess.lValue = TRUE
 		fieldAccess.setLvalue(true);
@@ -498,13 +465,13 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(ArrayAccess arrayAccess, Object param) {
 
+		super.visit(arrayAccess, param);
+
 		//Predicado -> array.type == ArrayType
 		predicate(arrayAccess.getArray().getType() instanceof ArrayType, "El tipo de la expresión debe de ser un ArrayType", arrayAccess);
 
 		//Predicado -> index.type == IntType
 		predicate(arrayAccess.getIndex().getType() instanceof IntType, "El tipo de la expresión debe de ser integer", arrayAccess);
-
-		super.visit(arrayAccess, param);
 
 		//Regla -> arrayAccess.lValue = TRUE
 		arrayAccess.setLvalue(true);
@@ -525,13 +492,13 @@ public class TypeChecking extends DefaultVisitor {
 	 */
 	private boolean checkArgs(List<Expression> args, List<VarDefinition> params) {
 		if (args.size() != params.size()) {
-			notifyError("El número de argumentos no coincide con el número de parámetros", args.get(0).start());
+			//notifyError("El número de argumentos no coincide con el número de parámetros", args.get(0).start());
 			return false;
 		}
 
 		for (int i = 0; i < args.size(); i++) {
 			if (args.get(i).getType().getClass() != params.get(i).getTipo().getClass()) {
-				notifyError("El tipo del argumento " + i + " no coincide con el tipo del parámetro " + i, args.get(i).start());
+				//notifyError("El tipo del argumento " + i + " no coincide con el tipo del parámetro " + i, args.get(i).start());
 				return false;
 			}
 		}

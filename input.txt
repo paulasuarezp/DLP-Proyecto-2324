@@ -1,11 +1,21 @@
-class T_ERRSIN02;
-create
-	f;
-	g;	/* g no se crea en ninguna feature
-feature f is
-	do
-		return;
-	end
-end
+class
+	T_ERRTCH03;
+	
+	create
+		inicioConstructor;
+		
+	feature inicioNo is
+		do
+		end
 
-run	f();
+	feature inicioConstructor is
+		do
+		end
+
+end	/* T_ERRTCH03
+
+run inicioNo();
+
+//* ERRORES
+Error en Type Checking: [17:5] La feature 'inicioNo' llamada en 'run' no ha sido declarada como constructor en la cláusual 'create'.
+*//
