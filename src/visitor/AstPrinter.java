@@ -165,7 +165,8 @@ public class AstPrinter implements Visitor {
         printListOfNodesChild(indent + 1, "sentences", "List<Sentence>", functionDefinition.getSentences());
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
-		printUnknownFields(indent + 1, functionDefinition, "name", "params", "returnType", "vars", "sentences");
+        printToString(indent + 1, "vgen-attribute-phase-0", "isBuilder", "boolean", functionDefinition.isIsBuilder());
+		printUnknownFields(indent + 1, functionDefinition, "name", "params", "returnType", "vars", "sentences", "isBuilder");
 		return null;
 	}
 

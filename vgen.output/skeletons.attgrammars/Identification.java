@@ -119,6 +119,7 @@ public class Identification extends DefaultVisitor {
 	}
 
 	// class FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<VarDefinition> vars, List<Sentence> sentences)
+	// phase Identification { boolean isBuilder }
 	@Override
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 
@@ -138,6 +139,8 @@ public class Identification extends DefaultVisitor {
 		// functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
 		super.visit(functionDefinition, param);
 
+		// TODO: Remember to initialize SYNTHESIZED attributes <-----
+		// functionDefinition.setIsBuilder(?);
 		return null;
 	}
 

@@ -55,6 +55,7 @@ ATTRIBUTE GRAMMAR Identification
 varDefinition -> [inh] Scope;
 variable -> definition:varDefinition;
 
+functionDefinition -> isBuilder: boolean;
 functionCallSent -> definition: functionDefinition;
 functionCallExpr -> definition: functionDefinition;
 

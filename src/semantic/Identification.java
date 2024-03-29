@@ -56,11 +56,24 @@ public class Identification extends DefaultVisitor {
 		// program.getTypes().forEach(structDefinition -> structDefinition.accept(this, param));
 		// program.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
 		// program.getBuilders().forEach(functionBuilder -> functionBuilder.accept(this, param));
+        // program.getRunCall().accept(this, param);
 		// program.getFeatures().forEach(functionDefinition -> functionDefinition.accept(this, param));
-		// program.getRunCall().accept(this, param);
+		
 		super.visit(program, param);
 
-        predicate(builders.size()==0, "Se han definido constructores que no se utilizan.", program.getBuilders().get(0));
+        // Predicado -> builders == ∅
+        StringBuilder errorMsg = new StringBuilder();
+        errorMsg.append("Los siguientes constructores declarados no tienen una feature definida: ");
+        if(builders.size() > 0){
+            for (String builder : builders) {
+                if(builder == builders.get(builders.size()-1))
+                    errorMsg.append(builder );
+                else
+                    errorMsg.append(builder + ", ");
+                
+            }
+        }
+        predicate(builders.size()==0, errorMsg.toString(), program.getBuilders().get(0));
 
 		return null;
 	}
@@ -73,13 +86,14 @@ public class Identification extends DefaultVisitor {
 
         // Predicado -> variables[name] != ∅
         VarDefinition def = variables.getFromAny(variable.getName());
-        predicate(def != null, "Variable: " + variable.getName() + " no definida.", variable);
+       
         
-        if(def == null) 
-            return null;
+        if( predicate(def != null, "Variable: " + variable.getName() + " no definida.", variable) ) {
+            // Regla -> variable.definition = variables[name]
+            variable.setDefinition(def);
+        }
             
-        // Regla -> variable.definition = variables[name]
-        variable.setDefinition(def);
+        
 
 		return null;
 	}
@@ -97,27 +111,33 @@ public class Identification extends DefaultVisitor {
         if(varDefinition.getScope() == Scope.GLOBAL) {
             VarDefinition def = variables.getFromAny(varDefinition.getName());
             // Predicado -> variables[name] == ∅
-            predicate(def == null, "Variable global: " + varDefinition.getName() + " ya definida.", varDefinition);
-            // Regla -> variables[name] = varDefinition
-            variables.put(varDefinition.getName(), varDefinition);
+            if (predicate(def == null, "Variable global: " + varDefinition.getName() + " ya definida.", varDefinition)){
+                // Regla -> variables[name] = varDefinition
+                variables.put(varDefinition.getName(), varDefinition);
+            }
+            
         }
 
         // Predicados y reglas para variables locales
         if(varDefinition.getScope() == Scope.LOCAL) {
             VarDefinition def = variables.getFromTop(varDefinition.getName());
             // Predicado -> variables[name] == ∅
-            predicate(def == null, "Variable local: " + varDefinition.getName() + " ya definida.", varDefinition);
-            // Regla -> variables[name] = varDefinition
-            variables.put(varDefinition.getName(), varDefinition);
+            if(predicate(def == null, "Variable local: " + varDefinition.getName() + " ya definida.", varDefinition)){
+                // Regla -> variables[name] = varDefinition
+                variables.put(varDefinition.getName(), varDefinition);
+            }
+            
         }
 
         // Predicados y reglas para variables parámetros
         if(varDefinition.getScope() == Scope.PARAMETER) {
             VarDefinition def = variables.getFromTop(varDefinition.getName());
             // Predicado -> variables[name] == ∅
-            predicate(def == null, "Variable parámetro: " + varDefinition.getName() + " ya definida.", varDefinition);
-            // Regla -> variables[name] = varDefinition
-            variables.put(varDefinition.getName(), varDefinition);
+            if(predicate(def == null, "Parámetro: " + varDefinition.getName() + " ya definido.", varDefinition)){
+                // Regla -> variables[name] = varDefinition
+                variables.put(varDefinition.getName(), varDefinition);
+            }
+            
         }
 		
 
@@ -127,7 +147,7 @@ public class Identification extends DefaultVisitor {
 	
 
 	// class FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<VarDefinition> vars, List<Sentence> sentences)
-	// phase Identification { FunctionBuilder builder }
+	// phase Identification { boolean isBuilder }
 	@Override
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 
@@ -138,14 +158,21 @@ public class Identification extends DefaultVisitor {
         FunctionDefinition def = functions.get(functionDefinition.getName());
 
         // Predicado -> functions[name] == ∅
-        predicate(def == null, "Función: " + functionDefinition.getName() + " ya definida", functionDefinition);
-        // Predicado -> builders[name] != ∅
-        predicate(builders.contains(functionDefinition.getName()), "Función: " + functionDefinition.getName() + " no tiene constructor", functionDefinition);
-       
-        // Regla -> functions[name] = functionDefinition
-        functions.put(functionDefinition.getName(), functionDefinition);
-        // Regla -> builder[name] = ∅
-        builders.remove(functionDefinition.getName());
+        if (predicate(def == null, "Función: " + functionDefinition.getName() + " ya definida", functionDefinition)){
+            // Regla -> functions[name] = functionDefinition
+            functions.put(functionDefinition.getName(), functionDefinition);
+        }
+
+        
+        if(builders.contains(functionDefinition.getName())) {
+            // Regla -> functionDefinition.builder = true
+            functionDefinition.setIsBuilder(true);
+            // Regla -> builders[name] = ∅
+            builders.remove(functionDefinition.getName());
+        } else {
+            // Regla -> functionDefinition.builder = false
+            functionDefinition.setIsBuilder(false);
+        }
 
 
         // Regla -> params.forEach(p -> p.scope = PARAMETER); visit(params)
@@ -177,16 +204,19 @@ public class Identification extends DefaultVisitor {
 	@Override
 	public Object visit(RunCall runCall, Object param) {
 
-        FunctionDefinition def = functions.get(runCall.getName());
-
+        
+        FunctionDefinition def= functions.get(runCall.getName());
         // Predicado -> functions[name] != ∅
-        predicate(def != null, "Función: " + runCall.getName() + " no definida.", runCall);
+        if (predicate(def != null, "Función: " + runCall.getName() + " no definida.", runCall) &&
+            // Predicado -> function.isBuilder
+            predicate(def.isIsBuilder(), "Función: " + runCall.getName() + " no es un constructor.", runCall)){
+                // Regla -> runCall.definition = functions[name]
+                runCall.setDefinition(def);
+                
+                // runCall.getArgs().forEach(expression -> expression.accept(this, param));
+                super.visit(runCall, param);
+        }
 
-        // Regla -> runCall.definition = functions[name]
-        runCall.setDefinition(def);
-
-		// runCall.getArgs().forEach(expression -> expression.accept(this, param));
-		super.visit(runCall, param);
 
 		return null;
 	}
@@ -199,9 +229,10 @@ public class Identification extends DefaultVisitor {
 	public Object visit(FunctionBuilder functionBuilder, Object param) {
 
         // Predicado -> builders[name] == ∅
-        predicate(!builders.contains(functionBuilder.getName()), "Constructor: " + functionBuilder.getName() + " ya definido.", functionBuilder);
-        // Regla -> builders.add(name)
-        builders.add(functionBuilder.getName());
+        if(predicate(!builders.contains(functionBuilder.getName()), "Constructor: " + functionBuilder.getName() + " ya definido.", functionBuilder)){
+            // Regla -> builders.add(name)
+            builders.add(functionBuilder.getName());
+        }
 
 		return null;
 	}
@@ -214,13 +245,14 @@ public class Identification extends DefaultVisitor {
         FunctionDefinition def = functions.get(functionCallSent.getName());
 
         // Predicado -> functions[name] != ∅
-        predicate(def != null, "Función: " + functionCallSent.getName() + " no definida.", functionCallSent);
+        if(predicate(def != null, "Función: " + functionCallSent.getName() + " no definida.", functionCallSent)){    
+            // Regla -> functionCallSent.definition = functions[name]
+            functionCallSent.setDefinition(def);
 
-        // Regla -> functionCallSent.definition = functions[name]
-        functionCallSent.setDefinition(def);
+            // functionCallSent.getArgs().forEach(expression -> expression.accept(this, param));
+            super.visit(functionCallSent, param);
+        }
 
-        // functionCallSent.getArgs().forEach(expression -> expression.accept(this, param));
-		super.visit(functionCallSent, param);
 
 		return null;
 	}
@@ -234,13 +266,16 @@ public class Identification extends DefaultVisitor {
         FunctionDefinition def = functions.get(functionCallExpr.getName());
 
         // Predicado -> functions[name] != ∅
-        predicate(def != null, "Función: " + functionCallExpr.getName() + " no definida.", functionCallExpr);
+        if(predicate(def != null, "Función: " + functionCallExpr.getName() + " no definida.", functionCallExpr)){
+            
+            // Regla -> functionCallExpr.definition = functions[name]
+            functionCallExpr.setDefinition(def);
 
-        // Regla -> functionCallExpr.definition = functions[name]
-        functionCallExpr.setDefinition(def);
+            // functionCallExpr.getArgs().forEach(expression -> expression.accept(this, param));
+            super.visit(functionCallExpr, param);
 
-		// functionCallExpr.getArgs().forEach(expression -> expression.accept(this, param));
-		super.visit(functionCallExpr, param);
+        }
+
 
 		return null;
 	}
@@ -253,20 +288,22 @@ public class Identification extends DefaultVisitor {
         StructDefinition def = structs.get(structDefinition.getName().getName());
 
         // Predicado -> structs[name] == ∅
-        predicate(def == null, "Struct:" + structDefinition.getName().getName() + " ya definida", structDefinition);
-        structs.put(structDefinition.getName().getName(), structDefinition);
+        if(predicate(def == null, "Struct:" + structDefinition.getName().getName() + " ya definida", structDefinition)){
+            structs.put(structDefinition.getName().getName(), structDefinition);
         
 
-        // Regla -> fields.forEach(f -> f.fieldOwner = structDefinition.getName())
-        for (FieldDefinition fieldDefinition : structDefinition.getFields()) {
-            fieldDefinition.setFieldOwner(structDefinition.getName());
+            // Regla -> fields.forEach(f -> f.fieldOwner = structDefinition.getName())
+            for (FieldDefinition fieldDefinition : structDefinition.getFields()) {
+                fieldDefinition.setFieldOwner(structDefinition.getName());
+            }
+    
+            // Regla -> visit(fields)
+            super.visit(structDefinition, param);
+    
+            // Regla -> structFields = ∅
+            structFields.clear();
         }
-
-        // Regla -> visit(fields)
-		super.visit(structDefinition, param);
-
-        // Regla -> structFields = ∅
-        structFields.clear();
+       
 
 		return null;
 	}
@@ -279,12 +316,14 @@ public class Identification extends DefaultVisitor {
         StructDefinition def = structs.get(structType.getName());
 
         // Predicado -> structs[name] != ∅
-        predicate(def != null, "Struct: " + structType.getName() + " no definida.", structType);
+        if(predicate(def != null, "Struct: " + structType.getName() + " no definida.", structType)){
 
-        // Regla -> structType.definition = structs[name]
-        structType.setDefinition(def);
+            // Regla -> structType.definition = structs[name]
+            structType.setDefinition(def);
 
-        super.visit(structType, param);
+            super.visit(structType, param);
+        }
+
 
 		return null;
 	}
@@ -299,13 +338,16 @@ public class Identification extends DefaultVisitor {
        
         FieldDefinition field = structFields.get(fieldDefinition.getName());
         // Predicado -> structFields[name] == ∅
-        predicate(field == null, "El campo " + fieldDefinition.getName() + " del Struct ya está definido.", fieldDefinition);
+        if(predicate(field == null, "El campo " + fieldDefinition.getName() + " del Struct ya está definido.", fieldDefinition)){
+
+            // Regla -> structFields[name] = fieldDefinition
+            structFields.put(fieldDefinition.getName(), fieldDefinition);
+        }
         
-        // Regla -> structFields[name] = fieldDefinition
-        structFields.put(fieldDefinition.getName(), fieldDefinition);
 
 		return null;
 	}
+
 
 
 

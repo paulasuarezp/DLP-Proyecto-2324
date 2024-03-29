@@ -59,6 +59,8 @@ StructDefinition o-[#404040,thickness=2]- "✱" FieldDefinition : fields >
 
 class FunctionDefinition {
 	+String name
+	..<color:#ff6600> Identification </color>..
+	+<color:#ff6600>boolean isBuilder</color>
 }
 AST <|-[#808080]- FunctionDefinition
 FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : params >

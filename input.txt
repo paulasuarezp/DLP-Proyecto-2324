@@ -1,19 +1,11 @@
-class Test_91_PROC_CALL;
-	global
-		types
-			deftuple tuple1 as /*estructura
-				a: INTEGER;
-			end
-	create
-		hacer;
-		
-	feature hacer is
-		local
-			tuuu : tuple1;
-        do
-			print tuuu.a;
-	end /* hacer
-	
+class T_ERRSIN02;
+create
+	f;
+	g;	/* g no se crea en ninguna feature
+feature f is
+	do
+		return;
+	end
 end
 
-run hacer();
+run	f();

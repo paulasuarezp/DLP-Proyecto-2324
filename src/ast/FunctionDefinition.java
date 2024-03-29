@@ -19,6 +19,9 @@ import visitor.Visitor;
 
 /*
 	functionDefinition -> name:string params:varDefinition* returnType:type? vars:varDefinition* sentences:sentence*
+	
+	PHASE Identification
+	functionDefinition -> isBuilder:boolean
 */
 public class FunctionDefinition extends AbstractAST  {
 
@@ -31,6 +34,9 @@ public class FunctionDefinition extends AbstractAST  {
 	private Optional<Type> returnType;
 	private List<VarDefinition> vars;
 	private List<Sentence> sentences;
+
+    // PHASE Identification
+	private boolean isBuilder;
 
     // ----------------------------------
     // Constructors
@@ -158,6 +164,22 @@ public class FunctionDefinition extends AbstractAST  {
 
     public Stream<Sentence> sentences() {
         return sentences.stream();
+    }
+
+
+
+    // --------------------------------
+    // PHASE Identification
+
+	// Attribute 'isBuilder:boolean' 
+
+	public void setIsBuilder(boolean isBuilder) {
+		this.isBuilder = isBuilder;
+
+	}
+
+    public boolean isIsBuilder() {
+        return isBuilder;
     }
 
 
