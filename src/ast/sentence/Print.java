@@ -18,6 +18,9 @@ import visitor.Visitor;
 /*
 	print: sentence -> op:string input:expression*
 	sentence -> 
+	
+	PHASE TypeChecking
+	sentence -> hasReturn:boolean
 */
 public class Print extends AbstractSentence  {
 

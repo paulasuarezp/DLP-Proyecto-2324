@@ -2,6 +2,7 @@
 
 package ast.expression;
 
+import ast.type.*;
 import org.antlr.v4.runtime.Token;
 import visitor.Visitor;
 
@@ -14,6 +15,10 @@ import visitor.Visitor;
 /*
 	comparationExpr: expression -> op1:expression operator:string op2:expression
 	expression -> 
+	
+	PHASE TypeChecking
+	expression -> lvalue:boolean
+	expression -> type:type
 */
 public class ComparationExpr extends AbstractExpression  {
 

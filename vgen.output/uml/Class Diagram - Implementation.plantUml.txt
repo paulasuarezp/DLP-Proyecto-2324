@@ -20,6 +20,8 @@ AST *-[#404040,thickness=1]- Position : end >
 
 
 interface Sentence {
+	..<color:#3366cc> TypeChecking </color>..
+	+<color:#3366cc>boolean hasReturn</color>
 }
 AST <|-[#808080]- Sentence
 abstract AbstractSentence
@@ -27,11 +29,14 @@ Sentence <|-[#808080]- AbstractSentence
 AbstractAST <|-[#808080]- AbstractSentence
 
 interface Expression {
+	..<color:#3366cc> TypeChecking </color>..
+	+<color:#3366cc>boolean lvalue</color>
 }
 AST <|-[#808080]- Expression
 abstract AbstractExpression
 Expression <|-[#808080]- AbstractExpression
 AbstractAST <|-[#808080]- AbstractExpression
+Expression -[#3366cc,thickness=3]-  Type #text:3366cc : type >
 
 interface Type {
 }
@@ -72,6 +77,8 @@ class FunctionDefinition {
 	+String name
 	..<color:#ff6600> Identification </color>..
 	+<color:#ff6600>boolean isBuilder</color>
+	..<color:#3366cc> TypeChecking </color>..
+	+<color:#3366cc>boolean hasReturn</color>
 }
 AbstractAST <|-[#808080]- FunctionDefinition
 FunctionDefinition o-[#404040,thickness=2]- "✱" VarDefinition : params >

@@ -1,34 +1,77 @@
-/**
- * MLang. Programming Language Design Tutorial
- * @author Raúl Izquierdo (raul@uniovi.es)
- */
+// Generated with VGen 2.0.0
 
-package semantic;
+/*
 
-import ast.*;
-import main.ErrorManager;
+Este fichero es un esqueleto para facilitar la implementación de una gramática atribuida
+('ATTRIBUTE GRAMMAR' de VGen). Para usarlo hay que realizar dos pasos:
+1. Ubicar este código.
+2. Completar cada método visit.
+
+## Paso 1. Ubicación de este Código
+
+Este esqueleto será SOBREESCRITO la próxima vez que se ejecuta VGen. Por ello, se debe
+copiar su contenido antes de hacer cualquier cambio.
+
+Hay dos opciones:
+
+1) Si ya se tiene hecha una clase para el visitor, basta con copiar a dicha clase los
+   métodos visit de este esqueleto (y los import) ignorando el resto.
+
+2) Si no se tiene hecha aún la clase, este esqueleto vale como tal si se mueve a la
+   carpeta deseada del proyecto y se le pone el package correspondiente a dicha
+   ubicación.
+
+Una vez hecho esto, ya se tendría un visitor que compilaría sin errores y que, al
+ejecutarlo, recorrería todo el árbol (aunque sin hacer nada en cada nodo).
+
+
+## Paso 2 Completar cada Método Visit
+
+El visit generado para cada nodo se limita a recorrer sus hijos. El código de recorrido
+se encuentra en la llamada a 'super.visit'. Los 'accept' comentados encima de cada
+'super.visit' son sólo un recordatorio de lo que hace dicho método (son una copia de su
+implementación, que se hereda de DefaultVisitor).
+
+Por tanto, hay tres opciones a la hora de implementar cada visit:
+
+1. Si en el visit de un nodo SÓLO SE NECESITA RECORRER sus hijos, se puede borrar
+   completamente dicho visit de esta clase. Al no estar el método, se heredará de
+   DefaultVisitor la misma implementación que se acaba de borrar. Es decir, en esta
+   clase sólo será necesario dejar los visit que tengan alguna acción que realizar.
+
+2. Si se necesita hacer alguna tarea adicional ANTES o DESPUÉS de recorrer todos los
+   hijos, se debe añadir su código antes o después de la llamada a 'super.visit' (y se
+   pueden borrar los 'accept' comentados).
+
+3. Y, finalmente, si se necesita hacer alguna tarea INTERCALADA en el recorrido de los
+   hijos (por ejemplo, comprobar su tipo), se debe borrar el 'super.visit' y descomentar
+   los 'accept'. Así se tendría ya implementado el recorrido de los hijos, que es la
+   estructura donde se intecalará el código de las acciones adicionales.
+
+NOTA 1. En los visit en los que haya que inicializar atributos heredados de los hijos
+antes de recorrerlos, se han añadido recordatorios en los puntos en los que es
+aconsejable hacerlo.
+
+NOTA 2. En los visit de los nodos que tengan atributos sintetizados, se han añadido
+recordatorios de que se deben inicializar dichos atributos.
+
+*/
+
+// TODO: write package name
+// package ...;
+
 import visitor.DefaultVisitor;
-
+import ast.*;
 import ast.sentence.*;
 import ast.expression.*;
 import ast.type.*;
 
 
-// This class will be implemented in type checking phase
-
 public class TypeChecking extends DefaultVisitor {
-
-    private ErrorManager errorManager;
-
-    public TypeChecking(ErrorManager errorManager) {
-        this.errorManager = errorManager;
-    }
 
     public void process(AST ast) {
         ast.accept(this, null);
     }
-
-    // # ----------------------------------------------------------
 
     // Visit Methods --------------------------------------------------------------
 
@@ -434,46 +477,5 @@ public class TypeChecking extends DefaultVisitor {
 
 		return null;
 	}
-    //# ----------------------------------------------------------
-    //# Auxiliary methods (optional)
-
-    private void notifyError(String errorMessage, Position position) {
-        errorManager.notify("Type Checking", errorMessage, position);
-    }
-
-    private void notifyError(String msg) {
-        errorManager.notify("Type Checking", msg);
-    }
-
-    /**
-     * predicate. Auxiliary method to implement predicates. Delete if not needed.
-     *
-     * Usage examples:
-     *
-     *    predicate(expr.type != null), "Type cannot be null", expr.start());
-     *
-     *    predicate(expr.type != null), "Type cannot be null", expr);       // expr.start() is assumed
-     *
-     * The start() method (example 1) indicates the position in the file where the node was. If VGen is used, this method
-     * will have been generated in all AST nodes.
-     *
-     * @param condition     Must be met to avoid an error
-     * @param errorMessage  Printed if the condition is not met
-     * @param errorPosition Row and column in the file where the error occurred.
-     * @return true if the condition is met
-     */
-
-    private boolean predicate(boolean condition, String errorMessage, Position position) {
-        if (!condition) {
-            notifyError(errorMessage, position);
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean predicate(boolean condition, String errorMessage, AST node) {
-        return predicate(condition, errorMessage, node.start());
-    }
 
 }

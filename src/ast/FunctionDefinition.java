@@ -22,6 +22,9 @@ import visitor.Visitor;
 	
 	PHASE Identification
 	functionDefinition -> isBuilder:boolean
+	
+	PHASE TypeChecking
+	functionDefinition -> hasReturn:boolean
 */
 public class FunctionDefinition extends AbstractAST  {
 
@@ -37,6 +40,9 @@ public class FunctionDefinition extends AbstractAST  {
 
     // PHASE Identification
 	private boolean isBuilder;
+
+    // PHASE TypeChecking
+	private boolean hasReturn;
 
     // ----------------------------------
     // Constructors
@@ -180,6 +186,22 @@ public class FunctionDefinition extends AbstractAST  {
 
     public boolean isIsBuilder() {
         return isBuilder;
+    }
+
+
+
+    // --------------------------------
+    // PHASE TypeChecking
+
+	// Attribute 'hasReturn:boolean' 
+
+	public void setHasReturn(boolean hasReturn) {
+		this.hasReturn = hasReturn;
+
+	}
+
+    public boolean isHasReturn() {
+        return hasReturn;
     }
 
 

@@ -62,4 +62,17 @@ functionCallExpr -> definition: functionDefinition;
 runCall -> definition: functionDefinition;
 
 structType -> definition: structDefinition;
-fieldDefinition -> fieldOwner: structType;
+fieldDefinition -> [inh] fieldOwner: structType;
+
+
+
+
+//---------------------------------
+ATTRIBUTE GRAMMAR TypeChecking
+
+functionDefinition -> hasReturn: boolean;
+
+sentence -> hasReturn: boolean;
+
+expression -> lvalue: boolean;
+expression -> type;

@@ -22,6 +22,9 @@ import visitor.Visitor;
 	
 	PHASE Identification
 	functionCallSent -> definition:functionDefinition
+	
+	PHASE TypeChecking
+	sentence -> hasReturn:boolean
 */
 public class FunctionCallSent extends AbstractSentence  {
 

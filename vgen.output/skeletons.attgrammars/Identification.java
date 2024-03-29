@@ -111,6 +111,11 @@ public class Identification extends DefaultVisitor {
 	@Override
 	public Object visit(StructDefinition structDefinition, Object param) {
 
+		for (var fieldDefinition : structDefinition.getFields()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// fieldDefinition.setFieldOwner(?);
+		}
+
 		// structDefinition.getName().accept(this, param);
 		// structDefinition.getFields().forEach(fieldDefinition -> fieldDefinition.accept(this, param));
 		super.visit(structDefinition, param);
@@ -152,8 +157,6 @@ public class Identification extends DefaultVisitor {
 		// fieldDefinition.getTipo().accept(this, param);
 		super.visit(fieldDefinition, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// fieldDefinition.setFieldOwner(?);
 		return null;
 	}
 

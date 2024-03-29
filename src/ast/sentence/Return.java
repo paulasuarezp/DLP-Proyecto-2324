@@ -4,6 +4,7 @@ package ast.sentence;
 
 import ast.expression.*;
 import java.util.Optional;
+import org.antlr.v4.runtime.Token;
 import visitor.Visitor;
 
 // %% User Declarations -------------
@@ -15,6 +16,9 @@ import visitor.Visitor;
 /*
 	return: sentence -> value:expression?
 	sentence -> 
+	
+	PHASE TypeChecking
+	sentence -> hasReturn:boolean
 */
 public class Return extends AbstractSentence  {
 

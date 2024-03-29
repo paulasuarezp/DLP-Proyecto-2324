@@ -3,6 +3,7 @@
 package ast.sentence;
 
 import ast.*;
+import org.antlr.v4.runtime.Token;
 
 // %% User Declarations -------------
 
@@ -12,9 +13,34 @@ import ast.*;
 
 /*
 	sentence -> 
+	
+	PHASE TypeChecking
+	sentence -> hasReturn:boolean
 */
 public abstract class AbstractSentence extends AbstractAST implements Sentence {
 
+    // ----------------------------------
+    // Instance Variables
+
+
+    // PHASE TypeChecking
+	private boolean hasReturn;
+
+
+
+    // --------------------------------
+    // PHASE TypeChecking
+
+	// Attribute 'hasReturn:boolean' 
+
+	public void setHasReturn(boolean hasReturn) {
+		this.hasReturn = hasReturn;
+
+	}
+
+    public boolean isHasReturn() {
+        return hasReturn;
+    }
 
 
 

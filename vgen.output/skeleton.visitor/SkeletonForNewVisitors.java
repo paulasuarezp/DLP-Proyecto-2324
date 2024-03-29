@@ -106,6 +106,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 
 	// class FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<VarDefinition> vars, List<Sentence> sentences)
 	// phase Identification { boolean isBuilder }
+	// phase TypeChecking { boolean hasReturn }
 	@Override
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 
@@ -149,6 +150,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 
 	// class FunctionCallSent(String name, List<Expression> args)
 	// phase Identification { FunctionDefinition definition }
+	// phase TypeChecking { boolean hasReturn }
 	@Override
 	public Object visit(FunctionCallSent functionCallSent, Object param) {
 
@@ -159,6 +161,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class Assignment(Expression left, Expression right)
+	// phase TypeChecking { boolean hasReturn }
 	@Override
 	public Object visit(Assignment assignment, Object param) {
 
@@ -170,6 +173,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class Loop(List<Assignment> from, Expression until, List<Sentence> body)
+	// phase TypeChecking { boolean hasReturn }
 	@Override
 	public Object visit(Loop loop, Object param) {
 
@@ -182,6 +186,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class IfElse(Expression condition, List<Sentence> trueBlock, List<Sentence> falseBlock)
+	// phase TypeChecking { boolean hasReturn }
 	@Override
 	public Object visit(IfElse ifElse, Object param) {
 
@@ -194,6 +199,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class Read(List<Expression> input)
+	// phase TypeChecking { boolean hasReturn }
 	@Override
 	public Object visit(Read read, Object param) {
 
@@ -204,6 +210,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class Print(String op, List<Expression> input)
+	// phase TypeChecking { boolean hasReturn }
 	@Override
 	public Object visit(Print print, Object param) {
 
@@ -214,6 +221,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class Return(Optional<Expression> value)
+	// phase TypeChecking { boolean hasReturn }
 	@Override
 	public Object visit(Return returnValue, Object param) {
 
@@ -224,6 +232,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class IntConstant(String value)
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(IntConstant intConstant, Object param) {
 
@@ -231,6 +240,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class RealConstant(String value)
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(RealConstant realConstant, Object param) {
 
@@ -238,6 +248,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class CharConstant(String value)
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(CharConstant charConstant, Object param) {
 
@@ -246,6 +257,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 
 	// class Variable(String name)
 	// phase Identification { VarDefinition definition }
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(Variable variable, Object param) {
 
@@ -253,6 +265,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class CastExpr(Type castType, Expression value)
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(CastExpr castExpr, Object param) {
 
@@ -264,6 +277,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class ArithmeticExpr(Expression op1, String operator, Expression op2)
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(ArithmeticExpr arithmeticExpr, Object param) {
 
@@ -275,6 +289,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class LogicalExpr(Expression op1, String operator, Expression op2)
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(LogicalExpr logicalExpr, Object param) {
 
@@ -286,6 +301,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class ComparationExpr(Expression op1, String operator, Expression op2)
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(ComparationExpr comparationExpr, Object param) {
 
@@ -297,6 +313,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class MinusExpr(Expression op)
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(MinusExpr minusExpr, Object param) {
 
@@ -307,6 +324,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class NotExpr(Expression op)
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(NotExpr notExpr, Object param) {
 
@@ -318,6 +336,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 
 	// class FunctionCallExpr(String name, List<Expression> args)
 	// phase Identification { FunctionDefinition definition }
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(FunctionCallExpr functionCallExpr, Object param) {
 
@@ -328,6 +347,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class FieldAccess(Expression root, String field)
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(FieldAccess fieldAccess, Object param) {
 
@@ -338,6 +358,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class ArrayAccess(Expression array, Expression index)
+	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(ArrayAccess arrayAccess, Object param) {
 

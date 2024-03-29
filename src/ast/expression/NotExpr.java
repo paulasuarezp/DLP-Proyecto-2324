@@ -2,6 +2,8 @@
 
 package ast.expression;
 
+import ast.type.*;
+import org.antlr.v4.runtime.Token;
 import visitor.Visitor;
 
 // %% User Declarations -------------
@@ -13,6 +15,10 @@ import visitor.Visitor;
 /*
 	notExpr: expression -> op:expression
 	expression -> 
+	
+	PHASE TypeChecking
+	expression -> lvalue:boolean
+	expression -> type:type
 */
 public class NotExpr extends AbstractExpression  {
 

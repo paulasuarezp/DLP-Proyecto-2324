@@ -2,6 +2,7 @@
 
 package ast.expression;
 
+import ast.type.*;
 import ast.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -21,6 +22,10 @@ import visitor.Visitor;
 	
 	PHASE Identification
 	functionCallExpr -> definition:functionDefinition
+	
+	PHASE TypeChecking
+	expression -> lvalue:boolean
+	expression -> type:type
 */
 public class FunctionCallExpr extends AbstractExpression  {
 
