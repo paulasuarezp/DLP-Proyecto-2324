@@ -58,8 +58,10 @@ public class TypeChecking extends DefaultVisitor {
 		List<Expression> args = runCall.getArgs();
 		List<VarDefinition> params = runCall.getDefinition().getParams();
 
+		// Predicado -> args.size() == params.size()
 		if (predicate(args.size() == params.size(), "La llamada a la función " + runCall.getDefinition().getName() +
 			" esperaba " + params.size() + " argumentos y se le han proporcionado " + args.size() + "." , runCall)){
+			// Predicado -> checkArgs(args, params)
 			if(predicate(checkArgs(args,params), "Los tipos de los parámetros no coinciden con los definidos en la función " + runCall.getDefinition().getName() , runCall))
 				// runCall.getArgs().forEach(expression -> expression.accept(this, param));
 				super.visit(runCall, param);
@@ -68,16 +70,6 @@ public class TypeChecking extends DefaultVisitor {
 		return null;
 	}
 
-	// class StructDefinition(StructType name, List<FieldDefinition> fields)
-	@Override
-	public Object visit(StructDefinition structDefinition, Object param) {
-
-		// structDefinition.getName().accept(this, param);
-		// structDefinition.getFields().forEach(fieldDefinition -> fieldDefinition.accept(this, param));
-		super.visit(structDefinition, param);
-
-		return null;
-	}
 
 	// class FunctionDefinition(String name, List<VarDefinition> params, Optional<Type> returnType, List<VarDefinition> vars, List<Sentence> sentences)
 	// phase Identification { boolean isBuilder }
@@ -85,50 +77,37 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 
+		//Regla -> sentences.forEach(s -> s.owner = functionDefinition)
 		for (var sentence : functionDefinition.getSentences()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// sentence.setOwner(?);
+			sentence.setOwner(functionDefinition);
 		}
+
+		
+		if (functionDefinition.getReturnType().isPresent() && !(functionDefinition.getReturnType().get() instanceof VoidType)) {
+			// Predicado -> isPrimitive(returnType)
+			predicate(isPrimitive(functionDefinition.getReturnType().get()), "El tipo de retorno de la función " + functionDefinition.getName() + " debe de ser un tipo simple (integer, double o character)", functionDefinition);
+		}
+
+		
+		super.visit(functionDefinition, param);
 
 		// functionDefinition.getParams().forEach(varDefinition -> varDefinition.accept(this, param));
 		// functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
 		// functionDefinition.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
 		// functionDefinition.getSentences().forEach(sentence -> sentence.accept(this, param));
-		super.visit(functionDefinition, param);
-
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// functionDefinition.setHasReturn(?);
+		
+		
+		functionDefinition.setHasReturn(false);
+		// Regla -> sentences.forEach(s -> if (s.hasReturn) functionDefinition.hasReturn = true)
+		for (var sentence : functionDefinition.getSentences()) {
+			if (sentence.isHasReturn()) {
+				functionDefinition.setHasReturn(true);
+				break;
+			}
+		}
 		return null;
 	}
 
-	// class FieldDefinition(String name, Type tipo)
-	// phase Identification { StructType fieldOwner }
-	@Override
-	public Object visit(FieldDefinition fieldDefinition, Object param) {
-
-		// fieldDefinition.getTipo().accept(this, param);
-		super.visit(fieldDefinition, param);
-
-		return null;
-	}
-
-	// class VarDefinition(String name, Type tipo)
-	// phase Identification { Scope scope }
-	@Override
-	public Object visit(VarDefinition varDefinition, Object param) {
-
-		// varDefinition.getTipo().accept(this, param);
-		super.visit(varDefinition, param);
-
-		return null;
-	}
-
-	// class FunctionBuilder(String name)
-	@Override
-	public Object visit(FunctionBuilder functionBuilder, Object param) {
-
-		return null;
-	}
 
 	// class FunctionCallSent(String name, List<Expression> args)
 	// phase Identification { FunctionDefinition definition }
@@ -139,8 +118,21 @@ public class TypeChecking extends DefaultVisitor {
 		// functionCallSent.getArgs().forEach(expression -> expression.accept(this, param));
 		super.visit(functionCallSent, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// functionCallSent.setHasReturn(?);
+		List<Expression> args = functionCallSent.getArgs();
+		List<VarDefinition> params = functionCallSent.getDefinition().getParams();
+
+		// Predicado -> args.size() == params.size()
+		if (predicate(args.size() == params.size(), "La llamada a la función " + functionCallSent.getDefinition().getName() +
+			" esperaba " + params.size() + " argumentos y se le han proporcionado " + args.size() + "." , functionCallSent)){
+			// Predicado -> checkArgs(args, params)
+			if(predicate(checkArgs(args,params), "Los tipos de los parámetros no coinciden con los definidos en la función " + functionCallSent.getDefinition().getName() , functionCallSent))
+				// functionCallSent.getArgs().forEach(expression -> expression.accept(this, param));
+				super.visit(functionCallSent, param);
+		}
+
+		// Regla -> functionCallSent.hasReturn = FALSE
+		functionCallSent.setHasReturn(false);
+
 		return null;
 	}
 
@@ -149,12 +141,20 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(Assignment assignment, Object param) {
 
-		// assignment.getLeft().accept(this, param);
-		// assignment.getRight().accept(this, param);
+		//Predicado -> left.lvalue == TRUE
+		predicate(assignment.getLeft().isLvalue(), "La expresión de la izquierda no es modificable", assignment);
+
+		//Predicado -> isPrimitive(left.type)
+		predicate(isPrimitive(assignment.getLeft().getType()), "El tipo de la expresión de la izquierda debe de ser un tipo simple (integer, double o character)", assignment);
+
+		//Predicado -> checkSameType(left.type, right.type)
+		predicate(checkSameType(assignment.getLeft().getType(), assignment.getRight().getType()), "Los tipos de las expresiones no coinciden", assignment);
+
+
 		super.visit(assignment, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// assignment.setHasReturn(?);
+		// Regla -> assignment.hasReturn = FALSE
+		assignment.setHasReturn(false);
 		return null;
 	}
 
@@ -163,23 +163,30 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(Loop loop, Object param) {
 
+		// Predicado -> until.type == INTEGER
+		predicate(loop.getUntil().getType() instanceof IntType, "La expresión del until debe de ser de tipo integer", loop);
+
+
+		// Regla -> from.forEach(a -> a.owner = loop.owner)
 		for (var assignment : loop.getFrom()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// assignment.setOwner(loop.getOwner());
+			assignment.setOwner(loop.getOwner());
 		}
 
+		// Regla -> body.forEach(s -> s.owner = loop.owner)
 		for (var sentence : loop.getBody()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// sentence.setOwner(loop.getOwner());
+			sentence.setOwner(loop.getOwner());
 		}
 
-		// loop.getFrom().forEach(assignment -> assignment.accept(this, param));
-		// loop.getUntil().accept(this, param);
-		// loop.getBody().forEach(sentence -> sentence.accept(this, param));
 		super.visit(loop, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// loop.setHasReturn(?);
+		// Regla -> body.forEach( s-> if (s.hasReturn) loop.hasReturn = TRUE)
+		for(var sentence: loop.getBody()){
+			if(sentence.isHasReturn()){
+				loop.setHasReturn(true);
+				break;
+			}
+		}
+
 		return null;
 	}
 
@@ -188,23 +195,38 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(IfElse ifElse, Object param) {
 
+		// Predicado -> condition.type == INTEGER
+		predicate(ifElse.getCondition().getType() instanceof IntType, "La condición del if debe de ser de tipo boolean", ifElse);
+
+
+		// Regla -> trueBlock.forEach(s -> s.owner = ifElse.owner)
 		for (var sentence : ifElse.getTrueBlock()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// sentence.setOwner(ifElse.getOwner());
+			sentence.setOwner(ifElse.getOwner());
 		}
 
+		// Regla -> falseBlock.forEach(s -> s.owner = ifElse.owner)
 		for (var sentence : ifElse.getFalseBlock()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// sentence.setOwner(ifElse.getOwner());
+			sentence.setOwner(ifElse.getOwner());
 		}
 
-		// ifElse.getCondition().accept(this, param);
-		// ifElse.getTrueBlock().forEach(sentence -> sentence.accept(this, param));
-		// ifElse.getFalseBlock().forEach(sentence -> sentence.accept(this, param));
 		super.visit(ifElse, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// ifElse.setHasReturn(?);
+		// Regla -> trueBlock.forEach(s -> if (s.hasReturn) ifElse.hasReturn = TRUE)
+		for (var sentence : ifElse.getTrueBlock()) {
+			if(sentence.isHasReturn()){
+				ifElse.setHasReturn(true);
+				break;
+			}
+		}
+
+		// Regla -> falseBlock.forEach(s -> if (s.hasReturn) ifElse.hasReturn = TRUE)
+		for (var sentence : ifElse.getFalseBlock()) {
+			if(sentence.isHasReturn()){
+				ifElse.setHasReturn(true);
+				break;
+			}
+		}
+
 		return null;
 	}
 
@@ -213,11 +235,19 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(Read read, Object param) {
 
+		// Regla -> input.all(e -> e.lValue == TRUE)
+		boolean checkLValue = read.getInput().stream().allMatch(e -> e.isLvalue());
+		predicate(checkLValue, "Alguna de las expresiones de la sentencia Read no es modificable", read);
+
+		//Regla -> input.all(e -> isPrimitive(e.type))
+		boolean checkTypes = read.getInput().stream().allMatch(e -> isPrimitive(e.getType()));
+		predicate(checkTypes, "Alguna de las expresiones de la sentencia Read no es de tipo simple (integer, double o character)", read);
+
 		// read.getInput().forEach(expression -> expression.accept(this, param));
 		super.visit(read, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// read.setHasReturn(?);
+		// Regla -> read.hasReturn = FALSE
+		read.setHasReturn(false);
 		return null;
 	}
 
@@ -225,12 +255,14 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Print print, Object param) {
+		//Regla -> input.all(e -> isPrimitive(e.type))
+		boolean checkTypes = print.getInput().stream().allMatch(e -> isPrimitive(e.getType()));
+		predicate(checkTypes, "Alguna de las expresiones de la sentencia Print no es de tipo simple (integer, double o character)", print);
 
-		// print.getInput().forEach(expression -> expression.accept(this, param));
 		super.visit(print, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// print.setHasReturn(?);
+		// Regla -> print.hasReturn = FALSE
+		print.setHasReturn(false);
 		return null;
 	}
 
@@ -238,12 +270,22 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Return returnValue, Object param) {
+		
+		// Regla -> returnValue.hasReturn = TRUE
+		returnValue.setHasReturn(true);
+
+		// Predicado -> owner.returnType == value.type
+		if (returnValue.getValue().isPresent() && returnValue.getOwner().getReturnType().isPresent()) {
+			if(returnValue.getOwner().getReturnType().get().getClass() == VoidType.class){
+				notifyError("La expresión de retorno debe de estar vacía", returnValue.end());
+				return null;
+			}
+			predicate(checkSameType(returnValue.getOwner().getReturnType().get(), returnValue.getValue().get().getType()), "El tipo de retorno de la función no coincide con el tipo de la expresión de retorno", returnValue);
+		}
 
 		// returnValue.getValue().ifPresent(value -> value.accept(this, param));
 		super.visit(returnValue, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// returnValue.setHasReturn(?);
 		return null;
 	}
 
@@ -252,9 +294,10 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(IntConstant intConstant, Object param) {
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// intConstant.setLvalue(?);
-		// intConstant.setType(?);
+		//Regla -> intConstant.lValue = FALSE
+		intConstant.setLvalue(false);
+		//Regla -> intConstant.type = IntType
+		intConstant.setType(new IntType());
 		return null;
 	}
 
@@ -263,9 +306,10 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(RealConstant realConstant, Object param) {
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// realConstant.setLvalue(?);
-		// realConstant.setType(?);
+		//Regla -> realConstant.lValue = FALSE
+		realConstant.setLvalue(false);
+		//Regla -> realConstant.type = DoubleType
+		realConstant.setType(new DoubleType());
 		return null;
 	}
 
@@ -273,10 +317,10 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(CharConstant charConstant, Object param) {
-
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// charConstant.setLvalue(?);
-		// charConstant.setType(?);
+		//Regla -> charConstant.lValue = FALSE
+		charConstant.setLvalue(false);
+		//Regla -> charConstant.type = CharType
+		charConstant.setType(new CharType());
 		return null;
 	}
 
@@ -286,9 +330,10 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(Variable variable, Object param) {
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// variable.setLvalue(?);
-		// variable.setType(?);
+		//Regla -> variable.lValue = TRUE
+		variable.setLvalue(true);
+		//Regla -> variable.type = definition.type
+		variable.setType(variable.getDefinition().getTipo());
 		return null;
 	}
 
@@ -297,13 +342,15 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(CastExpr castExpr, Object param) {
 
-		// castExpr.getCastType().accept(this, param);
-		// castExpr.getValue().accept(this, param);
+		// Predicado -> checkCastType(castExpr.castType, castExpr.value.type)
+		predicate(checkCastType(castExpr.getCastType(), castExpr.getValue().getType()), "Los tipos de cast no son compatibles.", castExpr);
+
 		super.visit(castExpr, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// castExpr.setLvalue(?);
-		// castExpr.setType(?);
+		//Regla -> castExpr.lValue = FALSE
+		castExpr.setLvalue(false);
+		//Regla -> castExpr.type = castType
+		castExpr.setType(castExpr.getCastType());
 		return null;
 	}
 
@@ -311,14 +358,18 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
 	public Object visit(ArithmeticExpr arithmeticExpr, Object param) {
-
-		// arithmeticExpr.getOp1().accept(this, param);
-		// arithmeticExpr.getOp2().accept(this, param);
+		// Predicado -> isPrimitive(op1.type)
+		boolean checkType = arithmeticExpr.getOp1().getType() instanceof IntType || arithmeticExpr.getOp1().getType() instanceof DoubleType;
+		predicate(checkType, "El tipo de la expresión de la izquierda debe de ser integer o double.", arithmeticExpr);
+		// Predicado -> op1.type == op2.type
+		predicate(checkSameType(arithmeticExpr.getOp1().getType(), arithmeticExpr.getOp2().getType()), "Los tipos de las expresiones no coinciden", arithmeticExpr);
+		
 		super.visit(arithmeticExpr, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// arithmeticExpr.setLvalue(?);
-		// arithmeticExpr.setType(?);
+		//Regla -> arithmeticExpr.lValue = FALSE
+		arithmeticExpr.setLvalue(false);
+		//Regla -> arithmeticExpr.type = op1.type
+		arithmeticExpr.setType(arithmeticExpr.getOp1().getType());
 		return null;
 	}
 
@@ -327,13 +378,19 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(LogicalExpr logicalExpr, Object param) {
 
+		//Predicado -> op1.type == INTEGER
+		predicate(logicalExpr.getOp1().getType() instanceof IntType, "El tipo de la expresión de la izquierda debe de ser integer.", logicalExpr);
+		//Predicado -> sameType(op1.type, op2.type)
+		predicate(checkSameType(logicalExpr.getOp1().getType(), logicalExpr.getOp2().getType()), "Los tipos de la condición deben de ser del mismo tipo.", logicalExpr)
+
 		// logicalExpr.getOp1().accept(this, param);
 		// logicalExpr.getOp2().accept(this, param);
 		super.visit(logicalExpr, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// logicalExpr.setLvalue(?);
-		// logicalExpr.setType(?);
+		//Regla -> logicalExpr.lValue = FALSE
+		logicalExpr.setLvalue(false);
+		//Regla -> logicalExpr.type = op1.type
+		logicalExpr.setType(logicalExpr.getOp1().getType());
 		return null;
 	}
 
@@ -454,7 +511,7 @@ public class TypeChecking extends DefaultVisitor {
 	 * @param type Tipo
 	 * @return true si el tipo es un tipo simple (int, double, char)
 	 */
-	private boolean isSimpleType(Type type) {
+	private boolean isPrimitive(Type type) {
 		return type instanceof IntType || type instanceof DoubleType || type instanceof CharType;
 	}
 
