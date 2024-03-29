@@ -150,7 +150,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 
 	// class FunctionCallSent(String name, List<Expression> args)
 	// phase Identification { FunctionDefinition definition }
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(FunctionCallSent functionCallSent, Object param) {
 
@@ -161,7 +161,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class Assignment(Expression left, Expression right)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Assignment assignment, Object param) {
 
@@ -173,7 +173,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class Loop(List<Assignment> from, Expression until, List<Sentence> body)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Loop loop, Object param) {
 
@@ -186,7 +186,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class IfElse(Expression condition, List<Sentence> trueBlock, List<Sentence> falseBlock)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(IfElse ifElse, Object param) {
 
@@ -199,7 +199,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class Read(List<Expression> input)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Read read, Object param) {
 
@@ -210,7 +210,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class Print(String op, List<Expression> input)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Print print, Object param) {
 
@@ -221,7 +221,7 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 	}
 
 	// class Return(Optional<Expression> value)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Return returnValue, Object param) {
 

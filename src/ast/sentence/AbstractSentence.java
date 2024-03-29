@@ -16,6 +16,7 @@ import org.antlr.v4.runtime.Token;
 	
 	PHASE TypeChecking
 	sentence -> hasReturn:boolean
+	sentence -> owner:functionDefinition
 */
 public abstract class AbstractSentence extends AbstractAST implements Sentence {
 
@@ -25,6 +26,7 @@ public abstract class AbstractSentence extends AbstractAST implements Sentence {
 
     // PHASE TypeChecking
 	private boolean hasReturn;
+	private FunctionDefinition owner;
 
 
 
@@ -40,6 +42,20 @@ public abstract class AbstractSentence extends AbstractAST implements Sentence {
 
     public boolean isHasReturn() {
         return hasReturn;
+    }
+
+
+	// Attribute 'owner:functionDefinition' 
+
+	public void setOwner(FunctionDefinition owner) {
+		if (owner == null)
+			throw new IllegalArgumentException("Parameter 'owner' can't be null. Pass a non-null value or use 'functionDefinition?' in the abstract grammar");
+		this.owner = owner;
+
+	}
+
+    public FunctionDefinition getOwner() {
+        return owner;
     }
 
 

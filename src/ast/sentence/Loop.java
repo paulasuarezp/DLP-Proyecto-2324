@@ -3,6 +3,7 @@
 package ast.sentence;
 
 import ast.expression.*;
+import ast.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Stream;
@@ -21,6 +22,7 @@ import visitor.Visitor;
 	
 	PHASE TypeChecking
 	sentence -> hasReturn:boolean
+	sentence -> owner:functionDefinition
 */
 public class Loop extends AbstractSentence  {
 

@@ -3,6 +3,7 @@
 package ast.sentence;
 
 import ast.expression.*;
+import ast.*;
 import org.antlr.v4.runtime.Token;
 import visitor.Visitor;
 
@@ -18,6 +19,7 @@ import visitor.Visitor;
 	
 	PHASE TypeChecking
 	sentence -> hasReturn:boolean
+	sentence -> owner:functionDefinition
 */
 public class Assignment extends AbstractSentence  {
 

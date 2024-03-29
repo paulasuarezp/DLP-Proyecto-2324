@@ -226,7 +226,8 @@ public class AstPrinter implements Visitor {
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
         printToString(indent + 1, "vgen-attribute-phase-0", "definition", "FunctionDefinition", functionCallSent.getDefinition());
         printToString(indent + 1, "vgen-attribute-phase-1", "hasReturn", "boolean", functionCallSent.isHasReturn());
-		printUnknownFields(indent + 1, functionCallSent, "name", "args", "hasReturn", "definition");
+        printToString(indent + 1, "vgen-attribute-phase-1", "owner", "FunctionDefinition", functionCallSent.getOwner());
+		printUnknownFields(indent + 1, functionCallSent, "name", "args", "hasReturn", "owner", "definition");
 		return null;
 	}
 
@@ -241,7 +242,8 @@ public class AstPrinter implements Visitor {
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
         printToString(indent + 1, "vgen-attribute-phase-1", "hasReturn", "boolean", assignment.isHasReturn());
-		printUnknownFields(indent + 1, assignment, "left", "right", "hasReturn");
+        printToString(indent + 1, "vgen-attribute-phase-1", "owner", "FunctionDefinition", assignment.getOwner());
+		printUnknownFields(indent + 1, assignment, "left", "right", "hasReturn", "owner");
 		return null;
 	}
 
@@ -257,7 +259,8 @@ public class AstPrinter implements Visitor {
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
         printToString(indent + 1, "vgen-attribute-phase-1", "hasReturn", "boolean", loop.isHasReturn());
-		printUnknownFields(indent + 1, loop, "from", "until", "body", "hasReturn");
+        printToString(indent + 1, "vgen-attribute-phase-1", "owner", "FunctionDefinition", loop.getOwner());
+		printUnknownFields(indent + 1, loop, "from", "until", "body", "hasReturn", "owner");
 		return null;
 	}
 
@@ -273,7 +276,8 @@ public class AstPrinter implements Visitor {
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
         printToString(indent + 1, "vgen-attribute-phase-1", "hasReturn", "boolean", ifElse.isHasReturn());
-		printUnknownFields(indent + 1, ifElse, "condition", "trueBlock", "falseBlock", "hasReturn");
+        printToString(indent + 1, "vgen-attribute-phase-1", "owner", "FunctionDefinition", ifElse.getOwner());
+		printUnknownFields(indent + 1, ifElse, "condition", "trueBlock", "falseBlock", "hasReturn", "owner");
 		return null;
 	}
 
@@ -287,7 +291,8 @@ public class AstPrinter implements Visitor {
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
         printToString(indent + 1, "vgen-attribute-phase-1", "hasReturn", "boolean", read.isHasReturn());
-		printUnknownFields(indent + 1, read, "input", "hasReturn");
+        printToString(indent + 1, "vgen-attribute-phase-1", "owner", "FunctionDefinition", read.getOwner());
+		printUnknownFields(indent + 1, read, "input", "hasReturn", "owner");
 		return null;
 	}
 
@@ -302,7 +307,8 @@ public class AstPrinter implements Visitor {
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
         printToString(indent + 1, "vgen-attribute-phase-1", "hasReturn", "boolean", print.isHasReturn());
-		printUnknownFields(indent + 1, print, "op", "input", "hasReturn");
+        printToString(indent + 1, "vgen-attribute-phase-1", "owner", "FunctionDefinition", print.getOwner());
+		printUnknownFields(indent + 1, print, "op", "input", "hasReturn", "owner");
 		return null;
 	}
 
@@ -316,7 +322,8 @@ public class AstPrinter implements Visitor {
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
         printToString(indent + 1, "vgen-attribute-phase-1", "hasReturn", "boolean", returnValue.isHasReturn());
-		printUnknownFields(indent + 1, returnValue, "value", "hasReturn");
+        printToString(indent + 1, "vgen-attribute-phase-1", "owner", "FunctionDefinition", returnValue.getOwner());
+		printUnknownFields(indent + 1, returnValue, "value", "hasReturn", "owner");
 		return null;
 	}
 

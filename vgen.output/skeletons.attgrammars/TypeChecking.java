@@ -117,6 +117,11 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 
+		for (var sentence : functionDefinition.getSentences()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// sentence.setOwner(?);
+		}
+
 		// functionDefinition.getParams().forEach(varDefinition -> varDefinition.accept(this, param));
 		// functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
 		// functionDefinition.getVars().forEach(varDefinition -> varDefinition.accept(this, param));
@@ -159,7 +164,7 @@ public class TypeChecking extends DefaultVisitor {
 
 	// class FunctionCallSent(String name, List<Expression> args)
 	// phase Identification { FunctionDefinition definition }
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(FunctionCallSent functionCallSent, Object param) {
 
@@ -172,7 +177,7 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class Assignment(Expression left, Expression right)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Assignment assignment, Object param) {
 
@@ -186,9 +191,19 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class Loop(List<Assignment> from, Expression until, List<Sentence> body)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Loop loop, Object param) {
+
+		for (var assignment : loop.getFrom()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// assignment.setOwner(loop.getOwner());
+		}
+
+		for (var sentence : loop.getBody()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// sentence.setOwner(loop.getOwner());
+		}
 
 		// loop.getFrom().forEach(assignment -> assignment.accept(this, param));
 		// loop.getUntil().accept(this, param);
@@ -201,9 +216,19 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class IfElse(Expression condition, List<Sentence> trueBlock, List<Sentence> falseBlock)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(IfElse ifElse, Object param) {
+
+		for (var sentence : ifElse.getTrueBlock()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// sentence.setOwner(ifElse.getOwner());
+		}
+
+		for (var sentence : ifElse.getFalseBlock()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// sentence.setOwner(ifElse.getOwner());
+		}
 
 		// ifElse.getCondition().accept(this, param);
 		// ifElse.getTrueBlock().forEach(sentence -> sentence.accept(this, param));
@@ -216,7 +241,7 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class Read(List<Expression> input)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Read read, Object param) {
 
@@ -229,7 +254,7 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class Print(String op, List<Expression> input)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Print print, Object param) {
 
@@ -242,7 +267,7 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class Return(Optional<Expression> value)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Return returnValue, Object param) {
 

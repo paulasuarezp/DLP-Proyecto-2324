@@ -5,6 +5,8 @@
 
 package semantic;
 
+import java.util.List;
+
 import ast.*;
 import main.ErrorManager;
 import visitor.DefaultVisitor;
@@ -32,6 +34,8 @@ public class TypeChecking extends DefaultVisitor {
 
     // Visit Methods --------------------------------------------------------------
 
+	// Visit Methods --------------------------------------------------------------
+
 	// class Program(String name, List<StructDefinition> types, List<VarDefinition> vars, List<FunctionBuilder> builders, List<FunctionDefinition> features, RunCall runCall)
 	@Override
 	public Object visit(Program program, Object param) {
@@ -51,8 +55,15 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(RunCall runCall, Object param) {
 
-		// runCall.getArgs().forEach(expression -> expression.accept(this, param));
-		super.visit(runCall, param);
+		List<Expression> args = runCall.getArgs();
+		List<VarDefinition> params = runCall.getDefinition().getParams();
+
+		if (predicate(args.size() == params.size(), "La llamada a la función " + runCall.getDefinition().getName() +
+			" esperaba " + params.size() + " argumentos y se le han proporcionado " + args.size() + "." , runCall)){
+			if(predicate(checkArgs(args,params), "Los tipos de los parámetros no coinciden con los definidos en la función " + runCall.getDefinition().getName() , runCall))
+				// runCall.getArgs().forEach(expression -> expression.accept(this, param));
+				super.visit(runCall, param);
+		}
 
 		return null;
 	}
@@ -73,6 +84,11 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean hasReturn }
 	@Override
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
+
+		for (var sentence : functionDefinition.getSentences()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// sentence.setOwner(?);
+		}
 
 		// functionDefinition.getParams().forEach(varDefinition -> varDefinition.accept(this, param));
 		// functionDefinition.getReturnType().ifPresent(returnType -> returnType.accept(this, param));
@@ -116,7 +132,7 @@ public class TypeChecking extends DefaultVisitor {
 
 	// class FunctionCallSent(String name, List<Expression> args)
 	// phase Identification { FunctionDefinition definition }
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(FunctionCallSent functionCallSent, Object param) {
 
@@ -129,7 +145,7 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class Assignment(Expression left, Expression right)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Assignment assignment, Object param) {
 
@@ -143,9 +159,19 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class Loop(List<Assignment> from, Expression until, List<Sentence> body)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Loop loop, Object param) {
+
+		for (var assignment : loop.getFrom()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// assignment.setOwner(loop.getOwner());
+		}
+
+		for (var sentence : loop.getBody()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// sentence.setOwner(loop.getOwner());
+		}
 
 		// loop.getFrom().forEach(assignment -> assignment.accept(this, param));
 		// loop.getUntil().accept(this, param);
@@ -158,9 +184,19 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class IfElse(Expression condition, List<Sentence> trueBlock, List<Sentence> falseBlock)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(IfElse ifElse, Object param) {
+
+		for (var sentence : ifElse.getTrueBlock()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// sentence.setOwner(ifElse.getOwner());
+		}
+
+		for (var sentence : ifElse.getFalseBlock()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// sentence.setOwner(ifElse.getOwner());
+		}
 
 		// ifElse.getCondition().accept(this, param);
 		// ifElse.getTrueBlock().forEach(sentence -> sentence.accept(this, param));
@@ -173,7 +209,7 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class Read(List<Expression> input)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Read read, Object param) {
 
@@ -186,7 +222,7 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class Print(String op, List<Expression> input)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Print print, Object param) {
 
@@ -199,7 +235,7 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class Return(Optional<Expression> value)
-	// phase TypeChecking { boolean hasReturn }
+	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Return returnValue, Object param) {
 
@@ -388,54 +424,88 @@ public class TypeChecking extends DefaultVisitor {
 		return null;
 	}
 
-	// class IntType()
-	@Override
-	public Object visit(IntType intType, Object param) {
 
-		return null;
-	}
-
-	// class DoubleType()
-	@Override
-	public Object visit(DoubleType doubleType, Object param) {
-
-		return null;
-	}
-
-	// class CharType()
-	@Override
-	public Object visit(CharType charType, Object param) {
-
-		return null;
-	}
-
-	// class VoidType()
-	@Override
-	public Object visit(VoidType voidType, Object param) {
-
-		return null;
-	}
-
-	// class StructType(String name)
-	// phase Identification { StructDefinition definition }
-	@Override
-	public Object visit(StructType structType, Object param) {
-
-		return null;
-	}
-
-	// class ArrayType(IntConstant dimension, Type tipo)
-	@Override
-	public Object visit(ArrayType arrayType, Object param) {
-
-		// arrayType.getDimension().accept(this, param);
-		// arrayType.getTipo().accept(this, param);
-		super.visit(arrayType, param);
-
-		return null;
-	}
     //# ----------------------------------------------------------
     //# Auxiliary methods (optional)
+
+	/**
+	 * Comprueba que los tipos de los argumentos de una llamada a función coinciden con los tipos de los parámetros definidos en la función
+	 * @param args Lista de argumentos
+	 * @param params Lista de parámetros
+	 * @return true si los tipos de los argumentos coinciden con los tipos de los parámetros	
+	 */
+	private boolean checkArgs(List<Expression> args, List<VarDefinition> params) {
+		if (args.size() != params.size()) {
+			notifyError("El número de argumentos no coincide con el número de parámetros", args.get(0).start());
+			return false;
+		}
+
+		for (int i = 0; i < args.size(); i++) {
+			if (args.get(i).getType().getClass() != params.get(i).getTipo().getClass()) {
+				notifyError("El tipo del argumento " + i + " no coincide con el tipo del parámetro " + i, args.get(i).start());
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Comprueba si un tipo es un tipo simple
+	 * @param type Tipo
+	 * @return true si el tipo es un tipo simple (int, double, char)
+	 */
+	private boolean isSimpleType(Type type) {
+		return type instanceof IntType || type instanceof DoubleType || type instanceof CharType;
+	}
+
+
+	/**
+	 * Comprueba si dos tipos son del mismo tipo
+	 * @param type1 Tipo 1
+	 * @param type2 Tipo 2
+	 * @return true si los tipos son del mismo tipo
+	 */
+	private boolean checkSameType(Type type1, Type type2) {
+		if (type1.getClass() != type2.getClass()) {
+			return false;
+		}
+		return true;
+	}
+
+
+	/**
+	 * Comprueba si un tipo se puede castear a otro tipo
+	 * Las combinaciones válidas son:
+	 * 			- int -> char
+	 * 			- int -> double
+	 * 			- char -> int
+	 * 			- double -> int
+	 * 
+	 * @param castType Tipo al que se quiere castear
+	 * @param valueType Tipo que se quiere castear
+	 * @return true si el tipo se puede castear
+	 */
+	private boolean checkCastType(Type castType, Type valueType) {
+		if (castType.getClass() == IntType.class) {
+			if (valueType.getClass() == CharType.class || valueType.getClass() == DoubleType.class) {
+				return true;
+			}
+		} else if (castType.getClass() == DoubleType.class) {
+			if (valueType.getClass() == IntType.class) {
+				return true;
+			}
+		} else if (castType.getClass() == CharType.class) {
+			if (valueType.getClass() == IntType.class) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	//# ----------------------------------------------------------
+	//# Error notification methods
 
     private void notifyError(String errorMessage, Position position) {
         errorManager.notify("Type Checking", errorMessage, position);

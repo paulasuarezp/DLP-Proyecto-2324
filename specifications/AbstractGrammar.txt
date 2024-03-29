@@ -73,6 +73,7 @@ ATTRIBUTE GRAMMAR TypeChecking
 functionDefinition -> hasReturn: boolean;
 
 sentence -> hasReturn: boolean;
+sentence -> [inh] owner: functionDefinition;
 
 expression -> lvalue: boolean;
 expression -> type;

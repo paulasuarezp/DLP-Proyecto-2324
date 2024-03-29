@@ -27,6 +27,7 @@ AST <|-[#808080]- Sentence
 abstract AbstractSentence
 Sentence <|-[#808080]- AbstractSentence
 AbstractAST <|-[#808080]- AbstractSentence
+Sentence -[#3366cc,thickness=3]-  FunctionDefinition #text:3366cc : owner >
 
 interface Expression {
 	..<color:#3366cc> TypeChecking </color>..

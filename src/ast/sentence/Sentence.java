@@ -16,6 +16,7 @@ import org.antlr.v4.runtime.Token;
 	
 	PHASE TypeChecking
 	sentence -> hasReturn:boolean
+	sentence -> owner:functionDefinition
 */
 public interface Sentence extends AST {
 
@@ -29,6 +30,11 @@ public interface Sentence extends AST {
 
 	public void setHasReturn(boolean hasReturn);
 	public boolean isHasReturn();
+
+	// Attribute 'owner:functionDefinition' 
+
+	public void setOwner(FunctionDefinition owner);
+	public FunctionDefinition getOwner();
 
 
     // %% User Members -------------------------
