@@ -3,7 +3,6 @@
 package ast.sentence;
 
 import ast.*;
-import org.antlr.v4.runtime.Token;
 
 // %% User Declarations -------------
 
@@ -15,7 +14,6 @@ import org.antlr.v4.runtime.Token;
 	sentence -> 
 	
 	PHASE TypeChecking
-	sentence -> hasReturn:boolean
 	sentence -> owner:functionDefinition
 */
 public interface Sentence extends AST {
@@ -25,11 +23,6 @@ public interface Sentence extends AST {
 
     // --------------------------------
     // PHASE TypeChecking
-
-	// Attribute 'hasReturn:boolean' 
-
-	public void setHasReturn(boolean hasReturn);
-	public boolean isHasReturn();
 
 	// Attribute 'owner:functionDefinition' 
 

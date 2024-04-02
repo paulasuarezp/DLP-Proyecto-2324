@@ -24,7 +24,6 @@ import visitor.Visitor;
 	functionCallSent -> definition:functionDefinition
 	
 	PHASE TypeChecking
-	sentence -> hasReturn:boolean
 	sentence -> owner:functionDefinition
 */
 public class FunctionCallSent extends AbstractSentence  {

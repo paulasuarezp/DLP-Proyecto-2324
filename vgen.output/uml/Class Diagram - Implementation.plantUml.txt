@@ -20,8 +20,6 @@ AST *-[#404040,thickness=1]- Position : end >
 
 
 interface Sentence {
-	..<color:#3366cc> TypeChecking </color>..
-	+<color:#3366cc>boolean hasReturn</color>
 }
 AST <|-[#808080]- Sentence
 abstract AbstractSentence

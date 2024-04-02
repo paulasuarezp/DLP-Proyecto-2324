@@ -21,7 +21,6 @@ import visitor.Visitor;
 	sentence -> 
 	
 	PHASE TypeChecking
-	sentence -> hasReturn:boolean
 	sentence -> owner:functionDefinition
 */
 public class Print extends AbstractSentence  {

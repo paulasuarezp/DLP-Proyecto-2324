@@ -73,17 +73,11 @@ public class TypeChecking extends DefaultVisitor {
 			predicate(isPrimitive(functionDefinition.getReturnType().get()), "El tipo de retorno de la función " + functionDefinition.getName() + " debe de ser un tipo simple (integer, double o character)", functionDefinition);
 		}
 
-		
-		super.visit(functionDefinition, param);
-		
+		// Inicializar valor
 		functionDefinition.setHasReturn(false);
-		// Regla -> sentences.forEach(s -> if (s.hasReturn) functionDefinition.hasReturn = true)
-		for (var sentence : functionDefinition.getSentences()) {
-			if (sentence.isHasReturn()) {
-				functionDefinition.setHasReturn(true);
-				break;
-			}
-		}
+				
+		super.visit(functionDefinition, param);
+				
 		return null;
 	}
 
@@ -106,9 +100,6 @@ public class TypeChecking extends DefaultVisitor {
 		
 		}
 
-		// Regla -> functionCallSent.hasReturn = FALSE
-		functionCallSent.setHasReturn(false);
-
 		return null;
 	}
 
@@ -128,8 +119,6 @@ public class TypeChecking extends DefaultVisitor {
 		//Predicado -> checkSameType(left.type, right.type)
 		predicate(checkSameType(assignment.getLeft().getType(), assignment.getRight().getType()), "Los tipos de las expresiones no coinciden", assignment);
 
-		// Regla -> assignment.hasReturn = FALSE
-		assignment.setHasReturn(false);
 		return null;
 	}
 
@@ -154,13 +143,6 @@ public class TypeChecking extends DefaultVisitor {
 			sentence.setOwner(loop.getOwner());
 		}
 
-		// Regla -> body.forEach( s-> if (s.hasReturn) loop.hasReturn = TRUE)
-		for(var sentence: loop.getBody()){
-			if(sentence.isHasReturn()){
-				loop.setHasReturn(true);
-				break;
-			}
-		}
 
 		return null;
 	}
@@ -186,23 +168,6 @@ public class TypeChecking extends DefaultVisitor {
 			sentence.setOwner(ifElse.getOwner());
 		}
 
-
-		// Regla -> trueBlock.forEach(s -> if (s.hasReturn) ifElse.hasReturn = TRUE)
-		for (var sentence : ifElse.getTrueBlock()) {
-			if(sentence.isHasReturn()){
-				ifElse.setHasReturn(true);
-				break;
-			}
-		}
-
-		// Regla -> falseBlock.forEach(s -> if (s.hasReturn) ifElse.hasReturn = TRUE)
-		for (var sentence : ifElse.getFalseBlock()) {
-			if(sentence.isHasReturn()){
-				ifElse.setHasReturn(true);
-				break;
-			}
-		}
-
 		return null;
 	}
 
@@ -220,9 +185,6 @@ public class TypeChecking extends DefaultVisitor {
 		boolean checkTypes = read.getInput().stream().allMatch(e -> isPrimitive(e.getType()));
 		predicate(checkTypes, "Alguna de las expresiones de la sentencia Read no es de tipo simple (integer, double o character)", read);
 
-
-		// Regla -> read.hasReturn = FALSE
-		read.setHasReturn(false);
 		return null;
 	}
 
@@ -234,10 +196,7 @@ public class TypeChecking extends DefaultVisitor {
 
 		//Regla -> input.all(e -> isPrimitive(e.type))
 		boolean checkTypes = print.getInput().stream().allMatch(e -> isPrimitive(e.getType()));
-		if(predicate(checkTypes, "Alguna de las expresiones de la sentencia Print no es de tipo simple (integer, double o character)", print)){
-			// Regla -> print.hasReturn = FALSE
-			print.setHasReturn(false);
-		}
+		predicate(checkTypes, "Alguna de las expresiones de la sentencia Print no es de tipo simple (integer, double o character)", print);
 		return null;
 	}
 
@@ -246,8 +205,8 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(Return returnValue, Object param) {
 		
-		// Regla -> returnValue.hasReturn = TRUE
-		returnValue.setHasReturn(true);
+		// Regla -> returnValue.owner.hasReturn = TRUE
+		returnValue.getOwner().setHasReturn(true);
 
 		
 		// returnValue.getValue().ifPresent(value -> value.accept(this, param));

@@ -164,20 +164,18 @@ public class TypeChecking extends DefaultVisitor {
 
 	// class FunctionCallSent(String name, List<Expression> args)
 	// phase Identification { FunctionDefinition definition }
-	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
+	// phase TypeChecking { FunctionDefinition owner }
 	@Override
 	public Object visit(FunctionCallSent functionCallSent, Object param) {
 
 		// functionCallSent.getArgs().forEach(expression -> expression.accept(this, param));
 		super.visit(functionCallSent, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// functionCallSent.setHasReturn(?);
 		return null;
 	}
 
 	// class Assignment(Expression left, Expression right)
-	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
+	// phase TypeChecking { FunctionDefinition owner }
 	@Override
 	public Object visit(Assignment assignment, Object param) {
 
@@ -185,13 +183,11 @@ public class TypeChecking extends DefaultVisitor {
 		// assignment.getRight().accept(this, param);
 		super.visit(assignment, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// assignment.setHasReturn(?);
 		return null;
 	}
 
 	// class Loop(List<Assignment> from, Expression until, List<Sentence> body)
-	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
+	// phase TypeChecking { FunctionDefinition owner }
 	@Override
 	public Object visit(Loop loop, Object param) {
 
@@ -210,13 +206,11 @@ public class TypeChecking extends DefaultVisitor {
 		// loop.getBody().forEach(sentence -> sentence.accept(this, param));
 		super.visit(loop, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// loop.setHasReturn(?);
 		return null;
 	}
 
 	// class IfElse(Expression condition, List<Sentence> trueBlock, List<Sentence> falseBlock)
-	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
+	// phase TypeChecking { FunctionDefinition owner }
 	@Override
 	public Object visit(IfElse ifElse, Object param) {
 
@@ -235,47 +229,39 @@ public class TypeChecking extends DefaultVisitor {
 		// ifElse.getFalseBlock().forEach(sentence -> sentence.accept(this, param));
 		super.visit(ifElse, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// ifElse.setHasReturn(?);
 		return null;
 	}
 
 	// class Read(List<Expression> input)
-	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
+	// phase TypeChecking { FunctionDefinition owner }
 	@Override
 	public Object visit(Read read, Object param) {
 
 		// read.getInput().forEach(expression -> expression.accept(this, param));
 		super.visit(read, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// read.setHasReturn(?);
 		return null;
 	}
 
 	// class Print(String op, List<Expression> input)
-	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
+	// phase TypeChecking { FunctionDefinition owner }
 	@Override
 	public Object visit(Print print, Object param) {
 
 		// print.getInput().forEach(expression -> expression.accept(this, param));
 		super.visit(print, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// print.setHasReturn(?);
 		return null;
 	}
 
 	// class Return(Optional<Expression> value)
-	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
+	// phase TypeChecking { FunctionDefinition owner }
 	@Override
 	public Object visit(Return returnValue, Object param) {
 
 		// returnValue.getValue().ifPresent(value -> value.accept(this, param));
 		super.visit(returnValue, param);
 
-		// TODO: Remember to initialize SYNTHESIZED attributes <-----
-		// returnValue.setHasReturn(?);
 		return null;
 	}
 

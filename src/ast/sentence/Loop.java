@@ -7,7 +7,6 @@ import ast.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Stream;
-import org.antlr.v4.runtime.Token;
 import visitor.Visitor;
 
 // %% User Declarations -------------
@@ -21,7 +20,6 @@ import visitor.Visitor;
 	sentence -> 
 	
 	PHASE TypeChecking
-	sentence -> hasReturn:boolean
 	sentence -> owner:functionDefinition
 */
 public class Loop extends AbstractSentence  {

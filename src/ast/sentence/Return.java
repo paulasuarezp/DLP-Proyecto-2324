@@ -5,7 +5,6 @@ package ast.sentence;
 import ast.expression.*;
 import ast.*;
 import java.util.Optional;
-import org.antlr.v4.runtime.Token;
 import visitor.Visitor;
 
 // %% User Declarations -------------
@@ -19,7 +18,6 @@ import visitor.Visitor;
 	sentence -> 
 	
 	PHASE TypeChecking
-	sentence -> hasReturn:boolean
 	sentence -> owner:functionDefinition
 */
 public class Return extends AbstractSentence  {
