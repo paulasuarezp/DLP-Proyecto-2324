@@ -384,16 +384,21 @@ public class TypeChecking extends DefaultVisitor {
 	public Object visit(FunctionCallExpr functionCallExpr, Object param) {
 		super.visit(functionCallExpr, param);
 
+		// Predicado -> functionCallExpr.definition.tipo!=VoidType
+		boolean isVoid = functionCallExpr.getDefinition().getReturnType().isPresent() && functionCallExpr.getDefinition().getReturnType().get() instanceof VoidType;
+		if(predicate(isVoid || !functionCallExpr.getDefinition().getReturnType().isPresent() , "La función " + functionCallExpr.getName() + " no tiene tipo de retorno, no se puede usar como una expresión.", functionCallExpr)
 		//Predicado -> functionCallExpr.args.size() == definition.params.size()
-		if(predicate(functionCallExpr.getArgs().size() == functionCallExpr.getDefinition().getParams().size(), "El número de argumentos no coincide con el número de parámetros", functionCallExpr)){
+		&& predicate(functionCallExpr.getArgs().size() == functionCallExpr.getDefinition().getParams().size(), "El número de argumentos no coincide con el número de parámetros", functionCallExpr)
 			//Predicado -> checkArgs(args, definition.params)
-			predicate(checkArgs(functionCallExpr.getArgs(), functionCallExpr.getDefinition().getParams()), "Los tipos de los argumentos no coinciden con los definidos en la función " + functionCallExpr.getName(), functionCallExpr);
+			&& predicate(checkArgs(functionCallExpr.getArgs(), functionCallExpr.getDefinition().getParams()), "Los tipos de los argumentos no coinciden con los definidos en la función " + functionCallExpr.getName(), functionCallExpr)){
+				
+				//Regla -> functionCallExpr.lValue = FALSE
+				functionCallExpr.setLvalue(false);
+				//Regla -> functionCallExpr.type = definition.returnType
+				functionCallExpr.setType(functionCallExpr.getDefinition().getReturnType().orElse(new VoidType()));
+					
 		}
 
-		//Regla -> functionCallExpr.lValue = FALSE
-		functionCallExpr.setLvalue(false);
-		//Regla -> functionCallExpr.type = definition.returnType
-		functionCallExpr.setType(functionCallExpr.getDefinition().getReturnType().orElse(new VoidType()));
 		return null;
 	}
 
