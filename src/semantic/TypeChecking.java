@@ -234,10 +234,10 @@ public class TypeChecking extends DefaultVisitor {
 
 		//Regla -> input.all(e -> isPrimitive(e.type))
 		boolean checkTypes = print.getInput().stream().allMatch(e -> isPrimitive(e.getType()));
-		predicate(checkTypes, "Alguna de las expresiones de la sentencia Print no es de tipo simple (integer, double o character)", print);
-
-		// Regla -> print.hasReturn = FALSE
-		print.setHasReturn(false);
+		if(predicate(checkTypes, "Alguna de las expresiones de la sentencia Print no es de tipo simple (integer, double o character)", print)){
+			// Regla -> print.hasReturn = FALSE
+			print.setHasReturn(false);
+		}
 		return null;
 	}
 
@@ -445,18 +445,22 @@ public class TypeChecking extends DefaultVisitor {
 		super.visit(fieldAccess, param);
 
 		//Predicado -> root.type == StructType
-		predicate(fieldAccess.getRoot().getType() instanceof StructType, "El tipo de la expresión debe de ser un StructType", fieldAccess);
 
-		//Predicado -> field es un campo de root.type
-		boolean checkField = ((StructType) fieldAccess.getRoot()).getDefinition().getFields().stream().anyMatch(f -> f.getName().equals(fieldAccess.getField()));
-		predicate(checkField, "No hay ningún campo en la deftuple " + ((StructType) fieldAccess.getRoot()).getName() + " con el nombre " + fieldAccess.getField(), fieldAccess);
-		
-		//Regla -> fieldAccess.lValue = TRUE
-		fieldAccess.setLvalue(true);
+		if(predicate(fieldAccess.getRoot().getType().getClass() == StructType.class, "El tipo de la expresión debe de ser un StructType", fieldAccess)){
 
-		//Regla -> fieldAccess.type = field.type
-		FieldDefinition field = ((StructType) fieldAccess.getRoot()).getDefinition().getFields().stream().filter(f -> f.getName().equals(fieldAccess.getField())).findFirst().orElse(null);
-		fieldAccess.setType(field.getTipo());
+			//Predicado -> field es un campo de root.type
+			StructType structType =  (StructType) fieldAccess.getRoot().getType();
+			boolean checkField = structType.getDefinition().getFields().stream().anyMatch(f -> f.getName().equals(fieldAccess.getField()));
+			if(predicate(checkField, "No hay ningún campo en la deftuple " + structType.getName() + " con el nombre " + fieldAccess.getField(), fieldAccess)){
+			
+				//Regla -> fieldAccess.lValue = TRUE
+				fieldAccess.setLvalue(true);
+
+				//Regla -> fieldAccess.type = field.type
+				FieldDefinition field = structType.getDefinition().getFields().stream().filter(f -> f.getName().equals(fieldAccess.getField())).findFirst().orElse(null);
+				fieldAccess.setType(field.getTipo());
+			}
+		}
 		return null;
 	}
 
@@ -468,15 +472,17 @@ public class TypeChecking extends DefaultVisitor {
 		super.visit(arrayAccess, param);
 
 		//Predicado -> array.type == ArrayType
-		predicate(arrayAccess.getArray().getType() instanceof ArrayType, "El tipo de la expresión debe de ser un ArrayType", arrayAccess);
+		if(predicate(arrayAccess.getArray().getType() instanceof ArrayType, "El tipo de la expresión debe de ser un ArrayType", arrayAccess) &&
 
 		//Predicado -> index.type == IntType
-		predicate(arrayAccess.getIndex().getType() instanceof IntType, "El tipo de la expresión debe de ser integer", arrayAccess);
+		predicate(arrayAccess.getIndex().getType() instanceof IntType, "El tipo de la expresión debe de ser integer", arrayAccess)){
 
 		//Regla -> arrayAccess.lValue = TRUE
 		arrayAccess.setLvalue(true);
 		//Regla -> arrayAccess.type = array.type.type
 		arrayAccess.setType(((ArrayType) arrayAccess.getArray().getType()).getTipo());
+		}
+
 		return null;
 	}
 
@@ -522,10 +528,10 @@ public class TypeChecking extends DefaultVisitor {
 	 * @return true si los tipos son del mismo tipo
 	 */
 	private boolean checkSameType(Type type1, Type type2) {
-		if (type1.getClass() != type2.getClass()) {
+		if(type1 == null || type2 == null){
 			return false;
 		}
-		return true;
+		return type1.getClass() != type2.getClass();
 	}
 
 
