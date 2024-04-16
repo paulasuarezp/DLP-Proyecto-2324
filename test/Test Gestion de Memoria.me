@@ -1,10 +1,10 @@
 //*
-* Test para probar la Fase de GestiÃ³n de Memoria.
+* Test para probar la Fase de Gestión de Memoria.
 * 
-* COMPROBACION: Las direcciones asignadas a cada nodo deben coincidir con la direcciÃ³n del comentario de cada definiciÃ³n.
+* COMPROBACION: Las direcciones asignadas a cada nodo deben coincidir con la dirección del comentario de cada definición.
 * 
-* En el siguiente programa, al lado de cada variable (global, local y parÃ¡metro) y al lado de cada campo de tupla
-* se ha colocado la direcciÃ³n que tendrÃ¡ en ejecuciÃ³n como comentario. Comprobar que coinciden con las obetenidas.
+* En el siguiente programa, al lado de cada variable (global, local y parámetro) y al lado de cada campo de tupla
+* se ha colocado la dirección que tendrá en ejecución como comentario. Comprobar que coinciden con las obetenidas.
 *//
 
 class Test_MemoryAllocation;
@@ -29,7 +29,7 @@ class Test_MemoryAllocation;
 	create
 		main;
 
-	/*--> Ojo, los parÃ¡metros van en sentido decreciente y comienzan en 4
+	/*--> Ojo, los parámetros van en sentido decreciente y comienzan en 4
 	feature main (a: INTEGER, b: DOUBLE, h : CHARACTER) is /* a = BP+9, b = BP+5, h = BP+4  
 		local
 			c : CHARACTER;	/* BP-1 
@@ -41,3 +41,5 @@ class Test_MemoryAllocation;
 end
 
 run main(1, 2.5, 'a');
+
+

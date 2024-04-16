@@ -1,6 +1,9 @@
 package codegeneration;
 
+import java.lang.reflect.Field;
+
 import ast.*;
+import codegeneration.mapl.utils.MaplUtils;
 import visitor.DefaultVisitor;
 
 // This class will be implemented in memory allocation phase
@@ -14,10 +17,14 @@ public class MemoryAllocation extends DefaultVisitor {
    // class Program(String name, List<StructDefinition> types, List<VarDefinition> vars, List<FunctionBuilder> builders, List<FunctionDefinition> features, RunCall runCall)
 	@Override
 	public Object visit(Program program, Object param) {
+        int currentAddress = 0;
 
 		for (var varDefinition : program.getVars()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// varDefinition.setAddress(?);
+			if(varDefinition.getScope() == Scope.GLOBAL) {
+                varDefinition.setAddress(currentAddress);
+                currentAddress += MaplUtils.getTypeSize(varDefinition.getTipo());
+            }
+            varDefinition.accept(this, param);
 		}
 
 		// program.getTypes().forEach(structDefinition -> structDefinition.accept(this, param));
@@ -35,9 +42,11 @@ public class MemoryAllocation extends DefaultVisitor {
 	@Override
 	public Object visit(StructDefinition structDefinition, Object param) {
 
-		for (var fieldDefinition : structDefinition.getFields()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// fieldDefinition.setAddress(?);
+        int currentAddress = 0;
+
+		for (FieldDefinition fieldDefinition : structDefinition.getFields()) {
+            fieldDefinition.setAddress(currentAddress);
+            currentAddress += MaplUtils.getTypeSize(fieldDefinition.getTipo());
 		}
 
 		// structDefinition.getName().accept(this, param);
@@ -54,14 +63,17 @@ public class MemoryAllocation extends DefaultVisitor {
 	@Override
 	public Object visit(FunctionDefinition functionDefinition, Object param) {
 
-		for (var varDefinition : functionDefinition.getParams()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// varDefinition.setAddress(?);
+        int currentAddressForLocals = 0;
+        int currentAddressForParameters = 4;
+
+		for (int i = functionDefinition.getParams().size() - 1; i >= 0; i--) {
+            functionDefinition.getParams().get(i).setAddress(currentAddressForParameters);
+            currentAddressForParameters += MaplUtils.getTypeSize(functionDefinition.getParams().get(i).getTipo());
 		}
 
-		for (var varDefinition : functionDefinition.getVars()) {
-			// TODO: Remember to initialize INHERITED attributes <----
-			// varDefinition.setAddress(?);
+		for (VarDefinition varDefinition : functionDefinition.getVars()) {
+            currentAddressForLocals -= MaplUtils.getTypeSize(varDefinition.getTipo());
+            varDefinition.setAddress(currentAddressForLocals);
 		}
 
 		// functionDefinition.getParams().forEach(varDefinition -> varDefinition.accept(this, param));
