@@ -76,3 +76,10 @@ sentence -> [inh] owner: functionDefinition;
 
 expression -> lvalue: boolean;
 expression -> type;
+
+
+
+//---------------------------------
+ATTRIBUTE GRAMMAR MemoryAllocation
+fieldDefinition -> [inh] address: int ;
+varDefinition -> [inh] address: int ;

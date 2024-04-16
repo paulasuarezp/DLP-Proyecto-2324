@@ -76,6 +76,8 @@ FunctionDefinition o-[#404040,thickness=2]- "✱" Sentence : sentences >
 
 class FieldDefinition {
 	+String name
+	..<color:#669900> MemoryAllocation </color>..
+	+<color:#669900>int address</color>
 }
 AST <|-[#808080]- FieldDefinition
 FieldDefinition o-[#404040,thickness=2]-  Type : tipo >
@@ -85,6 +87,8 @@ class VarDefinition {
 	+String name
 	..<color:#ff6600> Identification </color>..
 	+<color:#ff6600>Scope scope</color>
+	..<color:#669900> MemoryAllocation </color>..
+	+<color:#669900>int address</color>
 }
 AST <|-[#808080]- VarDefinition
 VarDefinition o-[#404040,thickness=2]-  Type : tipo >

@@ -17,6 +17,9 @@ import visitor.Visitor;
 	
 	PHASE Identification
 	fieldDefinition -> fieldOwner:structType
+	
+	PHASE MemoryAllocation
+	fieldDefinition -> address:int
 */
 public class FieldDefinition extends AbstractAST  {
 
@@ -29,6 +32,9 @@ public class FieldDefinition extends AbstractAST  {
 
     // PHASE Identification
 	private StructType fieldOwner;
+
+    // PHASE MemoryAllocation
+	private int address;
 
     // ----------------------------------
     // Constructors
@@ -108,6 +114,22 @@ public class FieldDefinition extends AbstractAST  {
 
     public StructType getFieldOwner() {
         return fieldOwner;
+    }
+
+
+
+    // --------------------------------
+    // PHASE MemoryAllocation
+
+	// Attribute 'address:int' 
+
+	public void setAddress(int address) {
+		this.address = address;
+
+	}
+
+    public int getAddress() {
+        return address;
     }
 
 

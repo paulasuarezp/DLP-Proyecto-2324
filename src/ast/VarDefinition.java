@@ -17,6 +17,9 @@ import visitor.Visitor;
 	
 	PHASE Identification
 	varDefinition -> scope:Scope
+	
+	PHASE MemoryAllocation
+	varDefinition -> address:int
 */
 public class VarDefinition extends AbstractAST  {
 
@@ -29,6 +32,9 @@ public class VarDefinition extends AbstractAST  {
 
     // PHASE Identification
 	private Scope scope;
+
+    // PHASE MemoryAllocation
+	private int address;
 
     // ----------------------------------
     // Constructors
@@ -108,6 +114,22 @@ public class VarDefinition extends AbstractAST  {
 
     public Scope getScope() {
         return scope;
+    }
+
+
+
+    // --------------------------------
+    // PHASE MemoryAllocation
+
+	// Attribute 'address:int' 
+
+	public void setAddress(int address) {
+		this.address = address;
+
+	}
+
+    public int getAddress() {
+        return address;
     }
 
 
