@@ -4,10 +4,14 @@ package codegeneration.mapl.codefunctions;
 
 import ast.*;
 import ast.sentence.*;
+import ast.type.VoidType;
 import codegeneration.mapl.*;
+import codegeneration.mapl.utils.MaplUtils;
 
 
 public class Execute extends AbstractCodeFunction {
+
+	private int labelCount = 0;
 
     public Execute(MaplCodeSpecification specification) {
         super(specification);
@@ -22,7 +26,11 @@ public class Execute extends AbstractCodeFunction {
 		// value(runCall.args());
 		// address(runCall.args());
 
-		out("<instruction>");
+		out("#LINE " + runCall.end().getLine() + " RunCall" + runCall.getName());
+		value(runCall.args());
+		out("CALL " + runCall.getName());
+		if(runCall.getDefinition().getReturnType().isPresent() && !(runCall.getDefinition().getReturnType().get() instanceof VoidType))
+			out("POP " + MaplUtils.maplSuffix(runCall.getDefinition().getReturnType().get()));
 
 		return null;
 	}
@@ -36,7 +44,11 @@ public class Execute extends AbstractCodeFunction {
 		// value(functionCallSent.args());
 		// address(functionCallSent.args());
 
-		out("<instruction>");
+		out("#LINE " + functionCallSent.end().getLine() + " SentCall" + functionCallSent.getName());
+		value(functionCallSent.args());
+		out("CALL " + functionCallSent.getName());
+		if(functionCallSent.getDefinition().getReturnType().isPresent() && !(functionCallSent.getDefinition().getReturnType().get() instanceof VoidType))
+			out("POP " + MaplUtils.maplSuffix(functionCallSent.getDefinition().getReturnType().get()));
 
 		return null;
 	}
@@ -52,7 +64,10 @@ public class Execute extends AbstractCodeFunction {
 		// value(assignment.getRight());
 		// address(assignment.getRight());
 
-		out("<instruction>");
+		out("#LINE " + assignment.end().getLine() + " " + assignment.getLeft() + " = " + assignment.getRight());
+		address(assignment.getLeft());
+		value(assignment.getRight());
+		out("STORE" + MaplUtils.maplSuffix(assignment.getLeft().getType()));
 
 		return null;
 	}
@@ -69,7 +84,17 @@ public class Execute extends AbstractCodeFunction {
 
 		// execute(loop.body());
 
-		out("<instruction>");
+		labelCount++;
+
+		out("#LINE " + loop.start().getLine() + " Loop");
+		out("´loopInit_" + labelCount);
+		execute(loop.from());
+		out("loopCond_" + labelCount + ":");
+		value(loop.getUntil());
+		out("JNZ loopEnd_" + labelCount);
+		execute(loop.body());
+		out("JMP loopCond_" + labelCount);
+		out("loopEnd_" + labelCount + ":");
 
 		return null;
 	}
@@ -86,7 +111,15 @@ public class Execute extends AbstractCodeFunction {
 
 		// execute(ifElse.falseBlock());
 
-		out("<instruction>");
+		labelCount++;
+		out("#LINE " + ifElse.start().getLine() + " IfElse");
+		value(ifElse.getCondition());
+		out("JZ else_" + labelCount);
+		execute(ifElse.trueBlock());
+		out("else_" + labelCount + ":");
+		execute(ifElse.falseBlock());
+		out("JMP endif_" + labelCount);
+		out("endif_" + labelCount + ":");
 
 		return null;
 	}
@@ -99,7 +132,9 @@ public class Execute extends AbstractCodeFunction {
 		// value(read.input());
 		// address(read.input());
 
-		out("<instruction>");
+		out("#LINE " + read.end().getLine() + " Read");
+		value(read.input());
+		out("IN " + MaplUtils.maplSuffix(read.getInput().get(0).getType()));
 
 		return null;
 	}
@@ -112,7 +147,10 @@ public class Execute extends AbstractCodeFunction {
 		// value(print.input());
 		// address(print.input());
 
-		out("<instruction>");
+		out("#LINE " + print.end().getLine() + " Print");
+		value(print.input());
+		out("OUT " + MaplUtils.maplSuffix(print.getInput().get(0).getType()));
+
 
 		return null;
 	}
@@ -125,7 +163,12 @@ public class Execute extends AbstractCodeFunction {
 		// value(returnValue.getValue());
 		// address(returnValue.getValue());
 
-		out("<instruction>");
+		out("#LINE " + returnValue.end().getLine() + " Return");
+		value(returnValue.getValue());
+		int bytesLocalVars = - MaplUtils.getVarsSize(returnValue.getOwner().getVars());
+		int bytesParams = MaplUtils.getVarsSize(returnValue.getOwner().getParams());
+		int bytesReturn = returnValue.getOwner().getReturnType().isPresent() ? MaplUtils.maplTypeSize(returnValue.getOwner().getReturnType().get()) : 0;
+		out("RET " + bytesReturn + ", " + bytesLocalVars + ", " + bytesParams);
 
 		return null;
 	}

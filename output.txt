@@ -11,7 +11,11 @@
 #GLOBAL c : struct Persona
 #GLOBAL d : int
 #BUILDER main
+#LINE 34 RunCallmain
 <instruction>
+<instruction>
+<instruction>
+CALL main
 HALT
 #FUNCTION main
 #PARAM a : int
