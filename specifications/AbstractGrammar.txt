@@ -83,3 +83,24 @@ expression -> type;
 ATTRIBUTE GRAMMAR MemoryAllocation
 fieldDefinition -> [inh] address: int ;
 varDefinition -> [inh] address: int ;
+
+
+// -----------------------
+CODE SPECIFICATION Mapl
+
+run[program]
+
+generate[functionDefinition]
+
+execute[runCall]
+execute[sentence]
+
+value[expression]
+
+address[expression]
+
+metadata[program]
+metadata[varDefinition]
+metadata[structDefinition]
+metadata[fieldDefinition]
+metadata[functionBuilder]
