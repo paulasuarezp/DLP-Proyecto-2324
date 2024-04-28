@@ -4,6 +4,7 @@ package codegeneration.mapl.codefunctions;
 
 import ast.*;
 import codegeneration.mapl.*;
+import codegeneration.mapl.utils.MaplUtils;
 
 
 public class Metadata extends AbstractCodeFunction {
@@ -27,7 +28,11 @@ public class Metadata extends AbstractCodeFunction {
 
 		// execute(program.getRunCall());
 
-		out("<instruction>");
+		out("#SOURCE \"" + getSpecification().getSourceFile() + "\"");
+		metadata(program.types());
+		metadata(program.vars());
+		metadata(program.builders());
+		
 
 		return null;
 	}
@@ -38,7 +43,20 @@ public class Metadata extends AbstractCodeFunction {
 	@Override
 	public Object visit(VarDefinition varDefinition, Object param) {
 
-		out("<instruction>");
+		switch (varDefinition.getScope()) {
+			case Scope.GLOBAL:
+				out("#GLOBAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				break;
+			case Scope.LOCAL:
+				out("#LOCAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				break;
+			case Scope.PARAMETER:
+				out("#PARAM " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				break;
+			default:
+				break;
+		}
+
 
 		return null;
 	}
@@ -49,7 +67,8 @@ public class Metadata extends AbstractCodeFunction {
 
 		// metadata(structDefinition.fields());
 
-		out("<instruction>");
+		out("#DEFTUPLE " + structDefinition.getName().getName());
+		metadata(structDefinition.fields());
 
 		return null;
 	}
@@ -60,7 +79,7 @@ public class Metadata extends AbstractCodeFunction {
 	@Override
 	public Object visit(FieldDefinition fieldDefinition, Object param) {
 
-		out("<instruction>");
+		out("\t#FIELD " + fieldDefinition.getName() + " : " + MaplUtils.maplType(fieldDefinition.getTipo()));
 
 		return null;
 	}
@@ -69,7 +88,7 @@ public class Metadata extends AbstractCodeFunction {
 	@Override
 	public Object visit(FunctionBuilder functionBuilder, Object param) {
 
-		out("<instruction>");
+		out("#BUILDER " + functionBuilder.getName());
 
 		return null;
 	}

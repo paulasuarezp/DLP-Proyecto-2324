@@ -1,1 +1,16 @@
+#SOURCE "input.txt"
+#DEFTUPLE Persona
+	#FIELD edad : int
+	#FIELD meses : int
+	#FIELD a : float
+#DEFTUPLE Prueba
+	#FIELD campo1 : int
+	#FIELD campo2 : int
+#GLOBAL a : char
+#GLOBAL b : float
+#GLOBAL c : struct Persona
+#GLOBAL d : int
+#BUILDER main
+<instruction>
+HALT
 <instruction>

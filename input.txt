@@ -1,12 +1,3 @@
-//*
-* Test para probar la Fase de Gestión de Memoria.
-* 
-* COMPROBACION: Las direcciones asignadas a cada nodo deben coincidir con la dirección del comentario de cada definición.
-* 
-* En el siguiente programa, al lado de cada variable (global, local y parámetro) y al lado de cada campo de tupla
-* se ha colocado la dirección que tendrá en ejecución como comentario. Comprobar que coinciden con las obetenidas.
-*//
-
 class Test_MemoryAllocation;
 	global
 		types

@@ -22,7 +22,7 @@ public class MemoryAllocation extends DefaultVisitor {
 		for (var varDefinition : program.getVars()) {
 			if(varDefinition.getScope() == Scope.GLOBAL) {
                 varDefinition.setAddress(currentAddress);
-                currentAddress += MaplUtils.getTypeSize(varDefinition.getTipo());
+                currentAddress += MaplUtils.maplTypeSize(varDefinition.getTipo());
             }
             varDefinition.accept(this, param);
 		}
@@ -46,7 +46,7 @@ public class MemoryAllocation extends DefaultVisitor {
 
 		for (FieldDefinition fieldDefinition : structDefinition.getFields()) {
             fieldDefinition.setAddress(currentAddress);
-            currentAddress += MaplUtils.getTypeSize(fieldDefinition.getTipo());
+            currentAddress += MaplUtils.maplTypeSize(fieldDefinition.getTipo());
 		}
 
 		// structDefinition.getName().accept(this, param);
@@ -68,11 +68,11 @@ public class MemoryAllocation extends DefaultVisitor {
 
 		for (int i = functionDefinition.getParams().size() - 1; i >= 0; i--) {
             functionDefinition.getParams().get(i).setAddress(currentAddressForParameters);
-            currentAddressForParameters += MaplUtils.getTypeSize(functionDefinition.getParams().get(i).getTipo());
+            currentAddressForParameters += MaplUtils.maplTypeSize(functionDefinition.getParams().get(i).getTipo());
 		}
 
 		for (VarDefinition varDefinition : functionDefinition.getVars()) {
-            currentAddressForLocals -= MaplUtils.getTypeSize(varDefinition.getTipo());
+            currentAddressForLocals -= MaplUtils.maplTypeSize(varDefinition.getTipo());
             varDefinition.setAddress(currentAddressForLocals);
 		}
 

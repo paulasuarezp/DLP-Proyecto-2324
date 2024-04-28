@@ -27,7 +27,10 @@ public class Run extends AbstractCodeFunction {
 
 		// execute(program.getRunCall());
 
-		out("<instruction>");
+		metadata(program);
+		execute(program.getRunCall());
+		out("HALT");
+		generate(program.features());
 
 		return null;
 	}
