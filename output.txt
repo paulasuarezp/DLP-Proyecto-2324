@@ -13,4 +13,13 @@
 #BUILDER main
 <instruction>
 HALT
-<instruction>
+#FUNCTION main
+#PARAM a : int
+#PARAM b : float
+#PARAM h : char
+#LOCAL c : char
+#LOCAL d : int
+#LOCAL e : struct Persona
+#LOCAL f : float
+ENTER -67
+RET 0, -67, 7

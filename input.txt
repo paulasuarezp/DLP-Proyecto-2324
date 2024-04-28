@@ -25,7 +25,7 @@ class Test_MemoryAllocation;
 		local
 			c : CHARACTER;	/* BP-1 
 			d : INTEGER;	/* BP-3 
-			e : [2]Persona; /* BP-63 
+			e : [2] Persona; /* BP-63 
 			f : DOUBLE; 	/* BP-67 
 		do
 	end

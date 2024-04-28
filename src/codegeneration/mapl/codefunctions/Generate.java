@@ -4,6 +4,7 @@ package codegeneration.mapl.codefunctions;
 
 import ast.*;
 import codegeneration.mapl.*;
+import codegeneration.mapl.utils.MaplUtils;
 
 
 public class Generate extends AbstractCodeFunction {
@@ -25,8 +26,22 @@ public class Generate extends AbstractCodeFunction {
 
 		// execute(functionDefinition.sentences());
 
-		out("<instruction>");
+		out("#FUNCTION " + functionDefinition.getName());
+		metadata(functionDefinition.params());
+		metadata(functionDefinition.vars());
 
+		int bytesLocalVars = - MaplUtils.getVarsSize(functionDefinition.getVars());
+		out("ENTER " + bytesLocalVars);
+
+		int bytesParams = MaplUtils.getVarsSize(functionDefinition.getParams());
+		int bytesReturn = functionDefinition.getReturnType().isPresent() ? MaplUtils.maplTypeSize(functionDefinition.getReturnType().get()) : 0;
+		
+		execute(functionDefinition.sentences());
+
+		
+		if(bytesReturn == 0)
+			out("RET " + bytesReturn + ", " + bytesLocalVars + ", " + bytesParams);
+		
 		return null;
 	}
 

@@ -1,11 +1,13 @@
 package codegeneration.mapl.utils;
 
 import ast.type.Type;
+import ast.type.VoidType;
 
 import java.util.List;
 import java.util.Map;
 
 import ast.FieldDefinition;
+import ast.VarDefinition;
 import ast.type.ArrayType;
 import ast.type.CharType; 
 import ast.type.DoubleType;
@@ -63,6 +65,7 @@ public class MaplUtils {
             case CharType c -> 1;
             case StructType s -> getStructSize(s);
             case ArrayType a -> Integer.valueOf(a.getDimension().getValue()) * maplTypeSize(a.getTipo());
+            case VoidType v -> 0;
             default -> throw new IllegalArgumentException("Unrecognized type");
         };
     }
@@ -95,6 +98,7 @@ public class MaplUtils {
             case CharType c -> "char";
             case StructType s -> "struct " + s.getName();
             case ArrayType a -> maplType(a.getTipo());
+            case VoidType v -> "void";
             default -> throw new IllegalArgumentException("Unrecognized type");
         };
     }
@@ -111,5 +115,19 @@ public class MaplUtils {
         return (MAP_TRANSLATION.get(sourceOperator) + maplSuffix(type));
     }
 
+
+    /**
+     * Devuelve el tamaño total de un conjunto de variables
+     * 
+     * @param vars es una lista con las definiciones de las variables
+     * @return retorna un entero con el tamaño total de las variables
+     */
+    public static int getVarsSize(List<VarDefinition> vars) {
+        int size = 0;
+        for (VarDefinition var : vars) {
+            size += maplTypeSize(var.getTipo());
+        }
+        return size;
+    }
     
 }
