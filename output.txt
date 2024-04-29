@@ -1,11 +1,15 @@
 #SOURCE "input.txt"
-#BUILDER inicio
-#LINE 17 RunCallinicio
+'Declaraciones globales
+
+'**BUILDER inicio
 CALL inicio
 HALT
-#FUNCTION inicio
-ENTER 0
-#LINE 10 Print
+
+'**FUNCTION inicio
+	'**Function Return Type: void
+inicio:
+
+#LINE 10
 PUSHB 72
 OUTB
 PUSHB 111
@@ -16,17 +20,18 @@ PUSHB 97
 OUTB
 PUSHB 32
 OUTB
-PUSHB 77
+PUSHB 80
+OUTB
+PUSHB 97
 OUTB
 PUSHB 117
 OUTB
-PUSHB 110
+PUSHB 108
 OUTB
-PUSHB 100
+PUSHB 97
 OUTB
-PUSHB 111
-OUTB
-#LINE 11 Print
+
+#LINE 11
 PUSHB 33
 OUTB
 PUSHB 10

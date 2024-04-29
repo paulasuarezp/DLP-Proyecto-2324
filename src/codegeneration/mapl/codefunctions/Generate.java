@@ -3,6 +3,7 @@
 package codegeneration.mapl.codefunctions;
 
 import ast.*;
+import ast.type.VoidType;
 import codegeneration.mapl.*;
 import codegeneration.mapl.utils.MaplUtils;
 
@@ -26,12 +27,16 @@ public class Generate extends AbstractCodeFunction {
 
 		// execute(functionDefinition.sentences());
 
-		out("#FUNCTION " + functionDefinition.getName());
+		out("\n'**FUNCTION " + functionDefinition.getName());
+		out("\t'**Function Return Type: " + MaplUtils.maplType(functionDefinition.getReturnType().orElse(new VoidType())));
+		out(functionDefinition.getName() + ":");
+
 		metadata(functionDefinition.params());
 		metadata(functionDefinition.vars());
 
 		int bytesLocalVars = - MaplUtils.getVarsSize(functionDefinition.getVars());
-		out("ENTER " + bytesLocalVars);
+		if(bytesLocalVars != 0)
+			out("ENTER " + bytesLocalVars);
 
 		int bytesParams = MaplUtils.getVarsSize(functionDefinition.getParams());
 		int bytesReturn = functionDefinition.getReturnType().isPresent() ? MaplUtils.maplTypeSize(functionDefinition.getReturnType().get()) : 0;

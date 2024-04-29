@@ -7,11 +7,10 @@ class Test000; /* Hola Mundo!
 
 	feature inicio is
 		do
-            print 'H', 'o', 'l', 'a', ' ', 'M', 'u', 'n', 'd', 'o';
+            print 'H', 'o', 'l', 'a', ' ', 'P', 'a', 'u', 'l', 'a';
             println '!';
 	end
 
 end
 
-run
-	inicio();
+run inicio();

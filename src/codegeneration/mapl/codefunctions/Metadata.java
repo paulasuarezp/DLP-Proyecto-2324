@@ -29,6 +29,7 @@ public class Metadata extends AbstractCodeFunction {
 		// execute(program.getRunCall());
 
 		out("#SOURCE \"" + getSpecification().getSourceFile() + "\"");
+		out("'Declaraciones globales");
 		metadata(program.types());
 		metadata(program.vars());
 		metadata(program.builders());
@@ -45,13 +46,13 @@ public class Metadata extends AbstractCodeFunction {
 
 		switch (varDefinition.getScope()) {
 			case Scope.GLOBAL:
-				out("#GLOBAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				out("\n'**GLOBAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
 				break;
 			case Scope.LOCAL:
-				out("#LOCAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				out("\n'**LOCAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
 				break;
 			case Scope.PARAMETER:
-				out("#PARAM " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				out("\n'**PARAM " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
 				break;
 			default:
 				break;
@@ -67,7 +68,7 @@ public class Metadata extends AbstractCodeFunction {
 
 		// metadata(structDefinition.fields());
 
-		out("#DEFTUPLE " + structDefinition.getName().getName());
+		out("\n'**DEFTUPLE " + structDefinition.getName().getName());
 		metadata(structDefinition.fields());
 
 		return null;
@@ -79,7 +80,7 @@ public class Metadata extends AbstractCodeFunction {
 	@Override
 	public Object visit(FieldDefinition fieldDefinition, Object param) {
 
-		out("\t#FIELD " + fieldDefinition.getName() + " : " + MaplUtils.maplType(fieldDefinition.getTipo()));
+		out("\n'**FIELD " + fieldDefinition.getName() + " : " + MaplUtils.maplType(fieldDefinition.getTipo()));
 
 		return null;
 	}
@@ -88,7 +89,7 @@ public class Metadata extends AbstractCodeFunction {
 	@Override
 	public Object visit(FunctionBuilder functionBuilder, Object param) {
 
-		out("#BUILDER " + functionBuilder.getName());
+		out("\n'**BUILDER " + functionBuilder.getName());
 
 		return null;
 	}

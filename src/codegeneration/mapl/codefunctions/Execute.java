@@ -27,7 +27,7 @@ public class Execute extends AbstractCodeFunction {
 		// value(runCall.args());
 		// address(runCall.args());
 
-		out("#LINE " + runCall.end().getLine() + " RunCall" + runCall.getName());
+		//out("\n#LINE " + runCall.end().getLine());
 		value(runCall.args());
 		out("CALL " + runCall.getName());
 		if(runCall.getDefinition().getReturnType().isPresent() && !(runCall.getDefinition().getReturnType().get() instanceof VoidType))
@@ -45,7 +45,7 @@ public class Execute extends AbstractCodeFunction {
 		// value(functionCallSent.args());
 		// address(functionCallSent.args());
 
-		out("#LINE " + functionCallSent.end().getLine() + " SentCall" + functionCallSent.getName());
+		out("\n#LINE " + functionCallSent.end().getLine());
 		value(functionCallSent.args());
 		out("CALL " + functionCallSent.getName());
 		if(functionCallSent.getDefinition().getReturnType().isPresent() && !(functionCallSent.getDefinition().getReturnType().get() instanceof VoidType))
@@ -65,7 +65,7 @@ public class Execute extends AbstractCodeFunction {
 		// value(assignment.getRight());
 		// address(assignment.getRight());
 
-		out("#LINE " + assignment.end().getLine() + " " + assignment.getLeft() + " = " + assignment.getRight());
+		out("\n#LINE " + assignment.end().getLine());
 		address(assignment.getLeft());
 		value(assignment.getRight());
 		out("STORE" + MaplUtils.maplSuffix(assignment.getLeft().getType()));
@@ -87,8 +87,8 @@ public class Execute extends AbstractCodeFunction {
 
 		labelCount++;
 
-		out("#LINE " + loop.start().getLine() + " Loop");
-		out("´loopInit_" + labelCount);
+		out("\n#LINE " + loop.start().getLine());
+		out("'loopInit_" + labelCount);
 		execute(loop.from());
 		out("loopCond_" + labelCount + ":");
 		value(loop.getUntil());
@@ -113,7 +113,7 @@ public class Execute extends AbstractCodeFunction {
 		// execute(ifElse.falseBlock());
 
 		labelCount++;
-		out("#LINE " + ifElse.start().getLine() + " IfElse");
+		out("\n#LINE " + ifElse.start().getLine());
 		value(ifElse.getCondition());
 		out("JZ else_" + labelCount);
 		execute(ifElse.trueBlock());
@@ -133,7 +133,7 @@ public class Execute extends AbstractCodeFunction {
 		// value(read.input());
 		// address(read.input());
 
-		out("#LINE " + read.end().getLine() + " Read");
+		out("\n#LINE " + read.end().getLine());
 		value(read.input());
 		out("IN" + MaplUtils.maplSuffix(read.getInput().get(0).getType()));
 
@@ -148,7 +148,7 @@ public class Execute extends AbstractCodeFunction {
 		// value(print.input());
 		// address(print.input());
 
-		out("#LINE " + print.end().getLine() + " Print");
+		out("\n#LINE " + print.end().getLine());
 		for(Expression e : print.getInput()) {
 			value(e);
 			out("OUT" + MaplUtils.maplSuffix(e.getType()));
@@ -175,7 +175,7 @@ public class Execute extends AbstractCodeFunction {
 		// value(returnValue.getValue());
 		// address(returnValue.getValue());
 
-		out("#LINE " + returnValue.end().getLine() + " Return");
+		out("\n#LINE " + returnValue.end().getLine() );
 		value(returnValue.getValue());
 		int bytesLocalVars = - MaplUtils.getVarsSize(returnValue.getOwner().getVars());
 		int bytesParams = MaplUtils.getVarsSize(returnValue.getOwner().getParams());
