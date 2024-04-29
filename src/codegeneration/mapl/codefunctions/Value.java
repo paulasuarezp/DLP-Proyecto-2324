@@ -112,7 +112,7 @@ public class Value extends AbstractCodeFunction {
 
 		value(logicalExpr.getOp1());
 		value(logicalExpr.getOp2());
-		String instruction = MaplUtils.maplOperator(logicalExpr.getOperator(), logicalExpr.getType());
+		String instruction = MaplUtils.maplOperator(logicalExpr.getOperator());
 		out(instruction);
 
 		return null;

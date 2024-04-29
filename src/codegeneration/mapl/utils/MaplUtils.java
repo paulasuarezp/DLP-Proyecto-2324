@@ -118,6 +118,18 @@ public class MaplUtils {
         return (MAP_TRANSLATION.get(sourceOperator) + maplSuffix(type));
     }
 
+    /**
+     * Convierte un operador del código fuente en el equivalente para la máquina
+     * MAPL
+     * 
+     * @param sourceOperator es una cadena con el operador de código fuente
+     * @param type           es el tipo de la operación que se realiza
+     * @return retorna una cadena con el operador adaptado al tipo esperado
+     */
+    public static String maplOperator(String sourceOperator) {
+        return (MAP_TRANSLATION.get(sourceOperator));
+    }
+
 
     /**
      * Devuelve el tamaño total de un conjunto de variables
@@ -131,6 +143,17 @@ public class MaplUtils {
             size += maplTypeSize(var.getTipo());
         }
         return size;
+    }
+
+    public static int getFieldOffset(StructType struct, String field) {
+        int offset = 0;
+        for (FieldDefinition f : struct.getDefinition().getFields()) {
+            if (f.getName().equals(field)) {
+                return offset;
+            }
+            offset += maplTypeSize(f.getTipo());
+        }
+        throw new IllegalArgumentException("Error calculando el offset de: " + field);
     }
     
 }

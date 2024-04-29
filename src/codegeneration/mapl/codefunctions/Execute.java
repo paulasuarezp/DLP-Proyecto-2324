@@ -178,7 +178,7 @@ out("endif_" + labelCount + ":");            // Etiqueta para el final del bloqu
 
 		out("\n#LINE " + returnValue.end().getLine() );
 		value(returnValue.getValue());
-		int bytesLocalVars = - MaplUtils.getVarsSize(returnValue.getOwner().getVars());
+		int bytesLocalVars = MaplUtils.getVarsSize(returnValue.getOwner().getVars());
 		int bytesParams = MaplUtils.getVarsSize(returnValue.getOwner().getParams());
 		int bytesReturn = returnValue.getOwner().getReturnType().isPresent() ? MaplUtils.maplTypeSize(returnValue.getOwner().getReturnType().get()) : 0;
 		out("RET " + bytesReturn + ", " + bytesLocalVars + ", " + bytesParams);

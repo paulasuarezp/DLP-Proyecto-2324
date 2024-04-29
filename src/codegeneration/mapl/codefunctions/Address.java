@@ -2,8 +2,11 @@
 
 package codegeneration.mapl.codefunctions;
 
+import org.glassfish.json.MapUtil;
+
 import ast.Scope;
 import ast.expression.*;
+import ast.type.StructType;
 import codegeneration.mapl.*;
 import codegeneration.mapl.utils.MaplUtils;
 
@@ -40,7 +43,8 @@ public class Address extends AbstractCodeFunction {
 		// address(fieldAccess.getRoot());
 
 		address(fieldAccess.getRoot());
-		out("PUSHI " + fieldAccess.getRoot().getType());
+		int offset = MaplUtils.getFieldOffset((StructType) fieldAccess.getRoot().getType(), fieldAccess.getField());
+		out("PUSHI " + offset);
 		out("ADDI");
 
 		return null;
