@@ -3,8 +3,10 @@ package codegeneration.mapl.utils;
 import ast.type.Type;
 import ast.type.VoidType;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ast.FieldDefinition;
 import ast.VarDefinition;
@@ -16,6 +18,7 @@ import ast.type.StructType;
 
 public class MaplUtils {
 
+    public static final Set<String> castInstructions = new HashSet<String>(Set.of("I2F", "F2I", "I2B", "B2I"));
     public static final Map<String, String> MAP_TRANSLATION;
 
     static {

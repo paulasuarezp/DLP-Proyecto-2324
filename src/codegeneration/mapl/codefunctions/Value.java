@@ -4,6 +4,7 @@ package codegeneration.mapl.codefunctions;
 
 import ast.expression.*;
 import codegeneration.mapl.*;
+import codegeneration.mapl.utils.MaplUtils;
 
 
 public class Value extends AbstractCodeFunction {
@@ -18,7 +19,7 @@ public class Value extends AbstractCodeFunction {
 	@Override
 	public Object visit(IntConstant intConstant, Object param) {
 
-		out("<instruction>");
+		out("PUSHI " + intConstant.getValue());
 
 		return null;
 	}
@@ -28,7 +29,7 @@ public class Value extends AbstractCodeFunction {
 	@Override
 	public Object visit(RealConstant realConstant, Object param) {
 
-		out("<instruction>");
+		out("PUSHF " + realConstant.getValue());
 
 		return null;
 	}
@@ -38,7 +39,13 @@ public class Value extends AbstractCodeFunction {
 	@Override
 	public Object visit(CharConstant charConstant, Object param) {
 
-		out("<instruction>");
+		String value = charConstant.getValue();
+        if (value.equals("'\\n'")) {
+            out("PUSHB 10");
+        } else {
+            int c = value.charAt(1);
+            out("PUSHB " + c);
+        }
 
 		return null;
 	}
@@ -49,7 +56,8 @@ public class Value extends AbstractCodeFunction {
 	@Override
 	public Object visit(Variable variable, Object param) {
 
-		out("<instruction>");
+		address(variable);
+		out("LOAD" + MaplUtils.maplSuffix(variable.getType()));
 
 		return null;
 	}
@@ -62,7 +70,12 @@ public class Value extends AbstractCodeFunction {
 		// value(castExpr.getValue());
 		// address(castExpr.getValue());
 
-		out("<instruction>");
+		value(castExpr.getValue());
+		String castInstruction = MaplUtils.maplSuffix(castExpr.getCastType()) + "2" + MaplUtils.maplSuffix(castExpr.getValue().getType());
+		if(!MaplUtils.castInstructions.contains(castInstruction))
+			throw new IllegalStateException("Cast instruction not found: " + castInstruction);
+		out(castInstruction);
+
 
 		return null;
 	}
@@ -78,7 +91,9 @@ public class Value extends AbstractCodeFunction {
 		// value(arithmeticExpr.getOp2());
 		// address(arithmeticExpr.getOp2());
 
-		out("<instruction>");
+		value(arithmeticExpr.getOp1());
+		value(arithmeticExpr.getOp2());
+		MaplUtils.maplOperator(arithmeticExpr.getOperator(), arithmeticExpr.getType());
 
 		return null;
 	}
@@ -94,7 +109,9 @@ public class Value extends AbstractCodeFunction {
 		// value(logicalExpr.getOp2());
 		// address(logicalExpr.getOp2());
 
-		out("<instruction>");
+		value(logicalExpr.getOp1());
+		value(logicalExpr.getOp2());
+		MaplUtils.maplOperator(logicalExpr.getOperator(), logicalExpr.getType());
 
 		return null;
 	}
@@ -110,7 +127,9 @@ public class Value extends AbstractCodeFunction {
 		// value(comparationExpr.getOp2());
 		// address(comparationExpr.getOp2());
 
-		out("<instruction>");
+		value(comparationExpr.getOp1());
+		value(comparationExpr.getOp2());
+		MaplUtils.maplOperator(comparationExpr.getOperator(), comparationExpr.getType());
 
 		return null;
 	}
@@ -123,7 +142,9 @@ public class Value extends AbstractCodeFunction {
 		// value(minusExpr.getOp());
 		// address(minusExpr.getOp());
 
-		out("<instruction>");
+		value(minusExpr.getOp());
+		out("PUSHI -1");
+		out("MULI");
 
 		return null;
 	}
@@ -136,7 +157,8 @@ public class Value extends AbstractCodeFunction {
 		// value(notExpr.getOp());
 		// address(notExpr.getOp());
 
-		out("<instruction>");
+		value(notExpr.getOp());
+		out("NOT");
 
 		return null;
 	}
@@ -150,7 +172,8 @@ public class Value extends AbstractCodeFunction {
 		// value(functionCallExpr.args());
 		// address(functionCallExpr.args());
 
-		out("<instruction>");
+		value(functionCallExpr.args());
+		out("CALL " + functionCallExpr.getName());
 
 		return null;
 	}
@@ -163,7 +186,8 @@ public class Value extends AbstractCodeFunction {
 		// value(fieldAccess.getRoot());
 		// address(fieldAccess.getRoot());
 
-		out("<instruction>");
+		address(fieldAccess.getRoot());
+		out("LOAD" + MaplUtils.maplSuffix(fieldAccess.getType()));
 
 		return null;
 	}
@@ -179,7 +203,8 @@ public class Value extends AbstractCodeFunction {
 		// value(arrayAccess.getIndex());
 		// address(arrayAccess.getIndex());
 
-		out("<instruction>");
+		address(arrayAccess.getArray());
+		out("LOAD" + MaplUtils.maplSuffix(arrayAccess.getType()));
 
 		return null;
 	}

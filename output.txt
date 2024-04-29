@@ -6,28 +6,28 @@ HALT
 #FUNCTION inicio
 ENTER 0
 #LINE 10 Print
-<instruction>
+PUSHB 72
 OUTB
-<instruction>
+PUSHB 111
 OUTB
-<instruction>
+PUSHB 108
 OUTB
-<instruction>
+PUSHB 97
 OUTB
-<instruction>
+PUSHB 32
 OUTB
-<instruction>
+PUSHB 77
 OUTB
-<instruction>
+PUSHB 117
 OUTB
-<instruction>
+PUSHB 110
 OUTB
-<instruction>
+PUSHB 100
 OUTB
-<instruction>
+PUSHB 111
 OUTB
 #LINE 11 Print
-<instruction>
+PUSHB 33
 OUTB
 PUSHB 10
 OUTB
