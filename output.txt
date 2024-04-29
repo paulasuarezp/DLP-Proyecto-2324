@@ -1,39 +1,70 @@
 #SOURCE "input.txt"
 'Declaraciones globales
+#GLOBAL varGlobal : float
 
 '**BUILDER inicio
 CALL inicio
 HALT
+#FUNC doble
+#ret int
+doble:
+#PARAM valor : int
 
-'**FUNCTION inicio
-	'**Function Return Type: void
+#LINE 28
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+PUSHI 2
+MULI
+RET 2, 0, 2
+#FUNC inicio
+#ret void
 inicio:
+#LOCAL varLocal : int
+ENTER 2
 
-#LINE 10
-PUSHB 72
-OUTB
-PUSHB 111
-OUTB
-PUSHB 108
-OUTB
-PUSHB 97
-OUTB
-PUSHB 32
-OUTB
-PUSHB 80
-OUTB
-PUSHB 97
-OUTB
-PUSHB 117
-OUTB
-PUSHB 108
-OUTB
-PUSHB 97
-OUTB
+#LINE 36
+PUSHA 0
+PUSHF 1.0
+STOREF
 
-#LINE 11
-PUSHB 33
-OUTB
+#LINE 37
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 2
+STOREI
+
+#LINE 39
+PUSHA 0
+LOADF
+PUSHF 2.0
+LTF
+JZ else_1
+
+#LINE 40
+PUSHI 1
+OUTI
 PUSHB 10
 OUTB
-RET 0, 0, 0
+JMP endif_1
+else_1:
+
+#LINE 42
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+OUTI
+PUSHB 10
+OUTB
+endif_1:
+
+#LINE 45
+PUSHI 2
+CALL doble
+OUTI
+PUSHB 10
+OUTB
+RET 0, 2, 0

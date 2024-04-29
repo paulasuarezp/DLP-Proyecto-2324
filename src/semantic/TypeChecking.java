@@ -386,7 +386,7 @@ public class TypeChecking extends DefaultVisitor {
 
 		// Predicado -> functionCallExpr.definition.tipo!=VoidType
 		boolean isVoid = functionCallExpr.getDefinition().getReturnType().isPresent() && functionCallExpr.getDefinition().getReturnType().get() instanceof VoidType;
-		if(predicate(isVoid || !functionCallExpr.getDefinition().getReturnType().isPresent() , "La función " + functionCallExpr.getName() + " no tiene tipo de retorno, no se puede usar como una expresión.", functionCallExpr)
+		if(predicate(!isVoid || functionCallExpr.getDefinition().isHasReturn() , "La función " + functionCallExpr.getName() + " no tiene tipo de retorno, no se puede usar como una expresión.", functionCallExpr)
 		//Predicado -> functionCallExpr.args.size() == definition.params.size()
 		&& predicate(functionCallExpr.getArgs().size() == functionCallExpr.getDefinition().getParams().size(), "El número de argumentos no coincide con el número de parámetros", functionCallExpr)
 			//Predicado -> checkArgs(args, definition.params)
@@ -495,7 +495,7 @@ public class TypeChecking extends DefaultVisitor {
 		if(type1 == null || type2 == null){
 			return false;
 		}
-		return type1.getClass() != type2.getClass();
+		return type1.getClass() == type2.getClass();
 	}
 
 

@@ -93,7 +93,8 @@ public class Value extends AbstractCodeFunction {
 
 		value(arithmeticExpr.getOp1());
 		value(arithmeticExpr.getOp2());
-		MaplUtils.maplOperator(arithmeticExpr.getOperator(), arithmeticExpr.getType());
+		String instruction =MaplUtils.maplOperator(arithmeticExpr.getOperator(), arithmeticExpr.getType());
+		out(instruction);
 
 		return null;
 	}
@@ -111,7 +112,8 @@ public class Value extends AbstractCodeFunction {
 
 		value(logicalExpr.getOp1());
 		value(logicalExpr.getOp2());
-		MaplUtils.maplOperator(logicalExpr.getOperator(), logicalExpr.getType());
+		String instruction = MaplUtils.maplOperator(logicalExpr.getOperator(), logicalExpr.getType());
+		out(instruction);
 
 		return null;
 	}
@@ -129,7 +131,8 @@ public class Value extends AbstractCodeFunction {
 
 		value(comparationExpr.getOp1());
 		value(comparationExpr.getOp2());
-		MaplUtils.maplOperator(comparationExpr.getOperator(), comparationExpr.getType());
+		String instruction = MaplUtils.maplOperator(comparationExpr.getOperator(), comparationExpr.getOp1().getType());
+		out(instruction);
 
 		return null;
 	}

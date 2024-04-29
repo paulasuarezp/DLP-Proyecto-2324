@@ -27,14 +27,14 @@ public class Generate extends AbstractCodeFunction {
 
 		// execute(functionDefinition.sentences());
 
-		out("\n'**FUNCTION " + functionDefinition.getName());
-		out("\t'**Function Return Type: " + MaplUtils.maplType(functionDefinition.getReturnType().orElse(new VoidType())));
+		out("#FUNC " + functionDefinition.getName());
+		out("#ret " + MaplUtils.maplType(functionDefinition.getReturnType().orElse(new VoidType())));
 		out(functionDefinition.getName() + ":");
 
 		metadata(functionDefinition.params());
 		metadata(functionDefinition.vars());
 
-		int bytesLocalVars = - MaplUtils.getVarsSize(functionDefinition.getVars());
+		int bytesLocalVars = MaplUtils.getVarsSize(functionDefinition.getVars());
 		if(bytesLocalVars != 0)
 			out("ENTER " + bytesLocalVars);
 

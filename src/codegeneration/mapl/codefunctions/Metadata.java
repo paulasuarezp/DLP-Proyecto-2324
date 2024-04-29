@@ -46,13 +46,13 @@ public class Metadata extends AbstractCodeFunction {
 
 		switch (varDefinition.getScope()) {
 			case Scope.GLOBAL:
-				out("\n'**GLOBAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				out("#GLOBAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
 				break;
 			case Scope.LOCAL:
-				out("\n'**LOCAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				out("#LOCAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
 				break;
 			case Scope.PARAMETER:
-				out("\n'**PARAM " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				out("#PARAM " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
 				break;
 			default:
 				break;
@@ -68,7 +68,7 @@ public class Metadata extends AbstractCodeFunction {
 
 		// metadata(structDefinition.fields());
 
-		out("\n'**DEFTUPLE " + structDefinition.getName().getName());
+		out("#DEFTUPLE " + structDefinition.getName().getName());
 		metadata(structDefinition.fields());
 
 		return null;

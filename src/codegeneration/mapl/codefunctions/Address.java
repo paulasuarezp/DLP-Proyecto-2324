@@ -23,8 +23,8 @@ public class Address extends AbstractCodeFunction {
 		if(variable.getDefinition().getScope() == Scope.GLOBAL)
 			out("PUSHA " + variable.getDefinition().getAddress());
 		else{
-			out("PUSHBP");
-			out("PUSHA " + variable.getDefinition().getAddress());
+			out("PUSH BP");
+			out("PUSH " + variable.getDefinition().getAddress());
 			out("ADDI");
 		}
 

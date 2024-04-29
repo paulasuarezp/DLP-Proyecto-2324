@@ -113,14 +113,15 @@ public class Execute extends AbstractCodeFunction {
 		// execute(ifElse.falseBlock());
 
 		labelCount++;
-		out("\n#LINE " + ifElse.start().getLine());
-		value(ifElse.getCondition());
-		out("JZ else_" + labelCount);
-		execute(ifElse.trueBlock());
-		out("else_" + labelCount + ":");
-		execute(ifElse.falseBlock());
-		out("JMP endif_" + labelCount);
-		out("endif_" + labelCount + ":");
+out("\n#LINE " + ifElse.start().getLine());  // Mostrar el número de línea
+value(ifElse.getCondition());                // Evaluar la condición
+out("JZ else_" + labelCount);                // Saltar al bloque else si la condición es falsa
+execute(ifElse.trueBlock());                 // Ejecutar el bloque verdadero
+out("JMP endif_" + labelCount);              // Saltar al final del bloque if después de ejecutar el bloque verdadero
+out("else_" + labelCount + ":");             // Etiqueta para el bloque else
+execute(ifElse.falseBlock());                // Ejecutar el bloque falso
+out("endif_" + labelCount + ":");            // Etiqueta para el final del bloque if-else
+
 
 		return null;
 	}
