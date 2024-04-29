@@ -68,8 +68,10 @@ public class Metadata extends AbstractCodeFunction {
 
 		// metadata(structDefinition.fields());
 
-		out("#DEFTUPLE " + structDefinition.getName().getName());
+		out("#type " + structDefinition.getName().getName() + ":");
+		out("{");
 		metadata(structDefinition.fields());
+		out("}");
 
 		return null;
 	}
@@ -80,7 +82,7 @@ public class Metadata extends AbstractCodeFunction {
 	@Override
 	public Object visit(FieldDefinition fieldDefinition, Object param) {
 
-		out("\n'**FIELD " + fieldDefinition.getName() + " : " + MaplUtils.maplType(fieldDefinition.getTipo()));
+		out(fieldDefinition.getName() + " : " + MaplUtils.maplType(fieldDefinition.getTipo()));
 
 		return null;
 	}

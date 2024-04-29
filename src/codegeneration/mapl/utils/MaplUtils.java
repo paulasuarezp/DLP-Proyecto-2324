@@ -99,7 +99,7 @@ public class MaplUtils {
             case IntType i -> "int";
             case DoubleType f -> "float";
             case CharType c -> "char";
-            case StructType s -> "struct " + s.getName();
+            case StructType s -> s.getName();
             case ArrayType a -> maplType(a.getTipo());
             case VoidType v -> "void";
             default -> throw new IllegalArgumentException("Unrecognized type");

@@ -1,70 +1,226 @@
 #SOURCE "input.txt"
 'Declaraciones globales
-#GLOBAL varGlobal : float
+#type Persona:
+{
+inicial : char
+sueldo : float
+}
+#GLOBAL empresa : Persona
 
-'**BUILDER inicio
-CALL inicio
+'**BUILDER arranque
+CALL arranque
 HALT
-#FUNC doble
-#ret int
-doble:
-#PARAM valor : int
+#FUNC busca
+#ret void
+busca:
+#PARAM i : int
 
-#LINE 28
+#LINE 42
 PUSH BP
 PUSH 4
 ADDI
 LOADI
-PUSHI 2
-MULI
-RET 2, 0, 2
-#FUNC inicio
-#ret void
-inicio:
-#LOCAL varLocal : int
-ENTER 2
+PUSHI 0
+LTI
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+PUSHI 4
+GEI
+ORI
+JZ else_1
 
-#LINE 36
+#LINE 43
+RET 0, 0, 2
+JMP endif_1
+else_1:
+endif_1:
+
+#LINE 45
 PUSHA 0
-PUSHF 1.0
-STOREF
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+PUSHI 5
+MULI
+ADDI
+LOADB
+OUTB
+PUSHB 10
+OUTB
 
-#LINE 37
+#LINE 46
+PUSHA 0
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+PUSHI 5
+MULI
+ADDI
+LOADF
+OUTF
+PUSHB 10
+OUTB
+RET 0, 0, 2
+#FUNC imprime
+#ret int
+imprime:
+#LOCAL i : int
+#LOCAL aux : Persona
+ENTER 7
+
+#LINE 55
+'loopInit_2
+
+#LINE 55
 PUSH BP
 PUSH -2
 ADDI
-PUSHI 2
+PUSHI 0
 STOREI
-
-#LINE 39
-PUSHA 0
-LOADF
-PUSHF 2.0
-LTF
-JZ else_1
-
-#LINE 40
-PUSHI 1
-OUTI
-PUSHB 10
-OUTB
-JMP endif_1
-else_1:
-
-#LINE 42
+loopCond_2:
 PUSH BP
 PUSH -2
 ADDI
 LOADI
-OUTI
-PUSHB 10
-OUTB
-endif_1:
+PUSHI 4
+GEI
+JNZ loopEnd_2
 
-#LINE 45
-PUSHI 2
-CALL doble
-OUTI
+#LINE 57
+PUSH BP
+PUSH -7
+ADDI
+PUSHI StructType{ name=Persona}
+ADDI
+PUSHA 0
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 5
+MULI
+ADDI
+LOADB
+STOREB
+
+#LINE 58
+PUSH BP
+PUSH -7
+ADDI
+PUSHI StructType{ name=Persona}
+ADDI
+PUSHA 0
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 5
+MULI
+ADDI
+LOADF
+STOREF
+
+#LINE 60
+PUSH BP
+PUSH -7
+ADDI
+LOADB
+OUTB
 PUSHB 10
 OUTB
+
+#LINE 61
+PUSH BP
+PUSH -7
+ADDI
+LOADF
+OUTF
+PUSHB 10
+OUTB
+
+#LINE 63
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP loopCond_2
+loopEnd_2:
+
+#LINE 65
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+RET 2, -7, 0
+#FUNC arranque
+#ret void
+arranque:
+#LOCAL posicion : int
+ENTER 2
+
+#LINE 74
+PUSHB 68
+OUTB
+PUSHB 97
+OUTB
+PUSHB 109
+OUTB
+PUSHB 101
+OUTB
+PUSHB 32
+OUTB
+PUSHB 108
+OUTB
+PUSHB 97
+OUTB
+PUSHB 32
+OUTB
+PUSHB 112
+OUTB
+PUSHB 111
+OUTB
+PUSHB 115
+OUTB
+PUSHB 105
+OUTB
+PUSHB 99
+OUTB
+PUSHB 105
+OUTB
+PUSHB 111
+OUTB
+PUSHB 110
+OUTB
+PUSHB 58
+OUTB
+PUSHB 32
+OUTB
+
+#LINE 75
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+INI
+
+#LINE 76
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+CALL busca
+
+#LINE 78
+CALL imprime
+POPI
 RET 0, 2, 0

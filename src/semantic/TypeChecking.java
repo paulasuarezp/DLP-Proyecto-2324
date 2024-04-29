@@ -126,12 +126,7 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(Loop loop, Object param) {
-
-		super.visit(loop, param);
-
-		// Predicado -> until.type == INTEGER
-		predicate(loop.getUntil().getType() instanceof IntType, "La expresión del until debe de ser de tipo integer", loop);
-
+		
 
 		// Regla -> from.forEach(a -> a.owner = loop.owner)
 		for (var assignment : loop.getFrom()) {
@@ -144,6 +139,12 @@ public class TypeChecking extends DefaultVisitor {
 		}
 
 
+		super.visit(loop, param);
+
+		// Predicado -> until.type == INTEGER
+		predicate(loop.getUntil().getType() instanceof IntType, "La expresión del until debe de ser de tipo integer", loop);
+
+
 		return null;
 	}
 
@@ -151,12 +152,6 @@ public class TypeChecking extends DefaultVisitor {
 	// phase TypeChecking { boolean hasReturn, FunctionDefinition owner }
 	@Override
 	public Object visit(IfElse ifElse, Object param) {
-
-		super.visit(ifElse, param);
-
-		// Predicado -> condition.type == INTEGER
-		predicate(ifElse.getCondition().getType() instanceof IntType, "La condición del if debe de ser de tipo boolean", ifElse);
-
 
 		// Regla -> trueBlock.forEach(s -> s.owner = ifElse.owner)
 		for (var sentence : ifElse.getTrueBlock()) {
@@ -167,6 +162,13 @@ public class TypeChecking extends DefaultVisitor {
 		for (var sentence : ifElse.getFalseBlock()) {
 			sentence.setOwner(ifElse.getOwner());
 		}
+
+
+		super.visit(ifElse, param);
+
+		// Predicado -> condition.type == INTEGER
+		predicate(ifElse.getCondition().getType() instanceof IntType, "La condición del if debe de ser de tipo boolean", ifElse);
+
 
 		return null;
 	}
