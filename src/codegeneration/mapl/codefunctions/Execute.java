@@ -3,6 +3,7 @@
 package codegeneration.mapl.codefunctions;
 
 import ast.*;
+import ast.expression.Expression;
 import ast.sentence.*;
 import ast.type.VoidType;
 import codegeneration.mapl.*;
@@ -30,7 +31,7 @@ public class Execute extends AbstractCodeFunction {
 		value(runCall.args());
 		out("CALL " + runCall.getName());
 		if(runCall.getDefinition().getReturnType().isPresent() && !(runCall.getDefinition().getReturnType().get() instanceof VoidType))
-			out("POP " + MaplUtils.maplSuffix(runCall.getDefinition().getReturnType().get()));
+			out("POP" + MaplUtils.maplSuffix(runCall.getDefinition().getReturnType().get()));
 
 		return null;
 	}
@@ -48,7 +49,7 @@ public class Execute extends AbstractCodeFunction {
 		value(functionCallSent.args());
 		out("CALL " + functionCallSent.getName());
 		if(functionCallSent.getDefinition().getReturnType().isPresent() && !(functionCallSent.getDefinition().getReturnType().get() instanceof VoidType))
-			out("POP " + MaplUtils.maplSuffix(functionCallSent.getDefinition().getReturnType().get()));
+			out("POP" + MaplUtils.maplSuffix(functionCallSent.getDefinition().getReturnType().get()));
 
 		return null;
 	}
@@ -134,7 +135,7 @@ public class Execute extends AbstractCodeFunction {
 
 		out("#LINE " + read.end().getLine() + " Read");
 		value(read.input());
-		out("IN " + MaplUtils.maplSuffix(read.getInput().get(0).getType()));
+		out("IN" + MaplUtils.maplSuffix(read.getInput().get(0).getType()));
 
 		return null;
 	}
@@ -148,9 +149,20 @@ public class Execute extends AbstractCodeFunction {
 		// address(print.input());
 
 		out("#LINE " + print.end().getLine() + " Print");
-		value(print.input());
-		out("OUT " + MaplUtils.maplSuffix(print.getInput().get(0).getType()));
+		for(Expression e : print.getInput()) {
+			value(e);
+			out("OUT" + MaplUtils.maplSuffix(e.getType()));
+		}
 
+		switch (print.getOp()) {
+			case "println":
+				out("PUSHB 10");
+				out("OUTB");
+				break;
+			default:
+				break;
+		}
+		
 
 		return null;
 	}

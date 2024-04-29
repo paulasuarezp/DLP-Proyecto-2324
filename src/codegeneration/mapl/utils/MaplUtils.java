@@ -47,7 +47,7 @@ public class MaplUtils {
         return switch (t) {
             case IntType i -> "I";
             case DoubleType f -> "F";
-            case CharType c -> "C";
+            case CharType c -> "B";
             default -> throw new IllegalArgumentException("Unrecognized type");
         };
     }

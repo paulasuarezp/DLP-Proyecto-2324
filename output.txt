@@ -1,29 +1,34 @@
 #SOURCE "input.txt"
-#DEFTUPLE Persona
-	#FIELD edad : int
-	#FIELD meses : int
-	#FIELD a : float
-#DEFTUPLE Prueba
-	#FIELD campo1 : int
-	#FIELD campo2 : int
-#GLOBAL a : char
-#GLOBAL b : float
-#GLOBAL c : struct Persona
-#GLOBAL d : int
-#BUILDER main
-#LINE 34 RunCallmain
-<instruction>
-<instruction>
-<instruction>
-CALL main
+#BUILDER inicio
+#LINE 17 RunCallinicio
+CALL inicio
 HALT
-#FUNCTION main
-#PARAM a : int
-#PARAM b : float
-#PARAM h : char
-#LOCAL c : char
-#LOCAL d : int
-#LOCAL e : struct Persona
-#LOCAL f : float
-ENTER -67
-RET 0, -67, 7
+#FUNCTION inicio
+ENTER 0
+#LINE 10 Print
+<instruction>
+OUTB
+<instruction>
+OUTB
+<instruction>
+OUTB
+<instruction>
+OUTB
+<instruction>
+OUTB
+<instruction>
+OUTB
+<instruction>
+OUTB
+<instruction>
+OUTB
+<instruction>
+OUTB
+<instruction>
+OUTB
+#LINE 11 Print
+<instruction>
+OUTB
+PUSHB 10
+OUTB
+RET 0, 0, 0
