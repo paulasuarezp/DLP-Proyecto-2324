@@ -14,8 +14,7 @@ import codegeneration.mapl.utils.MaplUtils;
 
 public class Execute extends AbstractCodeFunction {
 
-	private int untilLabelCount = 0;
-	private int ifLabelCount = 0;
+	private int labelCount = 0;
 
     public Execute(MaplCodeSpecification specification) {
         super(specification);
@@ -82,18 +81,20 @@ public class Execute extends AbstractCodeFunction {
 	public Object visit(Loop loop, Object param) {
 
 
-		untilLabelCount++;
+		labelCount++;
+		String untilCondLabel = MaplUtils.formatLabel("untilcond_", labelCount);
+		String untilEndLabel = MaplUtils.formatLabel("untilend_", labelCount);
 
 		out("\n#line " + loop.start().getLine());
 		out("'from");
 		execute(loop.from());
-		out(MaplUtils.formatLabel("untilcond_", untilLabelCount) + ":");
+		out(untilCondLabel + ":");
 		value(loop.getUntil());
-		out("JNZ " + MaplUtils.formatLabel("untilend_", untilLabelCount));
+		out("JNZ " + untilEndLabel);
 		out("'loop body");
 		execute(loop.body());
-		out("JMP " + MaplUtils.formatLabel("untilcond_", untilLabelCount));
-		out(MaplUtils.formatLabel("untilend_", untilLabelCount) + ":");
+		out("JMP " + untilCondLabel);
+		out(untilEndLabel + ":");
 
 		return null;
 	}
@@ -103,18 +104,21 @@ public class Execute extends AbstractCodeFunction {
 	@Override
 	public Object visit(IfElse ifElse, Object param) {
 
-		ifLabelCount++;
+		labelCount++;
+		String elseLabel = MaplUtils.formatLabel("else_", labelCount);
+		String endifLabel = MaplUtils.formatLabel("endif_", labelCount);
+
 		out("\n#line " + ifElse.start().getLine()); 
 		out("'if");
 		value(ifElse.getCondition());                
-		out("JZ " + MaplUtils.formatLabel("else_", ifLabelCount));  
+		out("JZ " + elseLabel);  
 		out("'else");              
 		execute(ifElse.trueBlock());                 
-		out("JMP " + MaplUtils.formatLabel("endif_", ifLabelCount));              
-		out(MaplUtils.formatLabel("else_", ifLabelCount) + ":");             
+		out("JMP " + endifLabel);              
+		out(elseLabel + ":");             
 		execute(ifElse.falseBlock());  
 		out("'end");              
-		out(MaplUtils.formatLabel("endif_", ifLabelCount) + ":");            
+		out(endifLabel + ":");            
 
 
 		return null;

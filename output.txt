@@ -1,135 +1,31 @@
 #source "input.txt"
 
 'Declaraciones globales
-#type Piloto: {
-	inicial : char
-	crono : 3 * float
-}
-#global F1 : 3 * Piloto
 
-'**builder inicio
+'**builder main
 
-CALL inicio
+CALL main
 HALT
 
-#FUNC inicia
+#FUNC inicio
 #ret void
-inicia:
-#param i : int
-#param inicial : char
-#param q1 : float
-#param q2 : float
-#param q3 : float
-
-#line 34
-PUSHA 0
-PUSH BP
-PUSH 17
-ADDI
-LOADI
-PUSHI 13
-MULI
-ADDI
-PUSHI 0
-ADDI
-PUSH BP
-PUSH 16
-ADDI
-LOADB
-STOREB
-
-#line 35
-PUSHA 0
-PUSH BP
-PUSH 17
-ADDI
-LOADI
-PUSHI 13
-MULI
-ADDI
-PUSHI 1
-ADDI
-PUSHI 0
-PUSHI 4
-MULI
-ADDI
-PUSH BP
-PUSH 12
-ADDI
-LOADF
-STOREF
-
-#line 36
-PUSHA 0
-PUSH BP
-PUSH 17
-ADDI
-LOADI
-PUSHI 13
-MULI
-ADDI
-PUSHI 1
-ADDI
-PUSHI 1
-PUSHI 4
-MULI
-ADDI
-PUSH BP
-PUSH 8
-ADDI
-LOADF
-STOREF
-
-#line 37
-PUSHA 0
-PUSH BP
-PUSH 17
-ADDI
-LOADI
-PUSHI 13
-MULI
-ADDI
-PUSHI 1
-ADDI
-PUSHI 2
-PUSHI 4
-MULI
-ADDI
-PUSH BP
-PUSH 4
-ADDI
-LOADF
-STOREF
-RET 0, 0, 15
-
-#FUNC imprimeElMejor
-#ret void
-imprimeElMejor:
-#local mejorPiloto : int
-#local menorCrono : float
-#local ultimaCrono : float
+inicio:
 #local i : int
-ENTER 12
+#local j : int
+ENTER 4
 
-#line 47
-PUSH BP
-PUSH -6
-ADDI
-PUSHF 1000.0
-STOREF
-
-#line 49
+#line 13
 'from
 
-#line 49
+#line 13
 PUSH BP
-PUSH -12
+PUSH -2
 ADDI
 PUSHI 0
 STOREI
 untilcond_0001:
 PUSH BP
-PUSH -12
+PUSH -2
 ADDI
 LOADI
 PUSHI 3
@@ -137,103 +33,18 @@ GEI
 JNZ untilend_0001
 'loop body
 
-#line 51
-PUSH BP
-PUSH -10
-ADDI
-PUSHA 0
-PUSH BP
-PUSH -12
-ADDI
-LOADI
-PUSHI 13
-MULI
-ADDI
-PUSHI 1
-ADDI
-LOADF
-STOREF
-
-#line 52
-'if
-PUSH BP
-PUSH -10
-ADDI
-LOADF
-PUSH BP
-PUSH -6
-ADDI
-LOADF
-LTF
-JZ else_0001
-'else
-
-#line 53
-PUSH BP
-PUSH -6
-ADDI
-PUSH BP
-PUSH -10
-ADDI
-LOADF
-STOREF
-
-#line 54
-PUSH BP
-PUSH -2
-ADDI
-PUSH BP
-PUSH -12
-ADDI
-LOADI
-STOREI
-JMP endif_0001
-else_0001:
-'end
-endif_0001:
-
-#line 56
-PUSH BP
-PUSH -12
-ADDI
-PUSH BP
-PUSH -12
-ADDI
-LOADI
-PUSHI 1
-ADDI
-STOREI
-JMP untilcond_0001
-untilend_0001:
-
-#LINE 59
-PUSHA 0
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-PUSHI 13
-MULI
-ADDI
-PUSHI 0
-ADDI
-LOADB
-OUTB
-PUSHB 10
-OUTB
-
-#line 61
+#line 16
 'from
 
-#line 61
+#line 16
 PUSH BP
-PUSH -12
+PUSH -4
 ADDI
 PUSHI 0
 STOREI
 untilcond_0002:
 PUSH BP
-PUSH -12
+PUSH -4
 ADDI
 LOADI
 PUSHI 3
@@ -241,28 +52,18 @@ GEI
 JNZ untilend_0002
 'loop body
 
-#LINE 63
-PUSHA 0
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-PUSHI 13
-MULI
-ADDI
-PUSHI 1
-ADDI
-LOADF
-OUTF
+#LINE 18
+PUSHB 112
+OUTB
 PUSHB 10
 OUTB
 
-#line 64
+#line 19
 PUSH BP
-PUSH -12
+PUSH -4
 ADDI
 PUSH BP
-PUSH -12
+PUSH -4
 ADDI
 LOADI
 PUSHI 1
@@ -270,36 +71,35 @@ ADDI
 STOREI
 JMP untilcond_0002
 untilend_0002:
-RET 0, 12, 0
 
-#FUNC inicio
-#ret void
-inicio:
+#LINE 21
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+OUTI
+PUSHB 10
+OUTB
 
-#LINE 70
-PUSHI 0
-PUSHB 65
-PUSHF 1.50
-PUSHF 1.49
-PUSHF 1.48
-CALL inicia
-
-#LINE 71
+#line 22
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
 PUSHI 1
-PUSHB 72
-PUSHF 1.52
-PUSHF 1.51
-PUSHF 1.50
-CALL inicia
+ADDI
+STOREI
+JMP untilcond_0001
+untilend_0001:
+RET 0, 4, 0
 
-#LINE 72
-PUSHI 2
-PUSHB 86
-PUSHF 1.54
-PUSHF 1.52
-PUSHF 1.51
-CALL inicia
+#FUNC main
+#ret void
+main:
 
-#LINE 74
-CALL imprimeElMejor
+#LINE 28
+CALL inicio
 RET 0, 0, 0
