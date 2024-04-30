@@ -1,239 +1,254 @@
 #source "input.txt"
 
 'Declaraciones globales
-#type Persona: {
+#type Piloto: {
 	inicial : char
-	sueldo : float
+	crono : 3 * float
 }
-#global empresa : 4 * Persona
+#global F1 : 3 * Piloto
 
 '**builder inicio
 
-
-'**builder main
-
-CALL main
+CALL inicio
 HALT
 
 #FUNC inicia
 #ret void
 inicia:
-#local i : int
-ENTER 2
-
-#LINE 45
-'loopInit_1
-
-#LINE 45
-PUSH BP
-PUSH -2
-ADDI
-PUSHI 0
-STOREI
-loopCond_1:
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-PUSHI 4
-EQI
-JNZ loopEnd_1
-
-#LINE 47
-PUSHA 0
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-PUSHI 5
-MULI
-ADDI
-PUSHI 0
-ADDI
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-PUSHB 65
-B2I
-ADDI
-I2B
-STOREB
-
-#LINE 48
-PUSHA 0
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-PUSHI 5
-MULI
-ADDI
-PUSHI 1
-ADDI
-PUSHI 1000
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-PUSHI 100
-MULI
-ADDI
-I2F
-STOREF
-
-#LINE 49
-PUSH BP
-PUSH -2
-ADDI
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-PUSHI 1
-ADDI
-STOREI
-JMP loopCond_1
-loopEnd_1:
-RET 0, 2, 0
-
-#FUNC busca
-#ret void
-busca:
 #param i : int
+#param inicial : char
+#param q1 : float
+#param q2 : float
+#param q3 : float
 
-#LINE 55
-PUSH BP
-PUSH 4
-ADDI
-LOADI
-PUSHI 0
-LTI
-PUSH BP
-PUSH 4
-ADDI
-LOADI
-PUSHI 4
-GEI
-OR
-JZ else_2
-
-#LINE 56
-RET 0, 0, 2
-JMP endif_2
-else_2:
-endif_2:
-
-#LINE 58
+#line 34
 PUSHA 0
 PUSH BP
-PUSH 4
+PUSH 17
 ADDI
 LOADI
-PUSHI 5
+PUSHI 13
 MULI
 ADDI
 PUSHI 0
+ADDI
+PUSH BP
+PUSH 16
 ADDI
 LOADB
-OUTB
-PUSHB 10
-OUTB
+STOREB
+
+#line 35
+PUSHA 0
+PUSH BP
+PUSH 17
+ADDI
+LOADI
+PUSHI 13
+MULI
+ADDI
+PUSHI 1
+ADDI
+PUSHI 0
+PUSHI 4
+MULI
+ADDI
+PUSH BP
+PUSH 12
+ADDI
+LOADF
+STOREF
+
+#line 36
+PUSHA 0
+PUSH BP
+PUSH 17
+ADDI
+LOADI
+PUSHI 13
+MULI
+ADDI
+PUSHI 1
+ADDI
+PUSHI 1
+PUSHI 4
+MULI
+ADDI
+PUSH BP
+PUSH 8
+ADDI
+LOADF
+STOREF
+
+#line 37
+PUSHA 0
+PUSH BP
+PUSH 17
+ADDI
+LOADI
+PUSHI 13
+MULI
+ADDI
+PUSHI 1
+ADDI
+PUSHI 2
+PUSHI 4
+MULI
+ADDI
+PUSH BP
+PUSH 4
+ADDI
+LOADF
+STOREF
+RET 0, 0, 15
+
+#FUNC imprimeElMejor
+#ret void
+imprimeElMejor:
+#local mejorPiloto : int
+#local menorCrono : float
+#local ultimaCrono : float
+#local i : int
+ENTER 12
+
+#line 47
+PUSH BP
+PUSH -6
+ADDI
+PUSHF 1000.0
+STOREF
+
+#line 49
+'from
+
+#line 49
+PUSH BP
+PUSH -12
+ADDI
+PUSHI 0
+STOREI
+untilcond_0001:
+PUSH BP
+PUSH -12
+ADDI
+LOADI
+PUSHI 3
+GEI
+JNZ untilend_0001
+'loop body
+
+#line 51
+PUSH BP
+PUSH -10
+ADDI
+PUSHA 0
+PUSH BP
+PUSH -12
+ADDI
+LOADI
+PUSHI 13
+MULI
+ADDI
+PUSHI 1
+ADDI
+LOADF
+STOREF
+
+#line 52
+'if
+PUSH BP
+PUSH -10
+ADDI
+LOADF
+PUSH BP
+PUSH -6
+ADDI
+LOADF
+LTF
+JZ else_0001
+'else
+
+#line 53
+PUSH BP
+PUSH -6
+ADDI
+PUSH BP
+PUSH -10
+ADDI
+LOADF
+STOREF
+
+#line 54
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -12
+ADDI
+LOADI
+STOREI
+JMP endif_0001
+else_0001:
+'end
+endif_0001:
+
+#line 56
+PUSH BP
+PUSH -12
+ADDI
+PUSH BP
+PUSH -12
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0001
+untilend_0001:
 
 #LINE 59
 PUSHA 0
 PUSH BP
-PUSH 4
+PUSH -2
 ADDI
 LOADI
-PUSHI 5
+PUSHI 13
 MULI
 ADDI
-PUSHI 1
+PUSHI 0
 ADDI
-LOADF
-OUTF
+LOADB
+OUTB
 PUSHB 10
 OUTB
-RET 0, 0, 2
 
-#FUNC imprime
-#ret int
-imprime:
-#local i : int
-#local aux : Persona
-ENTER 7
+#line 61
+'from
 
-#LINE 68
-'loopInit_3
-
-#LINE 68
+#line 61
 PUSH BP
-PUSH -2
+PUSH -12
 ADDI
 PUSHI 0
 STOREI
-loopCond_3:
+untilcond_0002:
 PUSH BP
-PUSH -2
+PUSH -12
 ADDI
 LOADI
-PUSHI 4
+PUSHI 3
 GEI
-JNZ loopEnd_3
+JNZ untilend_0002
+'loop body
 
-#LINE 70
-PUSH BP
-PUSH -7
-ADDI
-PUSHI 0
-ADDI
+#LINE 63
 PUSHA 0
 PUSH BP
 PUSH -2
 ADDI
 LOADI
-PUSHI 5
+PUSHI 13
 MULI
-ADDI
-PUSHI 0
-ADDI
-LOADB
-STOREB
-
-#LINE 71
-PUSH BP
-PUSH -7
-ADDI
-PUSHI 1
-ADDI
-PUSHA 0
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-PUSHI 5
-MULI
-ADDI
-PUSHI 1
-ADDI
-LOADF
-STOREF
-
-#LINE 73
-PUSH BP
-PUSH -7
-ADDI
-PUSHI 0
-ADDI
-LOADB
-OUTB
-PUSHB 10
-OUTB
-
-#LINE 74
-PUSH BP
-PUSH -7
 ADDI
 PUSHI 1
 ADDI
@@ -242,97 +257,49 @@ OUTF
 PUSHB 10
 OUTB
 
-#LINE 76
+#line 64
 PUSH BP
-PUSH -2
+PUSH -12
 ADDI
 PUSH BP
-PUSH -2
+PUSH -12
 ADDI
 LOADI
 PUSHI 1
 ADDI
 STOREI
-JMP loopCond_3
-loopEnd_3:
-
-#LINE 78
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-RET 2, 7, 0
+JMP untilcond_0002
+untilend_0002:
+RET 0, 12, 0
 
 #FUNC inicio
 #ret void
 inicio:
-#local posicion : int
-ENTER 2
 
-#LINE 85
+#LINE 70
+PUSHI 0
+PUSHB 65
+PUSHF 1.50
+PUSHF 1.49
+PUSHF 1.48
 CALL inicia
 
-#LINE 87
-PUSHB 68
-OUTB
-PUSHB 97
-OUTB
-PUSHB 109
-OUTB
-PUSHB 101
-OUTB
-PUSHB 32
-OUTB
-PUSHB 108
-OUTB
-PUSHB 97
-OUTB
-PUSHB 32
-OUTB
-PUSHB 112
-OUTB
-PUSHB 111
-OUTB
-PUSHB 115
-OUTB
-PUSHB 105
-OUTB
-PUSHB 99
-OUTB
-PUSHB 105
-OUTB
-PUSHB 111
-OUTB
-PUSHB 110
-OUTB
-PUSHB 58
-OUTB
-PUSHB 32
-OUTB
+#LINE 71
+PUSHI 1
+PUSHB 72
+PUSHF 1.52
+PUSHF 1.51
+PUSHF 1.50
+CALL inicia
 
-#LINE 88
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-INI
+#LINE 72
+PUSHI 2
+PUSHB 86
+PUSHF 1.54
+PUSHF 1.52
+PUSHF 1.51
+CALL inicia
 
-#LINE 89
-PUSH BP
-PUSH -2
-ADDI
-LOADI
-CALL busca
-
-#LINE 91
-CALL imprime
-POPI
-RET 0, 2, 0
-
-#FUNC main
-#ret void
-main:
-
-#LINE 95
-CALL inicio
+#LINE 74
+CALL imprimeElMejor
 RET 0, 0, 0

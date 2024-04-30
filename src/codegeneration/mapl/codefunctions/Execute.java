@@ -2,6 +2,8 @@
 
 package codegeneration.mapl.codefunctions;
 
+import java.util.Map;
+
 import ast.*;
 import ast.expression.Expression;
 import ast.sentence.*;
@@ -12,7 +14,8 @@ import codegeneration.mapl.utils.MaplUtils;
 
 public class Execute extends AbstractCodeFunction {
 
-	private int labelCount = 0;
+	private int untilLabelCount = 0;
+	private int ifLabelCount = 0;
 
     public Execute(MaplCodeSpecification specification) {
         super(specification);
@@ -65,7 +68,7 @@ public class Execute extends AbstractCodeFunction {
 		// value(assignment.getRight());
 		// address(assignment.getRight());
 
-		out("\n#LINE " + assignment.end().getLine());
+		out("\n#line " + assignment.end().getLine());
 		address(assignment.getLeft());
 		value(assignment.getRight());
 		out("STORE" + MaplUtils.maplSuffix(assignment.getLeft().getType()));
@@ -78,24 +81,19 @@ public class Execute extends AbstractCodeFunction {
 	@Override
 	public Object visit(Loop loop, Object param) {
 
-		// execute(loop.from());
 
-		// value(loop.getUntil());
-		// address(loop.getUntil());
+		untilLabelCount++;
 
-		// execute(loop.body());
-
-		labelCount++;
-
-		out("\n#LINE " + loop.start().getLine());
-		out("'loopInit_" + labelCount);
+		out("\n#line " + loop.start().getLine());
+		out("'from");
 		execute(loop.from());
-		out("loopCond_" + labelCount + ":");
+		out(MaplUtils.formatLabel("untilcond_", untilLabelCount) + ":");
 		value(loop.getUntil());
-		out("JNZ loopEnd_" + labelCount);
+		out("JNZ " + MaplUtils.formatLabel("untilend_", untilLabelCount));
+		out("'loop body");
 		execute(loop.body());
-		out("JMP loopCond_" + labelCount);
-		out("loopEnd_" + labelCount + ":");
+		out("JMP " + MaplUtils.formatLabel("untilcond_", untilLabelCount));
+		out(MaplUtils.formatLabel("untilend_", untilLabelCount) + ":");
 
 		return null;
 	}
@@ -105,22 +103,18 @@ public class Execute extends AbstractCodeFunction {
 	@Override
 	public Object visit(IfElse ifElse, Object param) {
 
-		// value(ifElse.getCondition());
-		// address(ifElse.getCondition());
-
-		// execute(ifElse.trueBlock());
-
-		// execute(ifElse.falseBlock());
-
-		labelCount++;
-out("\n#LINE " + ifElse.start().getLine());  // Mostrar el número de línea
-value(ifElse.getCondition());                // Evaluar la condición
-out("JZ else_" + labelCount);                // Saltar al bloque else si la condición es falsa
-execute(ifElse.trueBlock());                 // Ejecutar el bloque verdadero
-out("JMP endif_" + labelCount);              // Saltar al final del bloque if después de ejecutar el bloque verdadero
-out("else_" + labelCount + ":");             // Etiqueta para el bloque else
-execute(ifElse.falseBlock());                // Ejecutar el bloque falso
-out("endif_" + labelCount + ":");            // Etiqueta para el final del bloque if-else
+		ifLabelCount++;
+		out("\n#line " + ifElse.start().getLine()); 
+		out("'if");
+		value(ifElse.getCondition());                
+		out("JZ " + MaplUtils.formatLabel("else_", ifLabelCount));  
+		out("'else");              
+		execute(ifElse.trueBlock());                 
+		out("JMP " + MaplUtils.formatLabel("endif_", ifLabelCount));              
+		out(MaplUtils.formatLabel("else_", ifLabelCount) + ":");             
+		execute(ifElse.falseBlock());  
+		out("'end");              
+		out(MaplUtils.formatLabel("endif_", ifLabelCount) + ":");            
 
 
 		return null;

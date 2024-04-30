@@ -155,5 +155,16 @@ public class MaplUtils {
         }
         throw new IllegalArgumentException("Error calculando el offset de: " + field);
     }
+
+    /**
+     * Devuelve una etiqueta formateada con un contador.
+     *
+     * @param labelName El nombre base de la etiqueta.
+     * @param count     El valor del contador a formatear.
+     * @return La etiqueta completa con el contador formateado.
+     */
+    public static String formatLabel(String labelName, int count) {
+        return labelName + String.format("%04d", count);
+    }
     
 }
