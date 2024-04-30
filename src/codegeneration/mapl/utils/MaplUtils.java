@@ -100,7 +100,7 @@ public class MaplUtils {
             case DoubleType f -> "float";
             case CharType c -> "char";
             case StructType s -> s.getName();
-            case ArrayType a -> maplType(a.getTipo());
+            case ArrayType a -> a.getDimension().getValue() + " * " + maplType(a.getTipo());
             case VoidType v -> "void";
             default -> throw new IllegalArgumentException("Unrecognized type");
         };

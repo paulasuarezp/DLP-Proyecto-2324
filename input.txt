@@ -33,7 +33,9 @@ class Test002;
 		vars
 			empresa:[4] Persona;
 	
-	create main;
+	create 
+		inicio;
+		main;
 
 	feature inicia is
 		local
@@ -76,7 +78,7 @@ class Test002;
 			return i;
 	end
 
-	feature main is
+	feature inicio is
 		local
 			posicion:INTEGER;
 		do
@@ -87,6 +89,10 @@ class Test002;
 			busca(posicion);
 
 			imprime();	/* No se recoge el valor de retorno
+	end
+	feature main is
+		do
+			inicio();
 	end
 end
 

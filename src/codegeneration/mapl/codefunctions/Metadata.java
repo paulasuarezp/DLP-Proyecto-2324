@@ -28,7 +28,7 @@ public class Metadata extends AbstractCodeFunction {
 
 		// execute(program.getRunCall());
 
-		out("#SOURCE \"" + getSpecification().getSourceFile() + "\"");
+		out("#source \"" + getSpecification().getSourceFile() + "\"\n");
 		out("'Declaraciones globales");
 		metadata(program.types());
 		metadata(program.vars());
@@ -46,13 +46,13 @@ public class Metadata extends AbstractCodeFunction {
 
 		switch (varDefinition.getScope()) {
 			case Scope.GLOBAL:
-				out("#GLOBAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				out("#global " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
 				break;
 			case Scope.LOCAL:
-				out("#LOCAL " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				out("#local " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
 				break;
 			case Scope.PARAMETER:
-				out("#PARAM " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
+				out("#param " + varDefinition.getName() + " : " + MaplUtils.maplType(varDefinition.getTipo()));
 				break;
 			default:
 				break;
@@ -90,7 +90,7 @@ public class Metadata extends AbstractCodeFunction {
 	@Override
 	public Object visit(FunctionBuilder functionBuilder, Object param) {
 
-		out("\n'**BUILDER " + functionBuilder.getName());
+		out("\n'**builder " + functionBuilder.getName() + "\n");
 
 		return null;
 	}

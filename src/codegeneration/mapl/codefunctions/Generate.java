@@ -27,7 +27,7 @@ public class Generate extends AbstractCodeFunction {
 
 		// execute(functionDefinition.sentences());
 
-		out("#FUNC " + functionDefinition.getName());
+		out("\n#FUNC " + functionDefinition.getName());
 		out("#ret " + MaplUtils.maplType(functionDefinition.getReturnType().orElse(new VoidType())));
 		out(functionDefinition.getName() + ":");
 

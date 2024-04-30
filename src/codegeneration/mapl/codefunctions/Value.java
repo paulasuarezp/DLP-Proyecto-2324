@@ -71,7 +71,7 @@ public class Value extends AbstractCodeFunction {
 		// address(castExpr.getValue());
 
 		value(castExpr.getValue());
-		String castInstruction = MaplUtils.maplSuffix(castExpr.getCastType()) + "2" + MaplUtils.maplSuffix(castExpr.getValue().getType());
+		String castInstruction = MaplUtils.maplSuffix(castExpr.getValue().getType()) + "2" + MaplUtils.maplSuffix(castExpr.getType());
 		if(!MaplUtils.castInstructions.contains(castInstruction))
 			throw new IllegalStateException("Cast instruction not found: " + castInstruction);
 		out(castInstruction);
@@ -189,7 +189,7 @@ public class Value extends AbstractCodeFunction {
 		// value(fieldAccess.getRoot());
 		// address(fieldAccess.getRoot());
 
-		address(fieldAccess.getRoot());
+		address(fieldAccess);
 		out("LOAD" + MaplUtils.maplSuffix(fieldAccess.getType()));
 
 		return null;
