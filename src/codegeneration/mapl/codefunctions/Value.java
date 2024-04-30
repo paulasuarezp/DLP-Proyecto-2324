@@ -206,7 +206,7 @@ public class Value extends AbstractCodeFunction {
 		// value(arrayAccess.getIndex());
 		// address(arrayAccess.getIndex());
 
-		address(arrayAccess.getArray());
+		address(arrayAccess);
 		out("LOAD" + MaplUtils.maplSuffix(arrayAccess.getType()));
 
 		return null;

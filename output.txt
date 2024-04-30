@@ -1,11 +1,294 @@
 #source "input.txt"
 
 'Declaraciones globales
+#type Pareja: {
+	entero : int
+	caracter : char
+}
+#type Empleado: {
+	edad : int
+}
+#type Empresa: {
+	empleados : 2 * Empleado
+}
+#global pareja : Pareja
+#global acme : 2 * Empresa
+#global fibonacci : 8 * 3 * int
 
 '**builder main
 
 CALL main
 HALT
+
+#FUNC p
+#ret void
+p:
+RET 0, 0, 0
+
+#FUNC f
+#ret int
+f:
+#param paramReal : float
+#param paramInt : int
+#local localReal : float
+#local digito : char
+#local resultado : int
+ENTER 7
+
+#line 50
+PUSH BP
+PUSH -4
+ADDI
+PUSH BP
+PUSH 6
+ADDI
+LOADF
+PUSHF 10.0
+MULF
+STOREF
+
+#line 51
+PUSH BP
+PUSH -5
+ADDI
+PUSHB 48
+STOREB
+
+#line 52
+'if
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+PUSHI 256
+LTI
+JZ else_0001
+'else
+
+#line 53
+PUSH BP
+PUSH -5
+ADDI
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+I2B
+STOREB
+
+#line 54
+PUSH BP
+PUSH -7
+ADDI
+PUSH BP
+PUSH -5
+ADDI
+LOADB
+B2I
+STOREI
+JMP endif_0001
+else_0001:
+
+#line 56
+PUSH BP
+PUSH -7
+ADDI
+PUSH BP
+PUSH -4
+ADDI
+LOADF
+F2I
+STOREI
+'end
+endif_0001:
+
+#LINE 58
+PUSH BP
+PUSH -7
+ADDI
+LOADI
+RET 2, 7, 6
+
+#FUNC inicializa
+#ret void
+inicializa:
+#local i : int
+ENTER 2
+
+#line 66
+PUSHA 11
+PUSHI 0
+PUSHI 6
+MULI
+ADDI
+PUSHI 0
+PUSHI 2
+MULI
+ADDI
+PUSHI 0
+STOREI
+
+#line 67
+PUSHA 11
+PUSHI 0
+PUSHI 6
+MULI
+ADDI
+PUSHI 1
+PUSHI 2
+MULI
+ADDI
+PUSHI 1
+STOREI
+
+#line 68
+PUSHA 11
+PUSHI 0
+PUSHI 6
+MULI
+ADDI
+PUSHI 2
+PUSHI 2
+MULI
+ADDI
+PUSHI 1
+STOREI
+
+#line 70
+'from
+
+#line 70
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 1
+STOREI
+untilcond_0002:
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 8
+EQI
+JNZ untilend_0002
+'loop body
+
+#line 72
+PUSHA 11
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 6
+MULI
+ADDI
+PUSHI 0
+PUSHI 2
+MULI
+ADDI
+PUSHA 11
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 1
+SUBI
+PUSHI 6
+MULI
+ADDI
+PUSHI 1
+PUSHI 2
+MULI
+ADDI
+LOADI
+STOREI
+
+#line 73
+PUSHA 11
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 6
+MULI
+ADDI
+PUSHI 1
+PUSHI 2
+MULI
+ADDI
+PUSHA 11
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 1
+SUBI
+PUSHI 6
+MULI
+ADDI
+PUSHI 2
+PUSHI 2
+MULI
+ADDI
+LOADI
+STOREI
+
+#line 74
+PUSHA 11
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 6
+MULI
+ADDI
+PUSHI 2
+PUSHI 2
+MULI
+ADDI
+PUSHA 11
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 6
+MULI
+ADDI
+PUSHI 0
+PUSHI 2
+MULI
+ADDI
+LOADI
+PUSHA 11
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 6
+MULI
+ADDI
+PUSHI 1
+PUSHI 2
+MULI
+ADDI
+LOADI
+ADDI
+STOREI
+
+#line 75
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0002
+untilend_0002:
+RET 0, 2, 0
 
 #FUNC inicio
 #ret void
@@ -14,74 +297,290 @@ inicio:
 #local j : int
 ENTER 4
 
-#line 13
-'from
+#LINE 86
+CALL p
 
-#line 13
+#line 88
 PUSH BP
 PUSH -2
 ADDI
 PUSHI 0
 STOREI
-untilcond_0001:
+
+#line 89
+PUSHA 0
+PUSHI 2
+ADDI
+PUSHB 48
+STOREB
+
+#line 90
+PUSHA 0
+PUSHI 0
+ADDI
+PUSHB 48
+B2I
+STOREI
+
+#LINE 92
 PUSH BP
 PUSH -2
 ADDI
 LOADI
-PUSHI 3
-GEI
-JNZ untilend_0001
-'loop body
-
-#line 16
-'from
-
-#line 16
-PUSH BP
-PUSH -4
+I2F
+PUSHA 0
+PUSHI 2
 ADDI
-PUSHI 0
-STOREI
-untilcond_0002:
-PUSH BP
-PUSH -4
-ADDI
-LOADI
-PUSHI 3
-GEI
-JNZ untilend_0002
-'loop body
-
-#LINE 18
-PUSHB 112
-OUTB
+LOADB
+B2I
+CALL f
+OUTI
 PUSHB 10
 OUTB
 
-#line 19
+#LINE 93
+PUSHF 1.3
+PUSHI 2
+CALL f
+POPI
+
+#LINE 95
+CALL inicializa
+
+#line 97
+'from
+
+#line 97
 PUSH BP
-PUSH -4
+PUSH -2
+ADDI
+PUSHI 0
+STOREI
+untilcond_0003:
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 8
+EQI
+JNZ untilend_0003
+'loop body
+
+#LINE 99
+PUSHB 40
+OUTB
+
+#LINE 100
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 1
+ADDI
+OUTI
+
+#LINE 101
+PUSHB 41
+OUTB
+
+#LINE 102
+PUSHB 32
+OUTB
+
+#LINE 103
+PUSHA 11
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 6
+MULI
+ADDI
+PUSHI 0
+PUSHI 2
+MULI
+ADDI
+LOADI
+OUTI
+
+#LINE 104
+PUSHB 43
+OUTB
+
+#LINE 105
+PUSHA 11
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 6
+MULI
+ADDI
+PUSHI 1
+PUSHI 2
+MULI
+ADDI
+LOADI
+OUTI
+
+#LINE 106
+PUSHB 61
+OUTB
+
+#LINE 107
+PUSHA 11
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 6
+MULI
+ADDI
+PUSHI 2
+PUSHI 2
+MULI
+ADDI
+LOADI
+OUTI
+
+#LINE 108
+PUSHB 10
+OUTB
+
+#line 109
+PUSH BP
+PUSH -2
 ADDI
 PUSH BP
-PUSH -4
+PUSH -2
 ADDI
 LOADI
 PUSHI 1
 ADDI
 STOREI
-JMP untilcond_0002
-untilend_0002:
+JMP untilcond_0003
+untilend_0003:
 
-#LINE 21
-PUSH BP
-PUSH -2
+#line 112
+PUSHA 3
+PUSHI 1
+PUSHI 4
+MULI
+ADDI
+PUSHI 0
+ADDI
+PUSHI 1
+PUSHI 2
+MULI
+ADDI
+PUSHI 0
+ADDI
+PUSHI 56
+STOREI
+
+#LINE 113
+PUSHA 3
+PUSHI 1
+PUSHI 4
+MULI
+ADDI
+PUSHI 0
+ADDI
+PUSHI 1
+PUSHI 2
+MULI
+ADDI
+PUSHI 0
 ADDI
 LOADI
 OUTI
 PUSHB 10
 OUTB
 
-#line 22
+#line 116
+'from
+
+#line 116
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 0
+STOREI
+untilcond_0004:
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 2
+EQI
+JNZ untilend_0004
+'loop body
+
+#line 119
+'from
+
+#line 119
+PUSH BP
+PUSH -4
+ADDI
+PUSHI 0
+STOREI
+untilcond_0005:
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+PUSHI 2
+EQI
+JNZ untilend_0005
+'loop body
+
+#line 121
+PUSHA 3
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 4
+MULI
+ADDI
+PUSHI 0
+ADDI
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+PUSHI 2
+MULI
+ADDI
+PUSHI 0
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+ADDI
+STOREI
+
+#line 122
+PUSH BP
+PUSH -4
+ADDI
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0005
+untilend_0005:
+
+#line 124
 PUSH BP
 PUSH -2
 ADDI
@@ -92,14 +591,107 @@ LOADI
 PUSHI 1
 ADDI
 STOREI
-JMP untilcond_0001
-untilend_0001:
+JMP untilcond_0004
+untilend_0004:
+
+#line 128
+'from
+
+#line 128
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 0
+STOREI
+untilcond_0006:
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 2
+EQI
+JNZ untilend_0006
+'loop body
+
+#line 131
+'from
+
+#line 131
+PUSH BP
+PUSH -4
+ADDI
+PUSHI 0
+STOREI
+untilcond_0007:
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+PUSHI 2
+EQI
+JNZ untilend_0007
+'loop body
+
+#LINE 133
+PUSHA 3
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 4
+MULI
+ADDI
+PUSHI 0
+ADDI
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+PUSHI 2
+MULI
+ADDI
+PUSHI 0
+ADDI
+LOADI
+OUTI
+
+#LINE 134
+PUSHB 32
+OUTB
+
+#line 135
+PUSH BP
+PUSH -4
+ADDI
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0007
+untilend_0007:
+
+#line 137
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0006
+untilend_0006:
 RET 0, 4, 0
 
 #FUNC main
 #ret void
 main:
 
-#LINE 28
+#LINE 143
 CALL inicio
 RET 0, 0, 0

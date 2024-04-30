@@ -55,11 +55,6 @@ public class Address extends AbstractCodeFunction {
 	@Override
 	public Object visit(ArrayAccess arrayAccess, Object param) {
 
-		// value(arrayAccess.getArray());
-		// address(arrayAccess.getArray());
-
-		// value(arrayAccess.getIndex());
-		// address(arrayAccess.getIndex());
 
 		address(arrayAccess.getArray());
 		value(arrayAccess.getIndex());
