@@ -88,7 +88,7 @@ public class Identification extends DefaultVisitor {
         VarDefinition def = variables.getFromAny(variable.getName());
        
         
-        if( predicate(def != null, "Variable: " + variable.getName() + " no definida.", variable) ) {
+        if( predicate(def != null, "Variable \'" + variable.getName() + "\' no definida.", variable) ) {
             // Regla -> variable.definition = variables[name]
             variable.setDefinition(def);
         }
@@ -111,7 +111,7 @@ public class Identification extends DefaultVisitor {
         if(varDefinition.getScope() == Scope.GLOBAL) {
             VarDefinition def = variables.getFromAny(varDefinition.getName());
             // Predicado -> variables[name] == ∅
-            if (predicate(def == null, "Variable global: " + varDefinition.getName() + " ya definida.", varDefinition)){
+            if (predicate(def == null, "Variable global \'" + varDefinition.getName() + "\' ya definida.", varDefinition)){
                 // Regla -> variables[name] = varDefinition
                 variables.put(varDefinition.getName(), varDefinition);
             }
@@ -122,7 +122,7 @@ public class Identification extends DefaultVisitor {
         if(varDefinition.getScope() == Scope.LOCAL) {
             VarDefinition def = variables.getFromTop(varDefinition.getName());
             // Predicado -> variables[name] == ∅
-            if(predicate(def == null, "Variable local: " + varDefinition.getName() + " ya definida.", varDefinition)){
+            if(predicate(def == null, "Variable local \'" + varDefinition.getName() + "\' ya definida.", varDefinition)){
                 // Regla -> variables[name] = varDefinition
                 variables.put(varDefinition.getName(), varDefinition);
             }
@@ -133,7 +133,7 @@ public class Identification extends DefaultVisitor {
         if(varDefinition.getScope() == Scope.PARAMETER) {
             VarDefinition def = variables.getFromTop(varDefinition.getName());
             // Predicado -> variables[name] == ∅
-            if(predicate(def == null, "Parámetro: " + varDefinition.getName() + " ya definido.", varDefinition)){
+            if(predicate(def == null, "Parámetro \'" + varDefinition.getName() + "\' ya definido.", varDefinition)){
                 // Regla -> variables[name] = varDefinition
                 variables.put(varDefinition.getName(), varDefinition);
             }
@@ -158,7 +158,7 @@ public class Identification extends DefaultVisitor {
         FunctionDefinition def = functions.get(functionDefinition.getName());
 
         // Predicado -> functions[name] == ∅
-        if (predicate(def == null, "Función: " + functionDefinition.getName() + " ya definida", functionDefinition)){
+        if (predicate(def == null, "Función \'" + functionDefinition.getName() + "\' ya definida", functionDefinition)){
             // Regla -> functions[name] = functionDefinition
             functions.put(functionDefinition.getName(), functionDefinition);
         }
@@ -207,9 +207,9 @@ public class Identification extends DefaultVisitor {
         
         FunctionDefinition def= functions.get(runCall.getName());
         // Predicado -> functions[name] != ∅
-        if (predicate(def != null, "Función: " + runCall.getName() + " no definida.", runCall) &&
+        if (predicate(def != null, "Función  \'" + runCall.getName() + "\' no definida.", runCall) &&
             // Predicado -> function.isBuilder
-            predicate(def.isIsBuilder(), "Función: " + runCall.getName() + " no es un constructor.", runCall)){
+            predicate(def.isIsBuilder(), "La función \'" + runCall.getName() + "\' no es un constructor.", runCall)){
                 // Regla -> runCall.definition = functions[name]
                 runCall.setDefinition(def);
                 
@@ -229,7 +229,7 @@ public class Identification extends DefaultVisitor {
 	public Object visit(FunctionBuilder functionBuilder, Object param) {
 
         // Predicado -> builders[name] == ∅
-        if(predicate(!builders.contains(functionBuilder.getName()), "Constructor: " + functionBuilder.getName() + " ya definido.", functionBuilder)){
+        if(predicate(!builders.contains(functionBuilder.getName()), "Constructor \'" + functionBuilder.getName() + "\' ya definido.", functionBuilder)){
             // Regla -> builders.add(name)
             builders.add(functionBuilder.getName());
         }
@@ -245,7 +245,7 @@ public class Identification extends DefaultVisitor {
         FunctionDefinition def = functions.get(functionCallSent.getName());
 
         // Predicado -> functions[name] != ∅
-        if(predicate(def != null, "Función: " + functionCallSent.getName() + " no definida.", functionCallSent)){    
+        if(predicate(def != null, "Función \'" + functionCallSent.getName() + "\'' no definida.", functionCallSent)){    
             // Regla -> functionCallSent.definition = functions[name]
             functionCallSent.setDefinition(def);
 
@@ -266,7 +266,7 @@ public class Identification extends DefaultVisitor {
         FunctionDefinition def = functions.get(functionCallExpr.getName());
 
         // Predicado -> functions[name] != ∅
-        if(predicate(def != null, "Función: " + functionCallExpr.getName() + " no definida.", functionCallExpr)){
+        if(predicate(def != null, "Función \'" + functionCallExpr.getName() + "\' no definida.", functionCallExpr)){
             
             // Regla -> functionCallExpr.definition = functions[name]
             functionCallExpr.setDefinition(def);
@@ -288,7 +288,7 @@ public class Identification extends DefaultVisitor {
         StructDefinition def = structs.get(structDefinition.getName().getName());
 
         // Predicado -> structs[name] == ∅
-        if(predicate(def == null, "Struct:" + structDefinition.getName().getName() + " ya definida", structDefinition)){
+        if(predicate(def == null, "Struct \'" + structDefinition.getName().getName() + "\' ya definida", structDefinition)){
             structs.put(structDefinition.getName().getName(), structDefinition);
         
 
@@ -316,7 +316,7 @@ public class Identification extends DefaultVisitor {
         StructDefinition def = structs.get(structType.getName());
 
         // Predicado -> structs[name] != ∅
-        if(predicate(def != null, "Struct: " + structType.getName() + " no definida.", structType)){
+        if(predicate(def != null, "Struct \'" + structType.getName() + "\' no definida.", structType)){
 
             // Regla -> structType.definition = structs[name]
             structType.setDefinition(def);
@@ -338,7 +338,7 @@ public class Identification extends DefaultVisitor {
        
         FieldDefinition field = structFields.get(fieldDefinition.getName());
         // Predicado -> structFields[name] == ∅
-        if(predicate(field == null, "El campo " + fieldDefinition.getName() + " del Struct ya está definido.", fieldDefinition)){
+        if(predicate(field == null, "El campo \'" + fieldDefinition.getName() + "\' del Struct ya está definido.", fieldDefinition)){
 
             // Regla -> structFields[name] = fieldDefinition
             structFields.put(fieldDefinition.getName(), fieldDefinition);
