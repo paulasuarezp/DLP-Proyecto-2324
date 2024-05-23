@@ -133,8 +133,9 @@ public class Execute extends AbstractCodeFunction {
 		// address(read.input());
 
 		out("\n#LINE " + read.end().getLine());
-		value(read.input());
-		out("IN" + MaplUtils.maplSuffix(read.getInput().get(0).getType()));
+		address(read.input());
+		out("IN" + MaplUtils.maplSuffix(read.getInput().getFirst().getType()));
+		out("STORE" + MaplUtils.maplSuffix(read.getInput().getFirst().getType()));
 
 		return null;
 	}
