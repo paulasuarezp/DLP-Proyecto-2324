@@ -1,0 +1,21 @@
+// Imprimir 20 los primeros números de la serie de fibonacci
+
+int penultimo, ultimo, actual;
+int imprimidos;
+
+print 0;
+print 1;
+imprimidos = 2;
+
+penultimo = 0;
+ultimo = 1;
+
+while (imprimidos < 20) {
+    actual = ultimo + penultimo;
+
+    println actual;
+    imprimidos = imprimidos + 1;
+
+    penultimo = ultimo;
+    ultimo = actual;
+}

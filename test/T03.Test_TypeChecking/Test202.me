@@ -1,0 +1,68 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+		deftuple complex as /*estructura
+			i: DOUBLE;
+			j: DOUBLE;
+		end
+
+
+	vars
+		b : INTEGER;
+
+	create
+		inicio;
+
+	feature factorial (i : INTEGER) : INTEGER is /* declaración con valor de retorno INTEGER y parámetro INTEGER
+		local
+			j, k : INTEGER;
+		do
+			from
+				j:= 1;
+				k:= 0;
+			until i = 0 loop
+				j := j * i;
+				k := k + 1;
+				i := i - 1;
+			end
+			return j; 
+	end /* factorial
+
+	feature featureError (k : INTEGER, l : INTEGER) : complex is /* Error, el tipo de retorno debe ser simple
+		local
+			c : [3] INTEGER;
+			p, q : point;
+
+		do
+			p.x := factorial (3);
+			q.x := factorial (q.y);
+			return q; /* No da error proque el tipo coincide con el de la 'fesaturError'
+	end
+
+	feature inicio is 
+		local
+			k, l : INTEGER;
+			c : [3] INTEGER;
+			p, q : point;
+
+		do
+			k := factorial (3);
+			k := factorial (l);
+			k := factorial (l > 1); /* No es error, los booleanos se manejan como INTEGER
+			k := factorial (c[2]);
+			k := factorial (p.x);
+	end
+end
+
+run inicio(); 
+
+//* ERRORES
+Error en Type Checking: [38:10] El tipo de retorno de la 'feature featureError' debería ser un tipo simple o VOID {INTEGER, CHARACTER, DOUBLE o VOID}, no puede ser 'Tupla: complex'.
+*//

@@ -1,0 +1,69 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+		deftuple complex as /*estructura
+			i: DOUBLE;
+			j: DOUBLE;
+		end
+
+
+	vars
+		cx : complex;
+
+	create
+		inicio;
+
+	feature factorial (i : INTEGER) : INTEGER is 
+		local
+			j, k : INTEGER;
+		do
+			from
+				j:= 1;
+				k:= 0;
+			until i = 0 loop 
+				j := j * i;
+				k := k + 1;
+				i := i - 1;
+			end
+			return j; 
+	end /* factorial
+
+	feature inicio is 
+		local
+			i, j, k : INTEGER;
+			c, d, e : CHARACTER;
+			f, g, h : DOUBLE;
+			a : [7] DOUBLE;
+			p : point;
+			
+		do
+		/* arithmetic expressions sin error
+		i := -j;
+		p.x := -(i * j);
+		a[2] := -(f * -g);
+		h := -cx.i - h;
+		
+		/* arithmetic expressions con error
+		c := -d;
+		f := -cx;
+		g := -a;
+
+	end
+end
+
+run inicio(); 
+
+//* ERRORES
+Error en Type Checking: [54:9] Sólo se puede aplicar el operador '-' a los tipos INTEGER o DOUBLE, no al tipo 'CHARACTER'.
+Error en Type Checking: [55:9] Sólo se puede aplicar el operador '-' a los tipos INTEGER o DOUBLE, no al tipo 'Tupla: complex'.
+Error en Type Checking: [55:3] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'Tupla: complex' a un 'DOUBLE'.
+Error en Type Checking: [56:9] Sólo se puede aplicar el operador '-' a los tipos INTEGER o DOUBLE, no al tipo 'Array: [7] DOUBLE'.
+Error en Type Checking: [56:3] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'Array: [7] DOUBLE' a un 'DOUBLE'.
+*//

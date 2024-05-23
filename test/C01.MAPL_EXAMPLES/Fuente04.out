@@ -1,0 +1,70 @@
+' Compilador mini Eiffel.
+' Aquilino A. Juan.
+' Versión 2024.2 (c)
+#source "Fuente04.me"
+#global menor: float
+#global num: float
+#func main
+#ret void
+CALL main
+HALT
+
+#line 14
+main:
+
+#line 18
+PUSHA 0
+INF
+STOREF
+
+#line 19
+PUSHA 4
+INF
+STOREF
+
+#line 20
+PUSHA 0
+LOADF
+PUSHA 4
+LOADF
+GTF
+JZ else_0000
+
+#line 21
+PUSHA 0
+PUSHA 4
+LOADF
+STOREF
+JMP endif_0000
+else_0000:
+endif_0000:
+
+#line 23
+PUSHA 4
+INF
+STOREF
+
+#line 24
+PUSHA 0
+LOADF
+PUSHA 4
+LOADF
+GTF
+JZ else_0001
+
+#line 25
+PUSHA 0
+PUSHA 4
+LOADF
+STOREF
+JMP endif_0001
+else_0001:
+endif_0001:
+
+#line 27
+PUSHA 0
+LOADF
+OUTF
+
+#line 27
+RET 0, 0, 0

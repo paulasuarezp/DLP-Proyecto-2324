@@ -1,0 +1,56 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+		deftuple complex as /*estructura
+			i: DOUBLE;
+			j: DOUBLE;
+		end
+
+
+	vars
+		b : INTEGER;
+
+	create
+		inicio;
+
+	feature factorial (i : INTEGER) : INTEGER is /* declaración con valor de retorno INTEGER y parámetro INTEGER
+		local
+			j, k : INTEGER;
+		do
+			from
+				j:= 1;
+				k:= 0;
+			until i = 0 loop
+				j := j * i;
+				k := k + 1;
+				i := i - 1;
+			end
+			return j; 
+	end /* factorial
+
+	feature inicio is 
+		local
+			k : INTEGER;
+
+		do
+			k := factorial (3);
+			if to<DOUBLE>(k) then /* Error, la condición debe ser de tipo entero
+				k := k + 1;
+			else
+				k := k - 1;
+			end
+	end
+end
+
+run inicio(); 
+
+//* ERRORES
+Error en Type Checking: [44:10] La condición del 'if' tiene que ser de tipo 'INTEGER', no 'DOUBLE'.
+*//

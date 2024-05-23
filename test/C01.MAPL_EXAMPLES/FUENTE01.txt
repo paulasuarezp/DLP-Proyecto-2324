@@ -1,0 +1,7 @@
+// Perímetro de un rectángulo
+int ladoA, ladoB;
+
+read ladoA;
+read ladoB;
+
+print (ladoA + ladoB) * 2;

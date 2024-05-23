@@ -1,0 +1,35 @@
+class
+	prog2;
+	
+global
+	types
+		deftuple Punto as
+			x : INTEGER;
+			y : INTEGER;
+		end
+	vars
+		b : INTEGER;
+
+create
+	inicio;
+	
+feature
+	f (b : DOUBLE) is
+	do
+		b := 5; /* Error, b es una variable DOUBLE
+	end
+
+feature
+	inicio is
+	local
+		c : INTEGER;
+		p : Punto;
+	do
+		b := f(8.5); /* Error, 8.5 no es de tipo INTEGER
+		c.x := 10;	/* Error, c no es una tupla
+		p.edad := 3;	/* Error, el campo edad no existe en la tupla Punto
+		p[5] := b;	/* Error, P no es un array
+	end
+end
+
+run inicio();

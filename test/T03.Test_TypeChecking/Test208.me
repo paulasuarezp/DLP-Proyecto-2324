@@ -1,0 +1,74 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+		deftuple complex as /*estructura
+			i: DOUBLE;
+			j: DOUBLE;
+		end
+
+
+	vars
+		cx : complex;
+
+	create
+		inicio;
+
+	feature factorial (i : INTEGER) : INTEGER is 
+		local
+			j, k : INTEGER;
+		do
+			from
+				j:= 1;
+				k:= 0;
+			until i = 0 loop 
+				j := j * i;
+				k := k + 1;
+				i := i - 1;
+			end
+			return j; 
+	end /* factorial
+
+	feature inicio is 
+		local
+			i, j, k : INTEGER;
+			c, d, e : CHARACTER;
+			f, g, h : DOUBLE;
+			a : [7] DOUBLE;
+			p : point;
+			
+		do
+		/* arithmetic expressions sin error
+		i := (j > k) and (p.x < 5);
+		j := (f >= g) or (j = k);
+		p.x := (cx.i <> h) and not (f = g);
+		i := not j;
+		
+		/* arithmetic expressions con error
+		a[4] := not(f = h);
+		i := (j > k) and g;
+		j := (f >= g) or to<DOUBLE>(j = k);
+		a[4] := not(f);
+		p.x := g and not (f = g);
+		i := not cx;
+
+	end
+end
+
+run inicio(); 
+
+//* ERRORES
+Error en Type Checking: [54:3] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'INTEGER' a un 'DOUBLE'.
+Error en Type Checking: [55:20] Sólo se pueden hacer operaciones lógicas entre tipos INTEGER, no entre tipos 'INTEGER' y 'DOUBLE'.
+Error en Type Checking: [56:23] Sólo se pueden hacer operaciones lógicas entre tipos INTEGER, no entre tipos 'INTEGER' y 'DOUBLE'.
+Error en Type Checking: [57:15] El operador 'not' sólo puede aplicarse a expresiones de tipo INTEGER, no de tipo 'DOUBLE'.
+Error en Type Checking: [57:3] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'INTEGER' a un 'DOUBLE'.
+Error en Type Checking: [58:21] Sólo se pueden hacer operaciones lógicas entre tipos INTEGER, no entre tipos 'DOUBLE' y 'INTEGER'.
+Error en Type Checking: [59:12] El operador 'not' sólo puede aplicarse a expresiones de tipo INTEGER, no de tipo 'Tupla: complex'.
+*//

@@ -1,0 +1,61 @@
+#source "Test000.me"
+
+'Declaraciones globales
+
+call main
+halt
+
+'**
+'** Features
+'**
+
+#line 8
+inicio:
+#func inicio
+#ret void
+
+#line 10
+pushb 72
+outb
+pushb 111
+outb
+pushb 108
+outb
+pushb 97
+outb
+pushb 32
+outb
+pushb 77
+outb
+pushb 117
+outb
+pushb 110
+outb
+pushb 100
+outb
+pushb 111
+outb
+
+#line 11
+pushb 33
+outb
+pushb 10
+outb
+
+#line 12
+ret 0, 0, 0
+
+'**
+'** Main
+'**
+
+#line 17
+main:
+#func main
+#ret void
+
+#line 17
+call inicio
+
+#line 18
+ret 0, 0, 0

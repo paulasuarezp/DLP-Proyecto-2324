@@ -1,0 +1,27 @@
+class
+	prog2;
+	
+global
+
+	vars
+		b : INTEGER;
+
+create
+	inicio;
+
+
+feature
+	inicio is
+	local
+		c : INTEGER;
+
+	do
+		7 := 8; /* Error, la expresion de la izquierda no es lvalue
+	end
+end
+
+run inicio();
+
+//* ERRORES
+Error en Type Checking: [19:3] El lado izquierdo de la asignación tiene una expresión no modificable (no es un lvalue).
+*//

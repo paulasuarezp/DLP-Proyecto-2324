@@ -1,0 +1,56 @@
+pusha 0 ' read
+in
+store
+
+pusha 0
+load
+push 2
+lt 'numero < 2
+jz else
+
+push 0 'print 0
+out
+
+jmp final ' o halt
+
+else:
+pusha 2 'divisor = 2
+push 2
+store
+inicio_while:
+pusha 2
+load
+pusha 0
+load
+lt ' divisor < numero
+jz fin_while
+
+pusha 0
+load
+pusha 2
+load
+mod ' numero % divisor 
+push 0
+eq
+jz fin_if
+
+push 0 ' print 0
+out
+halt ' o jmp final
+
+fin_if:
+pusha 2 ' divisor = divisor + 1
+pusha 2
+load
+push 1
+add
+store
+
+jmp inicio_while
+
+fin_while:
+push 1 ' print 1
+out
+
+final:
+halt

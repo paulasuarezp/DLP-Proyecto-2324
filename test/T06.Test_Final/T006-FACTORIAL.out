@@ -1,0 +1,479 @@
+' Compilador mini Eiffel.
+' Aquilino A. Juan.
+' Versión 2024.2 (c)
+#source "T006-FACTORIAL.me"
+#func factorial
+#param i: int
+#ret int
+#local j: int
+#local k: int
+#func factorialR
+#param i: int
+#ret int
+#local retValue: int
+#func main
+#ret void
+#local valor: int
+CALL main
+HALT
+
+#line 12
+factorial:
+
+#line 14
+ENTER 4
+
+#line 17
+' inicio from_0000
+
+#line 17
+PUSH BP
+PUSHI -2
+ADDI
+PUSHI 1
+STOREI
+
+#line 18
+PUSH BP
+PUSHI -4
+ADDI
+PUSHI 0
+STOREI
+
+#line 19
+UntilCond_0000:
+PUSH BP
+PUSHI 4
+ADDI
+LOADI
+PUSHI 0
+EQI
+JNZ UntilEnd_0000
+
+#line 20
+PUSH BP
+PUSHI -2
+ADDI
+PUSH BP
+PUSHI -2
+ADDI
+LOADI
+PUSH BP
+PUSHI 4
+ADDI
+LOADI
+MULI
+STOREI
+
+#line 21
+PUSH BP
+PUSHI -4
+ADDI
+PUSH BP
+PUSHI -4
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+
+#line 22
+PUSH BP
+PUSHI 4
+ADDI
+PUSH BP
+PUSHI 4
+ADDI
+LOADI
+PUSHI 1
+SUBI
+STOREI
+JMP UntilCond_0000
+UntilEnd_0000:
+
+#line 24
+PUSH BP
+PUSHI -2
+ADDI
+LOADI
+RET 2, 4, 2
+
+#line 27
+factorialR:
+
+#line 30
+ENTER 2
+
+#line 32
+PUSH BP
+PUSHI 4
+ADDI
+LOADI
+PUSHI 1
+EQI
+JZ else_0001
+
+#line 33
+PUSH BP
+PUSHI -2
+ADDI
+PUSHI 1
+STOREI
+JMP endif_0001
+else_0001:
+
+#line 35
+PUSH BP
+PUSHI -2
+ADDI
+PUSH BP
+PUSHI 4
+ADDI
+LOADI
+PUSH BP
+PUSHI 4
+ADDI
+LOADI
+PUSHI 1
+SUBI
+CALL factorialR
+MULI
+STOREI
+endif_0001:
+
+#line 37
+PUSH BP
+PUSHI -2
+ADDI
+LOADI
+RET 2, 2, 2
+
+#line 41
+main:
+
+#line 43
+ENTER 2
+
+#line 45
+PUSH BP
+PUSHI -2
+ADDI
+PUSHI 1
+PUSHI -1
+MULI
+STOREI
+
+#line 46
+' inicio from_0002
+
+#line 46
+UntilCond_0002:
+PUSH BP
+PUSHI -2
+ADDI
+LOADI
+PUSHI 0
+GTI
+JNZ UntilEnd_0002
+
+#line 47
+PUSHB 68	' 'D'
+OUTB
+PUSHB 97	' 'a'
+OUTB
+PUSHB 109	' 'm'
+OUTB
+PUSHB 101	' 'e'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 117	' 'u'
+OUTB
+PUSHB 110	' 'n'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 118	' 'v'
+OUTB
+PUSHB 97	' 'a'
+OUTB
+PUSHB 108	' 'l'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 114	' 'r'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 101	' 'e'
+OUTB
+PUSHB 110	' 'n'
+OUTB
+PUSHB 116	' 't'
+OUTB
+PUSHB 101	' 'e'
+OUTB
+PUSHB 114	' 'r'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 112	' 'p'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 115	' 's'
+OUTB
+PUSHB 105	' 'i'
+OUTB
+PUSHB 116	' 't'
+OUTB
+PUSHB 105	' 'i'
+OUTB
+PUSHB 118	' 'v'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 58	' ':'
+OUTB
+
+#line 48
+PUSH BP
+PUSHI -2
+ADDI
+INI
+STOREI
+JMP UntilCond_0002
+UntilEnd_0002:
+
+#line 50
+PUSHB 67	' 'C'
+OUTB
+PUSHB 225	' 'á'
+OUTB
+PUSHB 108	' 'l'
+OUTB
+PUSHB 99	' 'c'
+OUTB
+PUSHB 117	' 'u'
+OUTB
+PUSHB 108	' 'l'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 100	' 'd'
+OUTB
+PUSHB 101	' 'e'
+OUTB
+PUSHB 108	' 'l'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 102	' 'f'
+OUTB
+PUSHB 97	' 'a'
+OUTB
+PUSHB 99	' 'c'
+OUTB
+PUSHB 116	' 't'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 114	' 'r'
+OUTB
+PUSHB 105	' 'i'
+OUTB
+PUSHB 97	' 'a'
+OUTB
+PUSHB 108	' 'l'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 112	' 'p'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 114	' 'r'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 101	' 'e'
+OUTB
+PUSHB 108	' 'l'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 109	' 'm'
+OUTB
+PUSHB 233	' 'é'
+OUTB
+PUSHB 116	' 't'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 100	' 'd'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 114	' 'r'
+OUTB
+PUSHB 101	' 'e'
+OUTB
+PUSHB 99	' 'c'
+OUTB
+PUSHB 117	' 'u'
+OUTB
+PUSHB 114	' 'r'
+OUTB
+PUSHB 115	' 's'
+OUTB
+PUSHB 105	' 'i'
+OUTB
+PUSHB 118	' 'v'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 58	' ':'
+OUTB
+PUSHB 32	' ' '
+OUTB
+
+#line 51
+PUSH BP
+PUSHI -2
+ADDI
+LOADI
+CALL factorial
+OUTI
+PUSHB 10
+OUTB
+
+#line 52
+PUSHB 67	' 'C'
+OUTB
+PUSHB 225	' 'á'
+OUTB
+PUSHB 108	' 'l'
+OUTB
+PUSHB 99	' 'c'
+OUTB
+PUSHB 117	' 'u'
+OUTB
+PUSHB 108	' 'l'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 100	' 'd'
+OUTB
+PUSHB 101	' 'e'
+OUTB
+PUSHB 108	' 'l'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 102	' 'f'
+OUTB
+PUSHB 97	' 'a'
+OUTB
+PUSHB 99	' 'c'
+OUTB
+PUSHB 116	' 't'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 114	' 'r'
+OUTB
+PUSHB 105	' 'i'
+OUTB
+PUSHB 97	' 'a'
+OUTB
+PUSHB 108	' 'l'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 112	' 'p'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 114	' 'r'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 101	' 'e'
+OUTB
+PUSHB 108	' 'l'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 109	' 'm'
+OUTB
+PUSHB 233	' 'é'
+OUTB
+PUSHB 116	' 't'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 100	' 'd'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 32	' ' '
+OUTB
+PUSHB 105	' 'i'
+OUTB
+PUSHB 116	' 't'
+OUTB
+PUSHB 101	' 'e'
+OUTB
+PUSHB 114	' 'r'
+OUTB
+PUSHB 97	' 'a'
+OUTB
+PUSHB 116	' 't'
+OUTB
+PUSHB 105	' 'i'
+OUTB
+PUSHB 118	' 'v'
+OUTB
+PUSHB 111	' 'o'
+OUTB
+PUSHB 58	' ':'
+OUTB
+PUSHB 32	' ' '
+OUTB
+
+#line 53
+PUSH BP
+PUSHI -2
+ADDI
+LOADI
+CALL factorialR
+OUTI
+PUSHB 10
+OUTB
+
+#line 54
+PUSHB 65	' 'A'
+OUTB
+PUSHB 100	' 'd'
+OUTB
+PUSHB 105	' 'i'
+OUTB
+PUSHB 243	' 'ó'
+OUTB
+PUSHB 115	' 's'
+OUTB
+PUSHB 33	' '!'
+OUTB
+
+#line 55
+PUSHB 10
+OUTB
+
+#line 55
+RET 0, 2, 0

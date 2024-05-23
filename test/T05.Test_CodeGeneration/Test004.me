@@ -1,0 +1,71 @@
+//*
+Test 1 para probar la Fase de Generación de Código
+
+COMPROBACION. Al ejecutar el programa deberá salir:
+743,2314
+
+CONSEJO: No limitarse a comprobar el resultado de la ejecución. Se recomienda además abrir el fichero generado usando el depurador GVM y comprobar sus instrucciones.
+
+Para facilitar esta tarea es de gran utilidad que el alumno haya generado directivas '#line' en el fichero de salida.
+Para información sobre la función de dicha directiva se debe abrir con GVM el siguiente tutorial: 
+Tutorial\3 Uso básico del depurador\4 Fusión Alto Nivel.txt
+
+NOTA: Es posible que el alumno deba adaptar ligeramente la sintaxis del lenguaje si no coincide
+con la del lenguaje que le corresponde.
+*//
+
+class Test004_HIPOTECA;
+		
+	global
+		/* No hay declaraciones aquí
+		
+	create calcularHipoteca;
+		
+	/* Features del cálculo
+	feature potencia(base: DOUBLE, exponente: INTEGER): DOUBLE is
+		local
+			total: DOUBLE;
+		do
+			if exponente = 0 then
+				total := 1.0;
+			else if exponente < 0 then
+					total := 1.0 / potencia(base, 0 - exponente);
+				else
+					total := base;
+					from
+					until exponente <= 1 loop
+						total := total * base;
+						exponente := exponente - 1;
+					end
+				end
+			end
+			return total;		
+	end
+		
+	feature letraHipoteca(capital: DOUBLE, meses: INTEGER, interes: DOUBLE): DOUBLE is
+		local
+			mensual: DOUBLE;
+		do
+			mensual := interes / 12.0;
+			return capital * mensual / (100.0 * (1.0 - potencia(1.0 + mensual/100.0, 0 - meses)));
+	end /* letraHipoteca
+
+	feature calcularHipoteca is
+		local
+			precioViv: DOUBLE;
+			mesesHipoteca: INTEGER;
+			interes: DOUBLE;
+		do			
+			/*	Con estos datos deberían salir (redondeando) 743 euros de letra al mes	
+			precioViv := 200000.0;
+			mesesHipoteca := 30 * 12;
+			interes := 2.04;	
+
+			print (letraHipoteca(precioViv, mesesHipoteca, interes));
+	end /* calcularHipoteca
+		
+end
+
+main
+	calcularHipoteca();
+end /* HIPOTECA

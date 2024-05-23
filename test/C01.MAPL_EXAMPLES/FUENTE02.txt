@@ -1,0 +1,7 @@
+// Operaciones con reales
+
+float f;
+
+read f;
+
+print 1 + f * 2;

@@ -1,0 +1,41 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+
+
+	vars
+		b : INTEGER;
+
+create
+	inicio;
+
+
+feature
+	inicio is
+	local
+		c : [3] INTEGER;
+		p : point;
+
+	do
+		c[1] := b.y; /* Error b no es un tupla
+		b.x := c[1]; /* Error b no es un tupla
+	end
+end
+
+run inicio();
+
+//* ERRORES
+Error en Type Checking: [27:11] La expresión antes del operador '.' debe ser una 'tuple', no un tipo 'INTEGER'.
+Error en Type Checking: [27:3] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'INTEGER' a un 'INDEFINIDO'.
+Error en Type Checking: [28:3] La expresión antes del operador '.' debe ser una 'tuple', no un tipo 'INTEGER'.
+Error en Type Checking: [28:3] El lado izquierdo de la asignación tiene una expresión no modificable (no es un lvalue).
+Error en Type Checking: [28:3] No se puede asignar a un tipo 'INDEFINIDO'. Sólo es posible asignar a tipos simples {INTEGER, CHARACTER y DOUBLE}.
+Error en Type Checking: [28:3] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'INDEFINIDO' a un 'INTEGER'.
+*//

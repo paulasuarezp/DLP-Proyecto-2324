@@ -1,0 +1,86 @@
+' Compilador mini Eiffel.
+' Aquilino A. Juan.
+' Versión 2024.2 (c)
+#source "Fuente07.me"
+#global numero: int
+#global divisor: int
+#func main
+#ret void
+CALL main
+HALT
+
+#line 15
+main:
+
+#line 19
+PUSHA 0
+INI
+STOREI
+
+#line 20
+PUSHA 0
+LOADI
+PUSHI 2
+LTI
+JZ else_0000
+
+#line 21
+PUSHI 0
+OUTI
+JMP endif_0000
+else_0000:
+
+#line 24
+' inicio from_0001
+
+#line 24
+PUSHA 2
+PUSHI 2
+STOREI
+
+#line 25
+UntilCond_0001:
+PUSHA 2
+LOADI
+PUSHA 0
+LOADI
+GEI
+JNZ UntilEnd_0001
+
+#line 26
+PUSHA 0
+LOADI
+PUSHA 2
+LOADI
+modI
+PUSHI 0
+EQI
+JZ else_0002
+
+#line 27
+PUSHI 0
+OUTI
+
+#line 28
+RET 0, 0, 0
+JMP endif_0002
+else_0002:
+endif_0002:
+
+#line 30
+PUSHA 2
+PUSHA 2
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP UntilCond_0001
+UntilEnd_0001:
+
+#line 32
+PUSHI 1
+OUTI
+endif_0000:
+
+#line 32
+RET 0, 0, 0

@@ -1,0 +1,48 @@
+' Compilador mini Eiffel.
+' Aquilino A. Juan.
+' Versión 2024.2 (c)
+#source "Fuente03.me"
+#global i: int
+#func main
+#ret void
+CALL main
+HALT
+
+#line 14
+main:
+
+#line 19
+' inicio from_0000
+
+#line 19
+PUSHA 0
+PUSHI 0
+STOREI
+
+#line 20
+UntilCond_0000:
+PUSHA 0
+LOADI
+PUSHI 10
+GTI
+JNZ UntilEnd_0000
+
+#line 21
+PUSHA 0
+LOADI
+OUTI
+PUSHB 10
+OUTB
+
+#line 22
+PUSHA 0
+PUSHA 0
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP UntilCond_0000
+UntilEnd_0000:
+
+#line 22
+RET 0, 0, 0

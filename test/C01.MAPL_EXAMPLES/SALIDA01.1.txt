@@ -1,0 +1,17 @@
+' Versión Normal
+pusha 0 ' read 
+in
+store
+
+pusha 2 ' read
+in
+store
+
+pusha 0
+load	' ladoA
+pusha 2
+load	' ladoB
+add
+push 2
+mul
+out

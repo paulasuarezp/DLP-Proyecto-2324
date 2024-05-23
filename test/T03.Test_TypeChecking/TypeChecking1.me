@@ -1,0 +1,168 @@
+//*
+Test para probar la Fase de Comprobación de Tipos
+
+COMPROBACION: El compilador del alumno debe detectar todos los errores indicados en los comentarios.
+
+ADVERTENCIA: Hay algunos errores que producen otros errores derivados.
+
+Por ejemplo:
+
+	print juan + anton;	// suma de dos estructuras 
+
+Lo anterior produce el error de que se están sumando dos expresiones de tipos no simples y además
+puede producir el error de que la expresión a imprimir tampoco es de tipo simple (al no quedar
+un tipo simple asociado a la suma al no haberse podido calcular su tipo).
+Estos errores derivados son normales y no es necesario intentar suprimirlos. 
+
+NOTA: Es posible que el alumno deba adaptar ligeramente la sintaxis del lenguaje si no coincide
+con la del lenguaje que le corresponde.
+*//
+
+class Prueba_type_checking;
+
+	global
+		types
+			deftuple Persona as
+				edad : INTEGER;
+				meses : [12] INTEGER;
+			end
+		vars
+			juan : Persona;
+			anton : Persona;
+
+	create
+		inicio;
+
+	feature g : Persona is	/* Error: Retorno de tipo no simple y falta el return
+		do
+	end
+
+	feature f (a : [10] INTEGER) is	/* Los parámetros deben de ser tipos primitivos
+		do
+			return 25;	/* El return no debe tener expresión en funciones void
+	end
+
+	feature h : INTEGER is
+		do
+			return 5.6;	/* Tipo de retorno no coincide
+	end
+
+	feature j (a : INTEGER, b : DOUBLE) : DOUBLE is
+		do
+			h(2);	/* Numero de argumentos incorrecto
+			return; /* Debe haber un valor de retorno
+	end
+
+	feature inicio is
+		local
+		i : INTEGER;
+		f : DOUBLE;
+		v : [10]INTEGER;
+
+		do
+			if 2.5 then end /* La condicion debe ser de tipo entero
+			if i then end
+			
+			until juan loop /* La condicion debe ser de tipo entero
+			end	
+			
+			from
+			until not i	loop end	
+			
+			5 := 6; /* Valor de la izquierda no modificable
+			i := f; /* Valores de distinto tipo
+			juan := anton; /* Valor de la izquierda debe ser simple
+
+			read juan;	/* Debe ser un tipo simple
+			read 35;	/* Debe ser modificable
+			read i;
+			
+			print juan; /* Debe ser tipo simple
+			print f / 2.5;
+			
+			j(12, 12.5);
+			j(12, 12); 		/* Tipo de los parámetros no coincide
+			j(12);			/* Número de argumentos no coincide
+			j(12, 12.5, 4); /* Número de argumentos no coincide
+			
+			print inicio();	/* No tiene tipo de retorno
+			print j(12, 12.5);
+			print j(12, 12); 		/* Tipo de los parámetros no coincide
+			print j(12);			/* Número de argumentos no coincide
+			print j(12, 12.5, 4); 	/* Número de argumentos no coincide
+
+			print juan + anton;	/* Deben ser tipos simples
+			print 2.5 * 2;		/* Deben ser del mismo tipo
+			print i - 2;
+
+			print 2.5 and f;	/* Deben ser tipo entero
+			print 2 or i;
+			
+			print juan > anton;	/* Deben ser tipos simples
+			print 2.5 < 2;		/* Deben ser del mismo tipo
+			print i = 2;
+			
+			print to<INTEGER>(2.5) + i;
+			print to<Persona>(2.5);		/* El cast sólo puede ser usado con tipos simples
+			print to<INTEGER>(juan);	/* Expresiones de tipos simples
+			print to<DOUBLE>(2.5);		/* Deben ser distintos tipos
+			
+			print juan[5];	/* Debe ser tipo array
+			print 2[5];		/* Debe ser tipo array
+			print v[5.0];	/* Debe ser indice entero
+			print v[i+2];
+			
+			print juan.edad;
+			print 5.edad;		/* Se requiere tipo struct
+			print juan.nombre;	/* Campo no definido
+	end
+end
+
+run inicio();
+
+//* errores
+Error en Type Checking: [36:10] El tipo de retorno de la 'feature g' debería ser un tipo simple o VOID {INTEGER, CHARACTER, DOUBLE o VOID}, no puede ser 'Tupla: Persona'.
+Error en Type Checking: [36:10] No se han encontrado sentencias 'return' en la 'feature g' a pesar de tener un tipo de retorno: 'Tupla: Persona'.
+Error en Type Checking: [40:13] Los parámetros de las features deben ser de tipos simples: INTEGER, CHARACTER o DOUBLE. 'a' es de tipo 'Array: [10] INTEGER'.
+Error en Type Checking: [42:4] La expresión del return debe ser de tipo 'VOID', no de tipo 'INTEGER'.
+Error en Type Checking: [47:4] La expresión del return debe ser de tipo 'INTEGER', no de tipo 'DOUBLE'.
+Error en Type Checking: [52:4] La llamada a la 'feature h' tiene 1 argumentos y se esperaban 0.
+Error en Type Checking: [53:4] La expresión del return no puede estar vacía en una feature de tipo 'DOUBLE'.
+Error en Type Checking: [63:7] La condición del 'if' tiene que ser de tipo 'INTEGER', no 'DOUBLE'.
+Error en Type Checking: [66:10] La condición del 'until' tiene que ser de tipo 'INTEGER', no 'Tupla: Persona'.
+Error en Type Checking: [72:4] El lado izquierdo de la asignación tiene una expresión no modificable (no es un lvalue).
+Error en Type Checking: [73:4] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'DOUBLE' a un 'INTEGER'.
+Error en Type Checking: [74:4] No se puede asignar a un tipo 'Tupla: Persona'. Sólo es posible asignar a tipos simples {INTEGER, CHARACTER y DOUBLE}.
+Error en Type Checking: [76:9] Sólo se pueden hacer lecturas sobre expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no sobre 'Tupla: Persona'.
+Error en Type Checking: [77:9] Sólo se puede leer sobre expresiones modificables.
+Error en Type Checking: [80:10] Sólo se pueden imprimir expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no del tipo 'Tupla: Persona'.
+Error en Type Checking: [84:10] Se esperaba un tipo 'DOUBLE' para el argumento 'b' en la invocación del procedimiento 'feature j', no un 'INTEGER'.
+Error en Type Checking: [85:4] La llamada a la 'feature j' tiene 1 argumentos y se esperaban 2.
+Error en Type Checking: [86:4] La llamada a la 'feature j' tiene 3 argumentos y se esperaban 2.
+Error en Type Checking: [88:10] Sólo se pueden imprimir expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no del tipo 'VOID'.
+Error en Type Checking: [90:16] Se esperaba un tipo 'DOUBLE' para el argumento 'b' en la llamada a la función 'feature j', no un 'INTEGER'.
+Error en Type Checking: [91:10] La llamada a la 'feature j' tiene 1 argumentos y se esperaban 2.
+Error en Type Checking: [92:10] La llamada a la 'feature j' tiene 3 argumentos y se esperaban 2.
+Error en Type Checking: [94:10] Sólo se permiten expresiones aritméticas con los tipos IMTEGER y DOUBLE, no con 'Tupla: Persona'.
+Error en Type Checking: [94:10] Sólo se pueden imprimir expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no del tipo 'Tupla: Persona'.
+Error en Type Checking: [95:16] Sólo se permiten expresiones aritméticas entre variables del miso tipo, no entre variales 'DOUBLE' y 'INTEGER'.
+Error en Type Checking: [98:18] Sólo se pueden hacer operaciones lógicas entre tipos INTEGER, no entre tipos 'DOUBLE' y 'DOUBLE'.
+Error en Type Checking: [101:10] Sólo se permiten expresiones relacionales entre tipos INTEGR o DOUBLE, no entre tipos 'Tupla: Persona' y 'Tupla: Persona'.
+Error en Type Checking: [102:16] Las expresiones a ambos lados de un operador relacional deben ser del mismo tipo (INTEGR o DOUBLE), no se permite entre tipos 'DOUBLE' y 'INTEGER'.
+Error en Type Checking: [106:13] Sólo se puede hacer promoción a un tipo simple {INTEGER, DOUBLE y CHARACTER}, no a un tipo 'Tupla: Persona'.
+Error en Type Checking: [106:13] No se puede promocionar del tipo 'DOUBLE' al tipo 'Tupla: Persona'.
+Error en Type Checking: [106:13] Sólo se pueden imprimir expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no del tipo 'Tupla: Persona'.
+Error en Type Checking: [107:13] Sólo se puede usar la promoción con expresiones de tipo simple {INTEGER, DOUBLE y CHARACTER}, no con expresiones de tipo 'Tupla: Persona'.
+Error en Type Checking: [107:13] No se puede promocionar del tipo 'Tupla: Persona' al tipo 'INTEGER'.
+Error en Type Checking: [108:13] El tipo de la expresión a promocionar y el tipo final deben ser diferentes.
+Error en Type Checking: [108:13] No se puede promocionar del tipo 'DOUBLE' al tipo 'DOUBLE'.
+Error en Type Checking: [110:10] La expresión de acceso a un 'array' debe ser de tipo 'array',  no 'Tupla: Persona'.
+Error en Type Checking: [110:10] Sólo se pueden imprimir expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no del tipo 'VOID'.
+Error en Type Checking: [111:10] La expresión de acceso a un 'array' debe ser de tipo 'array',  no 'INTEGER'.
+Error en Type Checking: [111:10] Sólo se pueden imprimir expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no del tipo 'VOID'.
+Error en Type Checking: [112:10] El índice de acceso a un 'array' debe ser INTEGER, no 'DOUBLE'.
+Error en Type Checking: [116:10] La expresión antes del operador '.' debe ser una 'Tupla', no un tipo 'INTEGER'.
+Error en Type Checking: [116:10] Sólo se pueden imprimir expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no del tipo 'VOID'.
+Error en Type Checking: [117:10] El campo 'nombre' no pertenece a la tupla 'Persona'.
+Error en Type Checking: [117:10] Sólo se pueden imprimir expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no del tipo 'VOID'.
+*//

@@ -1,0 +1,570 @@
+#source "T004-ORDENACION.me"
+
+'Declaraciones globales
+#global arr:10 * int
+#global numElem:int
+
+call main
+halt
+
+'**
+'** Features
+'**
+
+#line 14
+mensaje1:
+#func mensaje1
+#ret void
+
+#line 16
+pushb 67
+outb
+pushb 65
+outb
+pushb 82
+outb
+pushb 71
+outb
+pushb 65
+outb
+pushb 32
+outb
+pushb 68
+outb
+pushb 69
+outb
+pushb 76
+outb
+pushb 32
+outb
+pushb 65
+outb
+pushb 82
+outb
+pushb 82
+outb
+pushb 65
+outb
+pushb 89
+outb
+pushb 32
+outb
+pushb 65
+outb
+pushb 32
+outb
+pushb 79
+outb
+pushb 82
+outb
+pushb 68
+outb
+pushb 69
+outb
+pushb 78
+outb
+pushb 65
+outb
+pushb 82
+outb
+pushb 58
+outb
+pushb 32
+outb
+pushb 10
+outb
+
+#line 17
+ret 0, 0, 0
+
+#line 19
+mensaje2:
+#func mensaje2
+#ret void
+
+#line 21
+pushb 79
+outb
+pushb 114
+outb
+pushb 100
+outb
+pushb 101
+outb
+pushb 110
+outb
+pushb 97
+outb
+pushb 100
+outb
+pushb 111
+outb
+pushb 32
+outb
+pushb 112
+outb
+pushb 111
+outb
+pushb 114
+outb
+pushb 32
+outb
+pushb 101
+outb
+pushb 108
+outb
+pushb 32
+outb
+pushb 109
+outb
+pushb 233
+outb
+pushb 116
+outb
+pushb 111
+outb
+pushb 100
+outb
+pushb 111
+outb
+pushb 32
+outb
+pushb 100
+outb
+pushb 101
+outb
+pushb 32
+outb
+pushb 108
+outb
+pushb 97
+outb
+pushb 32
+outb
+pushb 66
+outb
+pushb 117
+outb
+pushb 114
+outb
+pushb 98
+outb
+pushb 117
+outb
+pushb 106
+outb
+pushb 97
+outb
+pushb 58
+outb
+pushb 32
+outb
+
+#line 22
+ret 0, 0, 0
+
+#line 24
+leer:
+#func leer
+#ret void
+
+#line 26
+enter 2
+#local i:int
+' until-from 0000
+
+#line 29
+push bp
+push -2
+add
+pushi 0
+storei
+
+#line 30
+untilcond0000:
+push bp
+push -2
+add
+loadi
+pusha 20
+loadi
+eqi
+jnz untilend0000
+
+#line 30
+
+#line 31
+pushb 80
+outb
+pushb 111
+outb
+pushb 115
+outb
+pushb 105
+outb
+pushb 99
+outb
+pushb 105
+outb
+pushb 243
+outb
+pushb 110
+outb
+pushb 32
+outb
+pushb 91
+outb
+
+#line 32
+push bp
+push -2
+add
+loadi
+outi
+
+#line 33
+pushb 93
+outb
+pushb 58
+outb
+pushb 32
+outb
+
+#line 34
+pusha 0
+push bp
+push -2
+add
+loadi
+pushi 2
+muli
+addi
+ini
+storei
+
+#line 35
+push bp
+push -2
+add
+push bp
+push -2
+add
+loadi
+pushi 1
+addi
+storei
+jmp untilcond0000
+untilend0000:
+
+#line 36
+ret 0, 2, 0
+
+#line 40
+pintar:
+#func pintar
+#ret void
+
+#line 42
+enter 2
+#local i:int
+' until-from 0001
+
+#line 45
+push bp
+push -2
+add
+pushi 0
+storei
+
+#line 46
+untilcond0001:
+push bp
+push -2
+add
+loadi
+pusha 20
+loadi
+eqi
+jnz untilend0001
+
+#line 46
+
+#line 47
+pushb 80
+outb
+pushb 111
+outb
+pushb 115
+outb
+pushb 105
+outb
+pushb 99
+outb
+pushb 105
+outb
+pushb 243
+outb
+pushb 110
+outb
+pushb 32
+outb
+pushb 91
+outb
+push bp
+push -2
+add
+loadi
+outi
+pushb 93
+outb
+pushb 58
+outb
+pushb 32
+outb
+
+#line 48
+pusha 0
+push bp
+push -2
+add
+loadi
+pushi 2
+muli
+addi
+loadi
+outi
+pushb 10
+outb
+
+#line 49
+push bp
+push -2
+add
+push bp
+push -2
+add
+loadi
+pushi 1
+addi
+storei
+jmp untilcond0001
+untilend0001:
+
+#line 50
+ret 0, 2, 0
+
+#line 56
+burbuja:
+#func burbuja
+#ret void
+
+#line 58
+enter 6
+#local aux:int
+#local i:int
+#local j:int
+' until-from 0002
+
+#line 61
+push bp
+push -4
+add
+pushi 0
+storei
+
+#line 62
+untilcond0002:
+push bp
+push -4
+add
+loadi
+pusha 20
+loadi
+eqi
+jnz untilend0002
+
+#line 62
+' until-from 0003
+
+#line 64
+push bp
+push -6
+add
+pushi 0
+storei
+
+#line 65
+untilcond0003:
+push bp
+push -6
+add
+loadi
+pusha 20
+loadi
+push bp
+push -4
+add
+loadi
+subi
+pushi 1
+subi
+eqi
+jnz untilend0003
+
+#line 65
+
+#line 66
+pusha 0
+push bp
+push -6
+add
+loadi
+pushi 2
+muli
+addi
+loadi
+pusha 0
+push bp
+push -6
+add
+loadi
+pushi 1
+addi
+pushi 2
+muli
+addi
+loadi
+gti
+jz else0004
+
+#line 67
+push bp
+push -2
+add
+pusha 0
+push bp
+push -6
+add
+loadi
+pushi 2
+muli
+addi
+loadi
+storei
+
+#line 68
+pusha 0
+push bp
+push -6
+add
+loadi
+pushi 2
+muli
+addi
+pusha 0
+push bp
+push -6
+add
+loadi
+pushi 1
+addi
+pushi 2
+muli
+addi
+loadi
+storei
+
+#line 69
+pusha 0
+push bp
+push -6
+add
+loadi
+pushi 1
+addi
+pushi 2
+muli
+addi
+push bp
+push -2
+add
+loadi
+storei
+jmp finelse0004
+else0004:
+finelse0004:
+
+#line 71
+push bp
+push -6
+add
+push bp
+push -6
+add
+loadi
+pushi 1
+addi
+storei
+jmp untilcond0003
+untilend0003:
+
+#line 73
+push bp
+push -4
+add
+push bp
+push -4
+add
+loadi
+pushi 1
+addi
+storei
+jmp untilcond0002
+untilend0002:
+
+#line 74
+ret 0, 6, 0
+
+#line 78
+inicio:
+#func inicio
+#ret void
+
+#line 81
+pusha 20
+pushi 10
+storei
+
+#line 84
+call mensaje1
+
+#line 85
+call leer
+
+#line 88
+call pintar
+
+#line 91
+call burbuja
+
+#line 94
+call mensaje2
+
+#line 95
+call pintar
+ret 0, 0, 0
+
+'**
+'** Main
+'**
+
+#line 101
+main:
+#func main
+#ret void
+
+#line 101
+call inicio
+
+#line 102
+ret 0, 0, 0

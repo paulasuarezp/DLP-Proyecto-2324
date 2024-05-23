@@ -1,0 +1,15 @@
+// Versión optimizada
+pusha 0	' read
+inf
+storef
+
+pushf 1
+
+pusha 0
+loadf	' f
+
+pushf 2
+mulf	' f * 2
+
+addf	' 1 + (f*2)
+outf

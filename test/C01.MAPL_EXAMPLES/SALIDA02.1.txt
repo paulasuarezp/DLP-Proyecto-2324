@@ -1,0 +1,17 @@
+// Versión normal
+pusha 0	' read
+inf
+storef
+
+push 1
+i2f
+
+pusha 0
+loadf	' f
+
+push 2
+i2f
+mulf	' f * 2
+
+addf	' 1 + (f*2)
+outf

@@ -1,0 +1,254 @@
+#source "Test004.me"
+
+'Declaraciones globales
+
+call main
+halt
+
+'**
+'** Features
+'**
+
+#line 25
+potencia:
+#func potencia
+#ret float
+#param base:float
+#param exponente:int
+
+#line 27
+enter 4
+#local total:float
+
+#line 29
+push bp
+push 4
+add
+loadi
+pushi 0
+eqi
+jz else0000
+
+#line 30
+push bp
+push -4
+add
+pushf 1.0
+storef
+jmp finelse0000
+else0000:
+
+#line 31
+push bp
+push 4
+add
+loadi
+pushi 0
+lti
+jz else0001
+
+#line 32
+push bp
+push -4
+add
+pushf 1.0
+push bp
+push 6
+add
+loadf
+pushi 0
+push bp
+push 4
+add
+loadi
+subi
+call potencia
+divf
+storef
+jmp finelse0001
+else0001:
+
+#line 34
+push bp
+push -4
+add
+push bp
+push 6
+add
+loadf
+storef
+' until-from 0002
+
+#line 36
+untilcond0002:
+push bp
+push 4
+add
+loadi
+pushi 1
+lei
+jnz untilend0002
+
+#line 36
+
+#line 37
+push bp
+push -4
+add
+push bp
+push -4
+add
+loadf
+push bp
+push 6
+add
+loadf
+mulf
+storef
+
+#line 38
+push bp
+push 4
+add
+push bp
+push 4
+add
+loadi
+pushi 1
+subi
+storei
+jmp untilcond0002
+untilend0002:
+finelse0001:
+finelse0000:
+
+#line 42
+push bp
+push -4
+add
+loadf
+ret 4, 4, 6
+
+#line 45
+letraHipoteca:
+#func letraHipoteca
+#ret float
+#param capital:float
+#param meses:int
+#param interes:float
+
+#line 47
+enter 4
+#local mensual:float
+
+#line 49
+push bp
+push -4
+add
+push bp
+push 4
+add
+loadf
+pushf 12.0
+divf
+storef
+
+#line 50
+push bp
+push 10
+add
+loadf
+push bp
+push -4
+add
+loadf
+mulf
+pushf 100.0
+pushf 1.0
+pushf 1.0
+push bp
+push -4
+add
+loadf
+pushf 100.0
+divf
+addf
+pushi 0
+push bp
+push 8
+add
+loadi
+subi
+call potencia
+subf
+mulf
+divf
+ret 4, 4, 10
+
+#line 53
+calcularHipoteca:
+#func calcularHipoteca
+#ret void
+
+#line 57
+enter 10
+#local precioViv:float
+#local mesesHipoteca:int
+#local interes:float
+
+#line 60
+push bp
+push -4
+add
+pushf 200000.0
+storef
+
+#line 61
+push bp
+push -6
+add
+pushi 30
+pushi 12
+muli
+storei
+
+#line 62
+push bp
+push -10
+add
+pushf 2.04
+storef
+
+#line 64
+push bp
+push -4
+add
+loadf
+push bp
+push -6
+add
+loadi
+push bp
+push -10
+add
+loadf
+call letraHipoteca
+outf
+
+#line 65
+ret 0, 10, 0
+
+'**
+'** Main
+'**
+
+#line 70
+main:
+#func main
+#ret void
+
+#line 70
+call calcularHipoteca
+
+#line 71
+ret 0, 0, 0

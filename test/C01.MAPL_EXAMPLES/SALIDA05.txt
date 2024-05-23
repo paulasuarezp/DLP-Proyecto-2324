@@ -1,0 +1,41 @@
+pusha 0  ' read
+in
+store
+
+pusha 2 ' divisor = 1
+push 1
+store
+
+inicio_while:
+pusha 2
+load
+pusha 0
+load
+le 'divisor <= numero
+jz fin_while 
+pusha 0
+load
+pusha 2
+load
+mod 'numero % divisor
+push 0
+eq
+jz fin_if
+
+pusha 2 ' println divisor
+load
+out
+pushb 10
+outb
+fin_if:
+
+pusha 2 'divisor = divisor + 1;
+pusha 2
+load
+push 1
+add
+store
+
+jmp inicio_while
+
+fin_while:

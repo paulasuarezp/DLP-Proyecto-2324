@@ -1,0 +1,74 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+		deftuple complex as /*estructura
+			i: DOUBLE;
+			j: DOUBLE;
+		end
+
+
+	vars
+		b : INTEGER;
+
+	create
+		inicio;
+
+	feature factorial (i : INTEGER) : INTEGER is 
+		local
+			j, k : INTEGER;
+		do
+			from
+				j:= 1;
+				k:= 0;
+			until i = 0 loop 
+				j := j * i;
+				k := k + 1;
+				i := i - 1;
+			end
+			return j; 
+	end /* factorial
+
+	feature inicio is 
+		local
+			k : INTEGER;
+			a : [7] DOUBLE;
+			p : point;
+			
+		do
+			k := factorial (3);
+			read k;
+			read a[3];
+			read a;	/* Error, sólo se pueden leer expresiones de tipos simples
+			read p.x;
+			read p; /* Error, sólo se pueden leer expresiones de tipos simples
+			read a[3], a[4];
+			read a[3], a, a[4]; /* Error, sólo se pueden leer expresiones de tipos simples
+
+			println k;
+			println a[3];
+			print a;	/* Error, sólo se pueden leer expresiones de tipos simples
+			print p.x;
+			println p; /* Error, sólo se pueden leer expresiones de tipos simples
+			print a[3], a[4];
+			print a[3], a, a[4]; /* Error, sólo se pueden leer expresiones de tipos simples
+			
+	end
+end
+
+run inicio(); 
+
+//* ERRORES
+Error en Type Checking: [48:9] Sólo se pueden hacer lecturas sobre expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no sobre 'Array: [7] DOUBLE'.
+Error en Type Checking: [50:9] Sólo se pueden hacer lecturas sobre expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no sobre 'Tupla: point'.
+Error en Type Checking: [52:15] Sólo se pueden hacer lecturas sobre expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no sobre 'Array: [7] DOUBLE'.
+Error en Type Checking: [56:10] Sólo se pueden imprimir expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no del tipo 'Array: [7] DOUBLE'.
+Error en Type Checking: [58:12] Sólo se pueden imprimir expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no del tipo 'Tupla: point'.
+Error en Type Checking: [60:16] Sólo se pueden imprimir expresiones de tipos simples {INTEGER, CHARACTER y DOUBLE}, no del tipo 'Array: [7] DOUBLE'.
+*//

@@ -1,0 +1,20 @@
+// Dado un nº, imprime 1 si es primo y 0 si no lo es
+
+int numero;
+int divisor;
+
+read numero;
+
+if (numero < 2)
+    print 0;
+else {  // Se puede halt en vez de else
+    divisor = 2;
+    while (divisor < numero) {
+        if (numero % divisor == 0) {
+            print 0;
+            halt;
+        }
+        divisor = divisor + 1;
+    }
+    print 1;
+}

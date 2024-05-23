@@ -1,0 +1,38 @@
+//*
+Ejemplo Fuente07.
+Dado un nº, imprime 1 si es primo y 0 si no lo es
+*//
+
+class Fuente07;
+	global
+		vars
+			numero : INTEGER;
+			divisor : INTEGER;
+		
+	create
+		main; 
+			
+	feature	main is
+		/* local
+
+		do
+			read numero;
+			if numero < 2 then
+				print 0;
+			else  /* Se puede halt en vez de else
+				from
+					divisor := 2;
+				until (divisor >= numero) loop /* while (divisor < numero)
+					if numero mod divisor = 0 then
+						print 0;
+						return;
+					end
+					divisor := divisor + 1;
+				end
+				print 1;
+			end
+	end /*main
+	
+end /* Fuente07
+
+run main();

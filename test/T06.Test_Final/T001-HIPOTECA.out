@@ -1,0 +1,474 @@
+#source "T001-HIPOTECA.me"
+
+'Declaraciones globales
+
+call main
+halt
+
+'**
+'** Features
+'**
+
+#line 18
+PrintPrecioViv:
+#func PrintPrecioViv
+#ret void
+
+#line 20
+pushb 80
+outb
+pushb 114
+outb
+pushb 101
+outb
+pushb 99
+outb
+pushb 105
+outb
+pushb 111
+outb
+pushb 32
+outb
+pushb 100
+outb
+pushb 101
+outb
+pushb 32
+outb
+pushb 108
+outb
+pushb 97
+outb
+pushb 32
+outb
+pushb 118
+outb
+pushb 105
+outb
+pushb 118
+outb
+pushb 105
+outb
+pushb 101
+outb
+pushb 110
+outb
+pushb 100
+outb
+pushb 97
+outb
+pushb 58
+outb
+pushb 32
+outb
+
+#line 21
+ret 0, 0, 0
+
+#line 23
+PrintMeses:
+#func PrintMeses
+#ret void
+
+#line 25
+pushb 77
+outb
+pushb 101
+outb
+pushb 115
+outb
+pushb 101
+outb
+pushb 115
+outb
+pushb 32
+outb
+pushb 100
+outb
+pushb 101
+outb
+pushb 32
+outb
+pushb 108
+outb
+pushb 97
+outb
+pushb 32
+outb
+pushb 104
+outb
+pushb 105
+outb
+pushb 112
+outb
+pushb 111
+outb
+pushb 116
+outb
+pushb 101
+outb
+pushb 99
+outb
+pushb 97
+outb
+pushb 58
+outb
+pushb 32
+outb
+
+#line 26
+ret 0, 0, 0
+
+#line 28
+PrintInteres:
+#func PrintInteres
+#ret void
+
+#line 30
+pushb 73
+outb
+pushb 110
+outb
+pushb 116
+outb
+pushb 101
+outb
+pushb 114
+outb
+pushb 233
+outb
+pushb 115
+outb
+pushb 32
+outb
+pushb 100
+outb
+pushb 101
+outb
+pushb 108
+outb
+pushb 32
+outb
+pushb 112
+outb
+pushb 114
+outb
+pushb 233
+outb
+pushb 115
+outb
+pushb 116
+outb
+pushb 97
+outb
+pushb 109
+outb
+pushb 111
+outb
+pushb 58
+outb
+pushb 32
+outb
+
+#line 31
+ret 0, 0, 0
+
+#line 33
+printMensaje:
+#func printMensaje
+#ret void
+
+#line 35
+pushb 72
+outb
+pushb 105
+outb
+pushb 112
+outb
+pushb 111
+outb
+pushb 116
+outb
+pushb 101
+outb
+pushb 99
+outb
+pushb 97
+outb
+pushb 32
+outb
+
+#line 36
+ret 0, 0, 0
+
+#line 39
+potencia:
+#func potencia
+#ret float
+#param base:float
+#param exponente:int
+
+#line 41
+enter 4
+#local total:float
+
+#line 43
+push bp
+push 4
+add
+loadi
+pushi 0
+eqi
+jz else0000
+
+#line 44
+push bp
+push -4
+add
+pushf 1.0
+storef
+jmp finelse0000
+else0000:
+
+#line 45
+push bp
+push 4
+add
+loadi
+pushi 0
+lti
+jz else0001
+
+#line 46
+push bp
+push -4
+add
+pushf 1.0
+push bp
+push 6
+add
+loadf
+pushi 0
+push bp
+push 4
+add
+loadi
+subi
+call potencia
+divf
+storef
+jmp finelse0001
+else0001:
+
+#line 48
+push bp
+push -4
+add
+push bp
+push 6
+add
+loadf
+storef
+' until-from 0002
+
+#line 50
+untilcond0002:
+push bp
+push 4
+add
+loadi
+pushi 0
+eqi
+jnz untilend0002
+
+#line 50
+
+#line 51
+push bp
+push -4
+add
+push bp
+push -4
+add
+loadf
+push bp
+push 6
+add
+loadf
+mulf
+storef
+
+#line 52
+push bp
+push 4
+add
+push bp
+push 4
+add
+loadi
+pushi 1
+subi
+storei
+jmp untilcond0002
+untilend0002:
+finelse0001:
+finelse0000:
+
+#line 56
+push bp
+push -4
+add
+loadf
+ret 4, 4, 6
+
+#line 59
+letraHipoteca:
+#func letraHipoteca
+#ret float
+#param capital:float
+#param meses:int
+#param interes:float
+
+#line 61
+enter 4
+#local mensual:float
+
+#line 63
+push bp
+push -4
+add
+push bp
+push 4
+add
+loadf
+pushf 12.0
+divf
+storef
+
+#line 64
+push bp
+push 10
+add
+loadf
+push bp
+push -4
+add
+loadf
+mulf
+pushf 100.0
+pushf 1.0
+pushf 1.0
+push bp
+push -4
+add
+loadf
+pushf 100.0
+divf
+addf
+pushi 0
+push bp
+push 8
+add
+loadi
+subi
+call potencia
+subf
+mulf
+divf
+ret 4, 4, 10
+
+#line 67
+calcularHipoteca:
+#func calcularHipoteca
+#ret void
+
+#line 71
+enter 10
+#local precioViv:float
+#local mesesHipoteca:int
+#local interes:float
+
+#line 73
+call PrintPrecioViv
+
+#line 74
+push bp
+push -4
+add
+inf
+storef
+
+#line 75
+call PrintMeses
+
+#line 76
+push bp
+push -6
+add
+ini
+storei
+
+#line 77
+call PrintInteres
+
+#line 78
+push bp
+push -10
+add
+inf
+storef
+
+#line 85
+call printMensaje
+
+#line 86
+push bp
+push -4
+add
+loadf
+push bp
+push -6
+add
+loadi
+push bp
+push -10
+add
+loadf
+call letraHipoteca
+outf
+
+#line 87
+pushb 32
+outb
+
+#line 88
+pushb 69
+outb
+pushb 117
+outb
+pushb 114
+outb
+pushb 111
+outb
+pushb 115
+outb
+pushb 10
+outb
+
+#line 89
+ret 0, 10, 0
+
+'**
+'** Main
+'**
+
+#line 94
+main:
+#func main
+#ret void
+
+#line 94
+call calcularHipoteca
+
+#line 95
+ret 0, 0, 0

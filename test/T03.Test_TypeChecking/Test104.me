@@ -1,0 +1,41 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+
+
+	vars
+		b : INTEGER;
+
+create
+	inicio;
+
+
+feature
+	inicio is
+	local
+		c : [3] INTEGER;
+		d : [4] INTEGER;
+		p : point;
+
+	do
+		c[1] := b; /* sí puede hacerse
+		p.x := 1.3; /* Error, no sepuede asignar un DOUBLE a un INTEGER
+		p.y := c; /* Error, no se pueden hacer asignaciones a tipos que no sean simples
+		c := d;
+	end
+end
+
+run inicio();
+
+//* ERRORES
+Error en Type Checking: [29:3] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'INTEGER' a un 'DOUBLE'.
+Error en Type Checking: [30:3] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'INTEGER' a un 'Array: [3] INTEGER'.
+Error en Type Checking: [31:3] No se puede asignar a un tipo 'Array: [3] INTEGER'. Sólo es posible asignar a tipos simples {INTEGER, CHARACTER y DOUBLE}.
+*//

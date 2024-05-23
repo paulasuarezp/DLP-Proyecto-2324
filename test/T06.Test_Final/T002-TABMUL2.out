@@ -1,0 +1,514 @@
+#source "T002-TABMUL2.me"
+
+'Declaraciones globales
+#type tabla: {
+	num:int
+	sol:int
+}
+#global tablaMul:12 * tabla
+
+call main
+halt
+
+'**
+'** Features
+'**
+
+#line 17
+presentacion:
+#func presentacion
+#ret void
+
+#line 19
+pushb 84
+outb
+pushb 65
+outb
+pushb 66
+outb
+pushb 76
+outb
+pushb 65
+outb
+pushb 32
+outb
+pushb 68
+outb
+pushb 69
+outb
+pushb 32
+outb
+pushb 77
+outb
+pushb 85
+outb
+pushb 76
+outb
+pushb 84
+outb
+pushb 73
+outb
+pushb 80
+outb
+pushb 76
+outb
+pushb 73
+outb
+pushb 67
+outb
+pushb 65
+outb
+pushb 82
+outb
+pushb 32
+outb
+pushb 86
+outb
+pushb 46
+outb
+pushb 49
+outb
+pushb 46
+outb
+pushb 49
+outb
+
+#line 20
+ret 0, 0, 0
+
+#line 22
+leerNum:
+#func leerNum
+#ret void
+
+#line 24
+pushb 78
+outb
+pushb 250
+outb
+pushb 109
+outb
+pushb 101
+outb
+pushb 114
+outb
+pushb 111
+outb
+pushb 58
+outb
+pushb 32
+outb
+
+#line 25
+ret 0, 0, 0
+
+#line 27
+otraVez:
+#func otraVez
+#ret void
+
+#line 29
+pushb 191
+outb
+pushb 79
+outb
+pushb 116
+outb
+pushb 114
+outb
+pushb 97
+outb
+pushb 32
+outb
+pushb 118
+outb
+pushb 101
+outb
+pushb 122
+outb
+pushb 63
+outb
+pushb 32
+outb
+pushb 40
+outb
+pushb 83
+outb
+pushb 47
+outb
+pushb 78
+outb
+pushb 41
+outb
+pushb 58
+outb
+pushb 32
+outb
+
+#line 30
+ret 0, 0, 0
+
+#line 32
+despedida:
+#func despedida
+#ret void
+
+#line 34
+pushb 161
+outb
+pushb 65
+outb
+pushb 100
+outb
+pushb 105
+outb
+pushb 243
+outb
+pushb 115
+outb
+pushb 33
+outb
+
+#line 35
+ret 0, 0, 0
+
+#line 40
+crearTabla:
+#func crearTabla
+#ret void
+#param numero:int
+
+#line 42
+enter 2
+#local i:int
+' until-from 0000
+
+#line 45
+push bp
+push -2
+add
+pushi 1
+storei
+
+#line 46
+untilcond0000:
+push bp
+push -2
+add
+loadi
+pushi 12
+gti
+jnz untilend0000
+
+#line 46
+
+#line 47
+pusha 0
+push bp
+push -2
+add
+loadi
+pushi 1
+subi
+pushi 4
+muli
+addi
+pushi 0
+add
+push bp
+push -2
+add
+loadi
+storei
+
+#line 48
+pusha 0
+push bp
+push -2
+add
+loadi
+pushi 1
+subi
+pushi 4
+muli
+addi
+pushi 2
+add
+push bp
+push -2
+add
+loadi
+push bp
+push 4
+add
+loadi
+muli
+storei
+
+#line 49
+push bp
+push -2
+add
+push bp
+push -2
+add
+loadi
+pushi 1
+addi
+storei
+jmp untilcond0000
+untilend0000:
+
+#line 50
+ret 0, 2, 2
+
+#line 54
+imprimirTabla:
+#func imprimirTabla
+#ret void
+#param numero:int
+
+#line 56
+enter 2
+#local i:int
+
+#line 58
+pushb 84
+outb
+pushb 97
+outb
+pushb 98
+outb
+pushb 108
+outb
+pushb 97
+outb
+pushb 32
+outb
+pushb 100
+outb
+pushb 101
+outb
+pushb 108
+outb
+pushb 32
+outb
+push bp
+push 4
+add
+loadi
+outi
+' until-from 0001
+
+#line 60
+push bp
+push -2
+add
+pushi 0
+storei
+
+#line 61
+untilcond0001:
+push bp
+push -2
+add
+loadi
+pushi 12
+eqi
+jnz untilend0001
+
+#line 61
+
+#line 62
+pusha 0
+push bp
+push -2
+add
+loadi
+pushi 4
+muli
+addi
+pushi 0
+add
+loadi
+outi
+
+#line 63
+pushb 32
+outb
+pushb 120
+outb
+pushb 32
+outb
+
+#line 64
+push bp
+push 4
+add
+loadi
+outi
+
+#line 65
+pushb 32
+outb
+pushb 61
+outb
+pushb 32
+outb
+
+#line 66
+pusha 0
+push bp
+push -2
+add
+loadi
+pushi 4
+muli
+addi
+pushi 2
+add
+loadi
+outi
+pushb 10
+outb
+
+#line 67
+push bp
+push -2
+add
+push bp
+push -2
+add
+loadi
+pushi 1
+addi
+storei
+jmp untilcond0001
+untilend0001:
+
+#line 68
+ret 0, 2, 2
+
+#line 72
+inicio:
+#func inicio
+#ret void
+
+#line 75
+enter 5
+#local a:char
+#local ai:int
+#local numero:int
+
+#line 77
+call presentacion
+' until-from 0002
+
+#line 79
+push bp
+push -1
+add
+pushb 83
+storeb
+
+#line 80
+push bp
+push -3
+add
+push bp
+push -1
+add
+loadb
+b2i
+storei
+
+#line 81
+untilcond0002:
+push bp
+push -3
+add
+loadi
+pushi 78
+eqi
+push bp
+push -3
+add
+loadi
+pushi 110
+eqi
+or
+jnz untilend0002
+
+#line 81
+
+#line 82
+call leerNum
+
+#line 83
+push bp
+push -5
+add
+ini
+storei
+
+#line 84
+push bp
+push -5
+add
+loadi
+call crearTabla
+
+#line 85
+push bp
+push -5
+add
+loadi
+call imprimirTabla
+
+#line 86
+pushb 10
+outb
+
+#line 87
+call otraVez
+
+#line 88
+push bp
+push -1
+add
+inb
+storeb
+
+#line 89
+push bp
+push -3
+add
+push bp
+push -1
+add
+loadb
+b2i
+storei
+jmp untilcond0002
+untilend0002:
+
+#line 91
+call despedida
+
+#line 92
+ret 0, 5, 0
+
+'**
+'** Main
+'**
+
+#line 97
+main:
+#func main
+#ret void
+
+#line 97
+call inicio
+
+#line 98
+ret 0, 0, 0

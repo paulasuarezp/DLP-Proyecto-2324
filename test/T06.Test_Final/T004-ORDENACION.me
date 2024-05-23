@@ -1,0 +1,99 @@
+class T004_ORDENACION; /* Nombre de la clase
+	
+global
+	vars
+		/* Variables globales y tuplas
+		arr : [10] INTEGER;	/* Original de los datos
+		numElem : INTEGER; /* Número de elementos del array se inicializa en inicio()
+
+create
+	inicio;
+
+/* Features mensajes y auxiliares
+	feature mensaje1 is
+		do
+			println 'C','A','R','G','A',' ','D','E','L',' ','A','R','R','A','Y',' ','A',' ','O','R','D','E','N','A','R',':',' ';
+	end
+
+	feature mensaje2 is
+		do
+			println 'O','r','d','e','n','a','d','o',' ','p','o','r',' ','e','l',' ','m','é','t','o','d','o',' ','d','e',' ','l','a',' ','B','u','r','b','u','j','a',':',' ';
+	end
+
+	feature leer is /* Lee 'arr' desde la consola.
+		local
+			i : INTEGER;
+		do
+			from
+				i := 0;
+			until i = numElem loop
+				print 'P','o','s','i','c','i','ó','n',' ','[';
+				print i;
+				print ']',':',' ';
+				read arr [i];
+				i := i + 1;
+			end
+	end
+
+
+	feature pintar is /* Pinta 'arr'.
+		local
+			i : INTEGER;
+		do
+			from
+				i := 0;
+			until i = numElem loop
+				print 'P','o','s','i','c','i','ó','n',' ','[',i,']',':',' ';
+				println arr [i];
+				i := i + 1;
+			end
+	end
+	
+
+/* Feature de ordenación
+
+	feature burbuja is
+		local
+			aux, i, j : INTEGER;
+		do
+			from
+				i := 0;
+			until i = numElem loop
+				from
+					j := 0;
+				until j = numElem - i - 1 loop
+					if arr[j] > arr[j + 1] then
+						aux := arr[j];
+						arr[j] := arr[j + 1];
+						arr[j + 1] := aux;
+					end
+					j := j + 1;
+				end
+				i := i + 1;
+			end
+	end
+
+	/* Constructor
+	feature inicio is
+		do
+			/* Inicialización
+			numElem := 10;
+			
+			/* Leer el array 'arr'
+			mensaje1(); 
+			leer();
+			
+			/* Pintar el array 'arr' antes de ordenarlo
+			pintar();
+			
+			/* Ordenarlo por el método de la burbuja
+			burbuja();
+			
+			/* Pintar el array 'arr' después de ordenado
+			mensaje2();
+			pintar();
+			return;
+	end
+end /* T004_ORDENACION
+
+run inicio();

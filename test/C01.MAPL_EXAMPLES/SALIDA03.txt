@@ -1,0 +1,28 @@
+pusha 0	' i = 0
+push 0
+store
+
+inicio_while:
+pusha 0
+load
+push 10
+le	' i <= 10
+jz fin_while
+
+pusha 0 ' println i
+load
+out
+pushb 10
+outb
+
+pusha 0 ' i = i + 1
+pusha 0
+load
+push 1
+add
+store
+
+jmp inicio_while
+
+fin_while:
+halt

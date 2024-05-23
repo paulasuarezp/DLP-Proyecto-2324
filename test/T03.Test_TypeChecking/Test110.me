@@ -1,0 +1,63 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+		deftuple complex as /*estructura
+			i: DOUBLE;
+			j: DOUBLE;
+		end
+
+
+	vars
+		b : INTEGER;
+
+	create
+		inicio;
+
+	feature factorial (i : INTEGER) : INTEGER is /* declaración con valor de retorno INTEGER y parámetro INTEGER
+		local
+			j, k : INTEGER;
+		do
+			from
+				j:= 1;
+				k:= 0;
+			until i = 0 loop
+				j := j * i;
+				k := k + 1;
+				i := i - 1;
+			end
+			return j;
+	end /* factorial
+
+	feature inicio is
+		local
+			k, l : INTEGER;
+			c : [3] INTEGER;
+			p, q : point;
+
+		do
+			k := factorial (3);
+			k := factorial (3.5); /* Error, se esera un INTEGER
+			k := factorial (l);
+			k := factorial (l > 1); /* No es error, los booleanos se manejan como INTEGER
+			k := factorial (c[2]);
+			k := factorial (c); /* Error, se esera un INTEGER
+			k := factorial (p.x);
+			k := factorial (p.z); /* Error,, el campo 'z' no existe
+	end
+end
+
+run inicio();
+
+//* ERRORES
+Error en Type Checking: [46:20] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la llamada a la 'feature factorial.
+Error en Type Checking: [50:20] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la llamada a la 'feature factorial.
+Error en Type Checking: [52:20] El campo 'z' no pertenece a la tupla 'point'.
+Error en Type Checking: [52:20] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la llamada a la 'feature factorial.
+*//

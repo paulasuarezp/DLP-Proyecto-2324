@@ -1,0 +1,54 @@
+push 0 ' print 0
+out
+
+push 1 ' print 1
+out
+
+pusha 6 ' imprimidos = 2
+push 2
+store
+
+pusha 0 ' penultimo = 0
+push 0
+store
+
+pusha 2 'ultimo = 1
+push 1 
+store
+inicio_while:
+pusha 6
+load
+push 20
+lt ' imprimidos < 20
+jz fuera_while
+pusha 4 'actual = ultimo + penultimo
+pusha 2
+load
+pusha 0
+load
+add
+store
+
+pusha 4 'println actual
+load
+out
+pushb 10
+outb
+pusha 6 'imprimidos += 1
+pusha 6
+load
+push 1
+add
+store
+
+pusha 0 ' penultimo = ultimo
+pusha 2
+load
+store
+
+pusha 2 'ultimo = actual
+pusha 4
+load
+store
+jmp inicio_while
+fuera_while:

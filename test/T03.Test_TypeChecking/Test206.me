@@ -1,0 +1,88 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+		deftuple complex as /*estructura
+			i: DOUBLE;
+			j: DOUBLE;
+		end
+
+
+	vars
+		b : INTEGER;
+
+	create
+		inicio;
+
+	feature factorial (i : INTEGER) : INTEGER is 
+		local
+			j, k : INTEGER;
+		do
+			from
+				j:= 1;
+				k:= 0;
+			until i = 0 loop 
+				j := j * i;
+				k := k + 1;
+				i := i - 1;
+			end
+			return j; 
+	end /* factorial
+
+	feature inicio is 
+		local
+			k : INTEGER;
+			a : [7] DOUBLE;
+			p : point;
+			
+		do
+			/* sin error---------------------------
+			k := factorial(k);
+			k := factorial(p.x);
+			
+			/* invocación función con error---------------------------
+			k := factorial(a[5]);
+			k := factorial(3, 5);
+			k := factorial(3.0, 5);
+			k := factorial();
+			k := factorial(3.5);
+			k := factorial(p);
+			k := factorial(a);
+
+			/* invocación procedimiento con error---------------------------
+			factorial(a[5]);
+			factorial(3, 5);
+			factorial(3.0, 5);
+			factorial();
+			factorial(3.5);
+			factorial(p);
+			factorial(a);
+	end
+end
+
+run inicio(); 
+
+//* ERRORES
+Error en Type Checking: [50:19] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la llamada a la función 'feature factorial', no un 'DOUBLE'.
+Error en Type Checking: [51:9] La llamada a la 'feature factorial' tiene 2 argumentos y se esperaban 1.
+Error en Type Checking: [52:9] La llamada a la 'feature factorial' tiene 2 argumentos y se esperaban 1.
+Error en Type Checking: [52:19] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la llamada a la función 'feature factorial', no un 'DOUBLE'.
+Error en Type Checking: [53:9] La llamada a la 'feature factorial' tiene 0 argumentos y se esperaban 1.
+Error en Type Checking: [54:19] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la llamada a la función 'feature factorial', no un 'DOUBLE'.
+Error en Type Checking: [55:19] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la llamada a la función 'feature factorial', no un 'Tupla: point'.
+Error en Type Checking: [56:19] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la llamada a la función 'feature factorial', no un 'Array: [7] DOUBLE'.
+Error en Type Checking: [23:21] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la invocación del procedimiento 'feature factorial', no un 'DOUBLE'.
+Error en Type Checking: [60:4] La llamada a la 'feature factorial' tiene 2 argumentos y se esperaban 1.
+Error en Type Checking: [61:4] La llamada a la 'feature factorial' tiene 2 argumentos y se esperaban 1.
+Error en Type Checking: [23:21] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la invocación del procedimiento 'feature factorial', no un 'DOUBLE'.
+Error en Type Checking: [62:4] La llamada a la 'feature factorial' tiene 0 argumentos y se esperaban 1.
+Error en Type Checking: [23:21] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la invocación del procedimiento 'feature factorial', no un 'DOUBLE'.
+Error en Type Checking: [23:21] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la invocación del procedimiento 'feature factorial', no un 'Tupla: point'.
+Error en Type Checking: [23:21] Se esperaba un tipo 'INTEGER' para el argumento 'i' en la invocación del procedimiento 'feature factorial', no un 'Array: [7] DOUBLE'.
+*//

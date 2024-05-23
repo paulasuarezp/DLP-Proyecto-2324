@@ -1,0 +1,42 @@
+class prog1;
+
+	global
+		types
+			deftuple Punto as
+				x : INTEGER;
+				y : INTEGER;
+			end
+			deftuple Punto as /* 'Punto' ya está definida
+				x : DOUBLE;
+				y, z : DOUBLE; /* No se permiten listas de declaraciones en los campos de las tuplas
+			end
+			deftuple Persona as
+				a : [20] Empresa; /* Empresa no está definida
+			end
+		vars
+			b, p : INTEGER;
+			b : CHARACTER; /* Variable 'b' ya está definida
+
+	create
+		inicio;
+	
+	feature inicio is
+		do
+			d := b; /* Variable 'd' no definida
+			f(8); /* La featrure 'f' tiene que estar definida antes de la primera llamada
+	end
+
+	feature f (p : INTEGER) is
+		local
+			p : INTEGER;
+		do
+	end
+
+	feature f : DOUBLE is /* ya existe una feature f
+		do
+	end
+end
+	
+main
+	inicio();
+end

@@ -1,0 +1,40 @@
+//*
+Ejemplo Fuente06.
+Imprimir 20 los primeros números de la serie de fibonacci
+*//
+
+class Fuente06;
+	global
+		vars
+			penultimo, ultimo, actual : INTEGER;
+			imprimidos : INTEGER;
+			
+	create
+		main; 
+			
+	feature	main is
+		/* local
+
+		do
+			println 0;
+			println 1;
+			imprimidos := 2;
+
+			from
+				penultimo := 0;
+				ultimo := 1;
+
+			until imprimidos >= 20 loop /* while (imprimidos < 20)
+				actual := ultimo + penultimo;
+
+				println actual;
+				imprimidos := imprimidos + 1;
+
+				penultimo := ultimo;
+				ultimo := actual;
+			end
+	end /*main
+	
+end /* Fuente06
+
+run main();

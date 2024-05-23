@@ -1,0 +1,107 @@
+#source "T000-HOLAMUNDO.me"
+
+'Declaraciones globales
+
+call main
+halt
+
+'**
+'** Features
+'**
+
+#line 6
+inicio:
+#func inicio
+#ret void
+
+#line 9
+pushb 72
+outb
+
+#line 10
+pushb 111
+outb
+
+#line 11
+pushb 108
+outb
+
+#line 12
+pushb 97
+outb
+
+#line 13
+pushb 32
+outb
+
+#line 14
+pushb 77
+outb
+
+#line 15
+pushb 117
+outb
+
+#line 16
+pushb 110
+outb
+
+#line 17
+pushb 100
+outb
+
+#line 18
+pushb 111
+outb
+
+#line 19
+pushb 33
+outb
+
+#line 20
+pushb 10
+outb
+
+#line 22
+pushb 72
+outb
+pushb 111
+outb
+pushb 108
+outb
+pushb 97
+outb
+pushb 32
+outb
+pushb 77
+outb
+pushb 117
+outb
+pushb 110
+outb
+pushb 100
+outb
+pushb 111
+outb
+pushb 33
+outb
+pushb 10
+outb
+
+#line 23
+ret 0, 0, 0
+
+'**
+'** Main
+'**
+
+#line 28
+main:
+#func main
+#ret void
+
+#line 28
+call inicio
+
+#line 29
+ret 0, 0, 0

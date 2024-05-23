@@ -1,0 +1,71 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+		deftuple complex as /*estructura
+			i: DOUBLE;
+			j: DOUBLE;
+		end
+
+
+	vars
+		cx : complex;
+
+	create
+		inicio;
+
+	feature factorial (i : INTEGER) : INTEGER is 
+		local
+			j, k : INTEGER;
+		do
+			from
+				j:= 1;
+				k:= 0;
+			until i = 0 loop 
+				j := j * i;
+				k := k + 1;
+				i := i - 1;
+			end
+			return j; 
+	end /* factorial
+
+	feature inicio is 
+		local
+			i, j, k : INTEGER;
+			c, d, e : CHARACTER;
+			f, g, h : DOUBLE;
+			a : [7] DOUBLE;
+			p : point;
+			
+		do
+		/* arithmetic expressions sin error
+		i := j > k;
+		j := f >= g;
+		p.x := cx.x <> h;
+		
+		/* arithmetic expressions con error
+		a[4] := f = h;
+		i := c > d;
+		i := j < h;
+		i := p <> cx;
+
+	end
+end
+
+run inicio(); 
+
+//* ERRORES
+Error en Type Checking: [50:10] El campo 'x' no pertenece a la tupla 'complex'.
+Error en Type Checking: [50:10] Sólo se permiten expresiones relacionales entre tipos INTEGR o DOUBLE, no entre tipos 'VOID' y 'DOUBLE'.
+Error en Type Checking: [50:18] Las expresiones a ambos lados de un operador relacional deben ser del mismo tipo (INTEGR o DOUBLE), no se permite entre tipos 'VOID' y 'DOUBLE'.
+Error en Type Checking: [53:3] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'INTEGER' a un 'DOUBLE'.
+Error en Type Checking: [54:8] Sólo se permiten expresiones relacionales entre tipos INTEGR o DOUBLE, no entre tipos 'CHARACTER' y 'CHARACTER'.
+Error en Type Checking: [55:12] Las expresiones a ambos lados de un operador relacional deben ser del mismo tipo (INTEGR o DOUBLE), no se permite entre tipos 'INTEGER' y 'DOUBLE'.
+Error en Type Checking: [56:8] Sólo se permiten expresiones relacionales entre tipos INTEGR o DOUBLE, no entre tipos 'Tupla: point' y 'Tupla: complex'.
+*//

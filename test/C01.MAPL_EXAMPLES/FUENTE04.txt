@@ -1,0 +1,15 @@
+// Comparaciones e if
+
+float menor, num;
+
+read menor;
+
+read num;
+if (menor > num)
+	menor = num
+
+read num;
+if (menor > num)
+	menor = num
+
+print menor;

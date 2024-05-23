@@ -1,0 +1,13 @@
+// Divisor de un número
+
+int numero, divisor;
+
+read numero;
+
+divisor = 1;
+while (divisor <= numero) {
+    if (numero % divisor == 0) {
+        println divisor;
+    }
+    divisor = divisor + 1;
+}

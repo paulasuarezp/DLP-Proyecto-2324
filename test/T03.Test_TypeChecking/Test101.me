@@ -1,0 +1,27 @@
+class
+	prog2;
+	
+global
+
+	vars
+		b : INTEGER;
+
+create
+	inicio;
+
+
+feature
+	inicio is
+	local
+		c : INTEGER;
+
+	do
+		b := 8.5; /* Error, 8.5 no es de tipo INTEGER
+	end
+end
+
+run inicio();
+
+//* ERRORES
+Error en Type Checking: [19:3] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'INTEGER' a un 'DOUBLE'.
+*//

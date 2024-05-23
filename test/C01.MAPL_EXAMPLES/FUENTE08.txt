@@ -1,0 +1,23 @@
+// Imprimir los 25 primeros números primos
+
+int numero, divisor;
+int encontrados;
+
+encontrados = 0;
+
+numero = 2;
+do {
+    divisor = 2;
+    while (numero > divisor) {
+        if (numero % divisor == 0) {
+            break;
+        }
+        divisor = divisor + 1;
+    }
+
+    if (numero == divisor) {
+        println numero;
+        encontrados = encontrados + 1;
+    }
+    numero = numero + 1;
+} while (encontrados < 25);

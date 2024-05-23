@@ -1,0 +1,81 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+		deftuple complex as /*estructura
+			i: DOUBLE;
+			j: DOUBLE;
+		end
+
+
+	vars
+		cx : complex;
+
+	create
+		inicio;
+
+	feature factorial (i : INTEGER) : INTEGER is 
+		local
+			j, k : INTEGER;
+		do
+			from
+				j:= 1;
+				k:= 0;
+			until i = 0 loop 
+				j := j * i;
+				k := k + 1;
+				i := i - 1;
+			end
+			return j; 
+	end /* factorial
+
+	feature inicio is 
+		local
+			i, j, k : INTEGER;
+			c, d, e : CHARACTER;
+			f, g, h : DOUBLE;
+			a : [7] DOUBLE;
+			p : point;
+			
+		do
+		/* promociones sin error
+		i := to<INTEGER>(c);
+		i := to<INTEGER>(f);
+		c := to<CHARACTER>(i);
+		c := to<CHARACTER>(to<INTEGER>(f));
+		f := to<DOUBLE>(i);
+		f := to<DOUBLE>(to<INTEGER>(c));
+		
+		/* promociones con error
+		c := to<CHARACTER>(d);
+		i := to<INTEGER>(j);
+		f := to<DOUBLE>(g);
+		c := to<CHARACTER>(f);
+		f := to<DOUBLE>(c);
+		f := to<DOUBLE>(a);
+		f := to<DOUBLE>(cx);
+	end
+end
+
+run inicio(); 
+
+//* ERRORES
+Error en Type Checking: [56:11] El tipo de la expresión a promocionar y el tipo final deben ser diferentes.
+Error en Type Checking: [56:11] No se puede promocionar del tipo 'CHARACTER' al tipo 'CHARACTER'.
+Error en Type Checking: [57:11] El tipo de la expresión a promocionar y el tipo final deben ser diferentes.
+Error en Type Checking: [57:11] No se puede promocionar del tipo 'INTEGER' al tipo 'INTEGER'.
+Error en Type Checking: [58:11] El tipo de la expresión a promocionar y el tipo final deben ser diferentes.
+Error en Type Checking: [58:11] No se puede promocionar del tipo 'DOUBLE' al tipo 'DOUBLE'.
+Error en Type Checking: [59:11] No se puede promocionar del tipo 'DOUBLE' al tipo 'CHARACTER'.
+Error en Type Checking: [60:11] No se puede promocionar del tipo 'CHARACTER' al tipo 'DOUBLE'.
+Error en Type Checking: [61:11] Sólo se puede usar la promoción con expresiones de tipo simple {INTEGER, DOUBLE y CHARACTER}, no con expresiones de tipo 'Array: [7] DOUBLE'.
+Error en Type Checking: [61:11] No se puede promocionar del tipo 'Array: [7] DOUBLE' al tipo 'DOUBLE'.
+Error en Type Checking: [62:11] Sólo se puede usar la promoción con expresiones de tipo simple {INTEGER, DOUBLE y CHARACTER}, no con expresiones de tipo 'Tupla: complex'.
+Error en Type Checking: [62:11] No se puede promocionar del tipo 'Tupla: complex' al tipo 'DOUBLE'.
+*//

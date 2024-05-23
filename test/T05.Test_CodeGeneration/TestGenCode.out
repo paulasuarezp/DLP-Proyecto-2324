@@ -1,0 +1,333 @@
+#source "TestGenCode.me"
+
+'Declaraciones globales
+#type Persona: {
+	edad:int
+	meses:12 * int
+	a:float
+}
+#type Prueba: {
+	campo1:int
+	campo2:int
+}
+#global b:float
+#global a:char
+#global c:2 * Persona
+#global d:int
+
+call main
+halt
+
+'**
+'** Features
+'**
+
+#line 54
+factorial:
+#func factorial
+#ret int
+#param i:int
+
+#line 56
+enter 2
+#local fac:int
+' until-from 0000
+
+#line 59
+push bp
+push -2
+add
+push bp
+push 4
+add
+loadi
+storei
+
+#line 60
+untilcond0000:
+push bp
+push 4
+add
+loadi
+pushi 1
+eqi
+jnz untilend0000
+
+#line 60
+
+#line 61
+push bp
+push 4
+add
+push bp
+push 4
+add
+loadi
+pushi 1
+subi
+storei
+
+#line 62
+push bp
+push -2
+add
+push bp
+push -2
+add
+loadi
+push bp
+push 4
+add
+loadi
+muli
+storei
+jmp untilcond0000
+untilend0000:
+
+#line 64
+push bp
+push -2
+add
+loadi
+ret 2, 2, 2
+
+#line 68
+f:
+#func f
+#ret void
+#param a:int
+#param b:float
+#param h:char
+
+#line 73
+enter 67
+#local c:char
+#local d:int
+#local e:2 * Persona
+#local f:float
+
+#line 75
+push bp
+push 9
+add
+push bp
+push 4
+add
+loadb
+b2i
+push bp
+push 5
+add
+loadf
+f2i
+addi
+storei
+
+#line 76
+push bp
+push 9
+add
+loadi
+pushi 0
+gti
+jz else0001
+
+#line 77
+push bp
+push 9
+add
+push bp
+push 9
+add
+loadi
+pushi 1
+addi
+storei
+jmp finelse0001
+else0001:
+
+#line 79
+push bp
+push 9
+add
+push bp
+push 9
+add
+loadi
+pushi 1
+subi
+storei
+finelse0001:
+
+#line 81
+push bp
+push 4
+add
+loadb
+b2i
+pushi 72
+eqi
+jz else0002
+
+#line 82
+push bp
+push 9
+add
+push bp
+push 9
+add
+loadi
+pushi 1
+addi
+storei
+jmp finelse0002
+else0002:
+
+#line 84
+push bp
+push 9
+add
+push bp
+push 9
+add
+loadi
+pushi 1
+subi
+storei
+finelse0002:
+' until-from 0003
+
+#line 87
+push bp
+push -3
+add
+push bp
+push 9
+add
+loadi
+storei
+
+#line 88
+untilcond0003:
+push bp
+push -3
+add
+loadi
+pushi 80
+lti
+jnz untilend0003
+
+#line 88
+
+#line 89
+push bp
+push 9
+add
+push bp
+push 9
+add
+loadi
+pushi 2
+addi
+storei
+
+#line 90
+push bp
+push -63
+add
+pushi 1
+pushi 30
+muli
+addi
+pushi 0
+add
+push bp
+push 9
+add
+loadi
+storei
+
+#line 91
+push bp
+push -63
+add
+pushi 1
+pushi 30
+muli
+addi
+pushi 2
+add
+pushi 2
+pushi 2
+muli
+addi
+pushi 5
+storei
+
+#line 92
+push bp
+push -3
+add
+push bp
+push -3
+add
+loadi
+pushi 1
+subi
+storei
+jmp untilcond0003
+untilend0003:
+
+#line 94
+push bp
+push 9
+add
+loadi
+outi
+
+#line 95
+pushb 10
+outb
+
+#line 96
+push bp
+push 9
+add
+pushi 3
+call factorial
+storei
+
+#line 97
+pushi 3
+call factorial
+popi
+
+#line 98
+push bp
+push 9
+add
+loadi
+outi
+pushb 10
+outb
+
+#line 99
+ret 0, 67, 7
+
+'**
+'** Main
+'**
+
+#line 104
+main:
+#func main
+#ret void
+
+#line 104
+pushi 1
+pushf 2.5
+pushb 97
+call f
+
+#line 105
+ret 0, 0, 0

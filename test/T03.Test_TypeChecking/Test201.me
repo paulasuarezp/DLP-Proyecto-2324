@@ -1,0 +1,70 @@
+class
+	prog2;
+	
+global
+
+	types
+		deftuple point as /*estructura
+			x: INTEGER;
+			y: INTEGER;
+		end
+		deftuple complex as /*estructura
+			i: DOUBLE;
+			j: DOUBLE;
+		end
+
+
+	vars
+		b : INTEGER;
+
+	create
+		inicio;
+
+	feature factorial (i : INTEGER) : INTEGER is /* declaración con valor de retorno INTEGER y parámetro INTEGER
+		local
+			j, k : INTEGER;
+		do
+			from
+				j:= 1;
+				k:= 0;
+			until i = 0 loop
+				j := j * i;
+				k := k + 1;
+				i := i - 1;
+			end
+			return j; 
+	end /* factorial
+
+	feature featureError (k : point, l : complex) : complex is /* Error, los tipos de los arguementos y del valor de retorno deben ser tipos simples
+		local
+			c : [3] INTEGER;
+			p, q : point;
+
+		do
+			k.x := factorial (3);
+			k.x := factorial (k.y);
+	end
+
+	feature inicio is 
+		local
+			k, l : INTEGER;
+			c : [3] INTEGER;
+			p, q : point;
+
+		do
+			k := factorial (3);
+			k := factorial (l);
+			k := factorial (l > 1); /* No es error, los booleanos se manejan como INTEGER
+			k := factorial (c[2]);
+			k := factorial (p.x);
+	end
+end
+
+run inicio(); 
+
+//* ERRORES
+Error en Type Checking: [38:10] El tipo de retorno de la 'feature featureError' debería ser un tipo simple o VOID {INTEGER, CHARACTER, DOUBLE o VOID}, no puede ser 'Tupla: complex'.
+Error en Type Checking: [38:24] Los argumentos de las features deben ser de tipos simples: INTEGER, CHARACTER o DOUBLE. 'k' es de tipo 'Tupla: point'.
+Error en Type Checking: [38:35] Los argumentos de las features deben ser de tipos simples: INTEGER, CHARACTER o DOUBLE. 'l' es de tipo 'Tupla: complex'.
+Error en Type Checking: [38:10] No se han encontrado sentencias 'return' en la 'feature featureError' a pesar de tener un tipo de retorno: 'Tupla: complex'.
+*//

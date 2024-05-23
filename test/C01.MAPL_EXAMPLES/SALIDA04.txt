@@ -1,0 +1,40 @@
+pusha 0 ' read menor
+inf
+storef
+
+pusha 4 ' read num
+inf
+storef
+
+pusha 0 ' if (menor > num)
+loadf
+pusha 4
+loadf
+gtf
+jz fin_else_1
+pusha 0 ' menor = num
+pusha 4
+loadf
+storef
+
+fin_else_1:
+pusha 4 ' read num
+inf
+storef
+
+pusha 0 ' if (menor > num)
+loadf
+pusha 4
+loadf
+gtf
+jz fin_else_2
+pusha 0 ' menor = num
+pusha 4
+loadf
+storef
+
+fin_else_2:
+
+pusha 0 ' print menor
+loadf
+outf

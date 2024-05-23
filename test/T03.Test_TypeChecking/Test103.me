@@ -1,0 +1,29 @@
+class
+	prog2;
+	
+global
+
+	vars
+		b : INTEGER;
+
+create
+	inicio;
+
+
+feature
+	inicio is
+	local
+		c : [3] INTEGER;
+
+	do
+		c := b; /* Error, no se pueden hacer asignaciones a tipos que no sean simples
+		c[1] := b; /* sí puede hacerse
+	end
+end
+
+run inicio();
+
+//* ERRRORES
+Error en Type Checking: [19:3] No se puede asignar a un tipo 'Array: [3] INTEGER'. Sólo es posible asignar a tipos simples {INTEGER, CHARACTER y DOUBLE}.
+Error en Type Checking: [19:3] Los tipos de la izquierda y derecha deben ser iguales. No es posible asignar un 'Array: [3] INTEGER' a un 'INTEGER'.
+*//

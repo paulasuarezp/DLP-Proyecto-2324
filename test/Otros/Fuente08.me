@@ -1,0 +1,47 @@
+//*
+Ejemplo Fuente08.
+Imprimir los 25 primeros números primos
+*//
+
+class Fuente08;
+	global
+		vars
+		numero, divisor : INTEGER;
+		encontrados : INTEGER;
+		ok : INTEGER;
+			
+	create
+		main; 
+			
+	feature	main is
+		/* local
+
+		do
+			from
+			encontrados := 0;
+			numero := 2;
+			until encontrados >= 25 loop /* do...while (encontrados < 25);
+				from
+					divisor := 2;
+					ok := 0;
+				until (numero <= divisor) or (ok = 1) loop /*	while (numero > divisor) {
+				
+						if numero mod divisor = 0 then
+							ok := 1;
+						else
+							divisor := divisor + 1;
+						end
+				
+				end
+
+				if numero = divisor then
+					println numero;
+					encontrados := encontrados + 1;
+				end
+				numero := numero + 1;
+			end /* do...while (encontrados < 25);
+	end /*main
+	
+end /* Fuente08
+
+run main();

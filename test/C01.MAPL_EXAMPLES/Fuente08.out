@@ -1,0 +1,130 @@
+' Compilador mini Eiffel.
+' Aquilino A. Juan.
+' Versión 2024.2 (c)
+#source "Fuente08.me"
+#global numero: int
+#global divisor: int
+#global encontrados: int
+#global ok: int
+#func main
+#ret void
+CALL main
+HALT
+
+#line 16
+main:
+
+#line 21
+' inicio from_0000
+
+#line 21
+PUSHA 4
+PUSHI 0
+STOREI
+
+#line 22
+PUSHA 0
+PUSHI 2
+STOREI
+
+#line 23
+UntilCond_0000:
+PUSHA 4
+LOADI
+PUSHI 25
+GEI
+JNZ UntilEnd_0000
+
+#line 25
+' inicio from_0001
+
+#line 25
+PUSHA 2
+PUSHI 2
+STOREI
+
+#line 26
+PUSHA 6
+PUSHI 0
+STOREI
+
+#line 27
+UntilCond_0001:
+PUSHA 0
+LOADI
+PUSHA 2
+LOADI
+LEI
+PUSHA 6
+LOADI
+PUSHI 1
+EQI
+OR
+JNZ UntilEnd_0001
+
+#line 29
+PUSHA 0
+LOADI
+PUSHA 2
+LOADI
+modI
+PUSHI 0
+EQI
+JZ else_0002
+
+#line 30
+PUSHA 6
+PUSHI 1
+STOREI
+JMP endif_0002
+else_0002:
+
+#line 32
+PUSHA 2
+PUSHA 2
+LOADI
+PUSHI 1
+ADDI
+STOREI
+endif_0002:
+JMP UntilCond_0001
+UntilEnd_0001:
+
+#line 37
+PUSHA 0
+LOADI
+PUSHA 2
+LOADI
+EQI
+JZ else_0003
+
+#line 38
+PUSHA 0
+LOADI
+OUTI
+PUSHB 10
+OUTB
+
+#line 39
+PUSHA 4
+PUSHA 4
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP endif_0003
+else_0003:
+endif_0003:
+
+#line 41
+PUSHA 0
+PUSHA 0
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP UntilCond_0000
+UntilEnd_0000:
+
+#line 41
+RET 0, 0, 0
