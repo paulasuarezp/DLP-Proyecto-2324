@@ -469,10 +469,7 @@ public class TypeChecking extends DefaultVisitor {
 		}
 
 		for (int i = 0; i < args.size(); i++) {
-			if (args.get(i).getType().getClass() != params.get(i).getTipo().getClass()) {
-				//notifyError("El tipo del argumento " + i + " no coincide con el tipo del parámetro " + i, args.get(i).start());
-				return false;
-			}
+			return checkSameType(args.get(i).getType(), params.get(i).getTipo());
 		}
 		return true;
 	}
