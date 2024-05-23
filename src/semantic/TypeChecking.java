@@ -467,11 +467,14 @@ public class TypeChecking extends DefaultVisitor {
 			//notifyError("El número de argumentos no coincide con el número de parámetros", args.get(0).start());
 			return false;
 		}
-
+		boolean check = true;
 		for (int i = 0; i < args.size(); i++) {
-			return checkSameType(args.get(i).getType(), params.get(i).getTipo());
+			check = checkSameType(args.get(i).getType(), params.get(i).getTipo());
+			if (!check) {
+				return false;
+			}
 		}
-		return true;
+		return check;
 	}
 
 	/**
