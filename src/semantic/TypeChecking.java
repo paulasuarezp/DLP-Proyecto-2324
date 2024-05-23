@@ -223,6 +223,12 @@ public class TypeChecking extends DefaultVisitor {
 			predicate(checkSameType(returnValue.getOwner().getReturnType().get(), returnValue.getValue().get().getType()), "El tipo de retorno de la función no coincide con el tipo de la expresión de retorno", returnValue);
 		}
 
+		// Predicado -> owner.returnType != VOID 
+		if (!returnValue.getValue().isPresent() && returnValue.getOwner().getReturnType().isPresent()) {
+			notifyError("La función " + returnValue.getOwner().getName() + " debe de devolver un valor de tipo " + returnValue.getOwner().getReturnType().get().toString(), returnValue.end());
+		}
+		
+
 
 		return null;
 	}
