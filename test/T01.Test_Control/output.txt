@@ -1,0 +1,397 @@
+#source "Test99.NoError.me"
+
+'Declaraciones globales
+#type tuple1: {
+	a : int
+	c : char
+	d : float
+	bi : 2 * 2 * int
+}
+#type tuple2: {
+	aa : int
+	tt : tuple1
+	at : 4 * 5 * tuple1
+}
+#global t : tuple1
+#global i : int
+#global j : int
+#global ai : 2 * int
+#global bi : 2 * 2 * int
+
+'**builder inicio
+
+
+'**builder otroInicio
+
+PUSHI 2
+PUSHI 3
+PUSHI 4
+PUSHI 5
+ADDI
+CALL inicio
+HALT
+
+#FUNC inicio
+#ret void
+inicio:
+#param ii : int
+#param ij : int
+#param ik : int
+#local i : int
+#local ai : 5 * int
+#local t2 : 4 * tuple2
+ENTER 1280
+
+#LINE 40
+PUSHA 0
+PUSHI 0
+ADDI
+INI
+STOREI
+
+#line 41
+'if
+PUSHA 0
+PUSHI 0
+ADDI
+LOADI
+PUSHI 5
+LTI
+PUSHA 0
+PUSHI 0
+ADDI
+LOADI
+PUSHI 0
+EQI
+NOT
+AND
+JZ else_0001
+'else
+
+#line 42
+PUSHA 0
+PUSHI 0
+ADDI
+PUSHA 0
+PUSHI 0
+ADDI
+LOADI
+PUSHI 2
+MULI
+STOREI
+JMP endif_0001
+else_0001:
+
+#line 43
+'if
+PUSHA 0
+PUSHI 0
+ADDI
+LOADI
+PUSHI 0
+EQI
+JZ else_0002
+'else
+
+#line 44
+PUSHA 0
+PUSHI 0
+ADDI
+PUSHI 100
+STOREI
+JMP endif_0002
+else_0002:
+
+#line 46
+PUSHA 0
+PUSHI 0
+ADDI
+PUSHA 0
+PUSHI 0
+ADDI
+LOADI
+PUSHF 10.0
+F2I
+ADDI
+STOREI
+
+#line 47
+PUSHA 0
+PUSHI 0
+ADDI
+PUSHA 0
+PUSHI 0
+ADDI
+LOADI
+PUSHI -1
+MULI
+STOREI
+'end
+endif_0002:
+
+#LINE 49
+PUSH BP
+PUSH -1280
+ADDI
+PUSHI 0
+PUSHI 317
+MULI
+ADDI
+PUSHI 2
+ADDI
+PUSHI 3
+ADDI
+INF
+STOREF
+
+#line 50
+PUSH BP
+PUSH -1280
+ADDI
+PUSHI 0
+PUSHI 317
+MULI
+ADDI
+PUSHI 2
+ADDI
+PUSHI 0
+ADDI
+PUSHI 1
+PUSH BP
+PUSH -1280
+ADDI
+PUSHI 0
+PUSHI 317
+MULI
+ADDI
+PUSHI 2
+ADDI
+PUSHI 3
+ADDI
+LOADF
+F2I
+ADDI
+STOREI
+
+#line 51
+PUSH BP
+PUSH -1280
+ADDI
+PUSHI 0
+PUSHI 317
+MULI
+ADDI
+PUSHI 17
+ADDI
+PUSHI 3
+PUSHI 75
+MULI
+ADDI
+PUSHI 2
+PUSHI 15
+MULI
+ADDI
+PUSHI 7
+ADDI
+PUSHI 1
+PUSHI 4
+MULI
+ADDI
+PUSHI 0
+PUSHI 2
+MULI
+ADDI
+PUSHI 1
+PUSH BP
+PUSH -1280
+ADDI
+PUSHI 0
+PUSHI 317
+MULI
+ADDI
+PUSHI 2
+ADDI
+PUSHI 3
+ADDI
+LOADF
+F2I
+ADDI
+STOREI
+'end
+endif_0001:
+
+#line 55
+'from
+
+#line 55
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 0
+STOREI
+untilcond_0003:
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 5
+EQI
+JNZ untilend_0003
+'loop body
+
+#line 57
+PUSH BP
+PUSH -12
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 2
+MULI
+ADDI
+PUSHA 0
+PUSHI 0
+ADDI
+LOADI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+MULI
+STOREI
+
+#line 58
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0003
+untilend_0003:
+
+#line 60
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 3
+ADDI
+STOREI
+
+#line 61
+'from
+untilcond_0004:
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 20
+EQI
+JNZ untilend_0004
+'loop body
+
+#LINE 62
+PUSHB 105
+OUTB
+PUSHB 32
+OUTB
+PUSHB 61
+OUTB
+PUSHB 32
+OUTB
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+OUTI
+PUSHB 10
+OUTB
+
+#line 63
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0004
+untilend_0004:
+RET 0, 1280, 6
+
+#FUNC otroInicio
+#ret int
+otroInicio:
+
+#LINE 71
+PUSHA 15
+INI
+STOREI
+
+#LINE 72
+PUSHA 17
+INI
+STOREI
+
+#line 73
+PUSHA 17
+PUSHA 15
+LOADI
+PUSHI 7
+MULI
+STOREI
+
+#line 74
+'if
+PUSHA 15
+LOADI
+PUSHI 1
+LTI
+PUSHA 17
+LOADI
+PUSHI 7
+GTI
+AND
+PUSHA 15
+LOADI
+PUSHA 17
+LOADI
+LTI
+NOT
+OR
+JZ else_0005
+'else
+
+#line 75
+PUSHA 15
+PUSHI 1
+STOREI
+
+#line 76
+PUSHA 17
+PUSHI 2
+STOREI
+JMP endif_0005
+else_0005:
+'end
+endif_0005:
+
+#LINE 78
+PUSHA 15
+LOADI
+PUSHA 17
+LOADI
+SUBI
+RET 2, 0, 0
