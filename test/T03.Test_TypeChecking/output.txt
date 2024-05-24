@@ -1,0 +1,205 @@
+#source "Test201.me"
+
+'Declaraciones globales
+#type point: {
+	x : int
+	y : int
+}
+#type complex: {
+	i : float
+	j : float
+}
+#global b : int
+
+'**builder inicio
+
+CALL inicio
+HALT
+
+#FUNC factorial
+#ret int
+factorial:
+#param i : int
+#local j : int
+#local k : int
+ENTER 4
+
+#line 28
+'from
+
+#line 28
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 1
+STOREI
+
+#line 29
+PUSH BP
+PUSH -4
+ADDI
+PUSHI 0
+STOREI
+untilcond_0001:
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+PUSHI 0
+EQI
+JNZ untilend_0001
+'loop body
+
+#line 31
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+MULI
+STOREI
+
+#line 32
+PUSH BP
+PUSH -4
+ADDI
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+
+#line 33
+PUSH BP
+PUSH 4
+ADDI
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+PUSHI 1
+SUBI
+STOREI
+JMP untilcond_0001
+untilend_0001:
+
+#LINE 35
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+RET 2, 4, 2
+
+#FUNC featureError
+#ret int
+featureError:
+#param k : point
+#param l : complex
+#local c : 3 * int
+#local p : point
+#local q : point
+ENTER 14
+
+#line 44
+PUSH BP
+PUSH 12
+ADDI
+PUSHI 0
+ADDI
+PUSHI 3
+CALL factorial
+STOREI
+
+#line 45
+PUSH BP
+PUSH 12
+ADDI
+PUSHI 0
+ADDI
+PUSH BP
+PUSH 12
+ADDI
+PUSHI 2
+ADDI
+LOADI
+CALL factorial
+STOREI
+
+#FUNC inicio
+#ret void
+inicio:
+#local k : int
+#local l : int
+#local c : 3 * int
+#local p : point
+#local q : point
+ENTER 18
+
+#line 55
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 3
+CALL factorial
+STOREI
+
+#line 56
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+CALL factorial
+STOREI
+
+#line 57
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+PUSHI 1
+GTI
+CALL factorial
+STOREI
+
+#line 58
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -10
+ADDI
+PUSHI 2
+PUSHI 2
+MULI
+ADDI
+LOADI
+CALL factorial
+STOREI
+
+#line 59
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -14
+ADDI
+PUSHI 0
+ADDI
+LOADI
+CALL factorial
+STOREI
+RET 0, 18, 0

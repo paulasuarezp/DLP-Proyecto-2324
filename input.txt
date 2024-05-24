@@ -1,53 +1,23 @@
-//*
-Tiene varios resutados:
-48
-(1) 0+1=1
-(2) 1+1=2
-(3) 1+2=3
-(4) 2+3=5
-(5) 3+5=8
-(6) 5+8=13
-(7) 8+13=21
-(8) 13+21=34
-56
-0 1 1 2 
-
-Cada resutlado está comentado donde se obtiene.
-*//
-
-class Test005;
-	global
-		types
-			
-			deftuple par2 as
-			 	entero2:INTEGER;	
-			  caracter2:CHARACTER;
-			 
-			end
-
-			deftuple par1 as
-				entero:INTEGER;
-			  caracter:CHARACTER;
-			  par2s:par2;
-			  
-			end
-
-			
-		vars
-			par:par1;
-			a:INTEGER;
-
-/*/-------------------------------
-
-	create main;
+class prog;
 	
-/*/-------------------------------
+global
+	vars
+		b : INTEGER;
 
+create
+	main;
+	
+feature f (b : DOUBLE) is
+	do
+		b := 5.0; 
+	end
 
-	feature main is
-		do
-			par.par2s.entero2:=2;
-			print a;
+feature main is
+	local
+		c : INTEGER;
+	do
+		c := f(1.0);
 	end
 end
+
 run main();

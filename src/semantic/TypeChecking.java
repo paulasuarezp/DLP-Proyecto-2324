@@ -70,13 +70,25 @@ public class TypeChecking extends DefaultVisitor {
 		
 		if (functionDefinition.getReturnType().isPresent() && !(functionDefinition.getReturnType().get() instanceof VoidType)) {
 			// Predicado -> isPrimitive(returnType)
-			predicate(isPrimitive(functionDefinition.getReturnType().get()), "El tipo de retorno de la función " + functionDefinition.getName() + " debe de ser un tipo simple (integer, double o character)", functionDefinition);
+			predicate(isPrimitive(functionDefinition.getReturnType().get()), "El tipo de retorno de la función " + functionDefinition.getName() + " debe de ser un tipo simple (INTEGER, DOUBLE o CHARACTER)", functionDefinition);
+		}
+
+		for(VarDefinition var: functionDefinition.getParams()){
+			if(!isPrimitive(var.getTipo())){
+				notifyError("El tipo de los parámetros de la función \'" + functionDefinition.getName() + "\' debe de ser un tipo simple (INTEGER, DOUBLE o CHARACTER)", var.end());
+				break;
+			}
 		}
 
 		// Inicializar valor
 		functionDefinition.setHasReturn(false);
 				
 		super.visit(functionDefinition, param);
+
+		// Predicado -> if returnType != VOID then hasReturn
+		if (functionDefinition.getReturnType().isPresent() && functionDefinition.getReturnType().get().getClass() != VoidType.class) {
+			predicate(functionDefinition.isHasReturn(), "La función \'" + functionDefinition.getName() + "\' no tiene una sentencia de retorno, debería de devolver un valor de tipo " + functionDefinition.getReturnType().get().toString(), functionDefinition);
+		}
 				
 		return null;
 	}
@@ -114,7 +126,7 @@ public class TypeChecking extends DefaultVisitor {
 		predicate(assignment.getLeft().isLvalue(), "La expresión de la izquierda no es modificable", assignment);
 
 		//Predicado -> isPrimitive(left.type)
-		predicate(isPrimitive(assignment.getLeft().getType()), "El tipo de la expresión de la izquierda debe de ser un tipo simple (integer, double o character)", assignment);
+		predicate(isPrimitive(assignment.getLeft().getType()), "El tipo de la expresión de la izquierda debe de ser un tipo simple (INTEGER, DOUBLE o CHARACTER)", assignment);
 
 		//Predicado -> checkSameType(left.type, right.type)
 		predicate(checkSameType(assignment.getLeft().getType(), assignment.getRight().getType()), "Los tipos de las expresiones no coinciden", assignment);
@@ -142,7 +154,7 @@ public class TypeChecking extends DefaultVisitor {
 		super.visit(loop, param);
 
 		// Predicado -> until.type == INTEGER
-		predicate(loop.getUntil().getType() instanceof IntType, "La expresión del until debe de ser de tipo integer", loop);
+		predicate(loop.getUntil().getType() instanceof IntType, "La expresión del until debe de ser de tipo INTEGER", loop);
 
 
 		return null;
@@ -185,7 +197,7 @@ public class TypeChecking extends DefaultVisitor {
 
 		//Regla -> input.all(e -> isPrimitive(e.type))
 		boolean checkTypes = read.getInput().stream().allMatch(e -> isPrimitive(e.getType()));
-		predicate(checkTypes, "Alguna de las expresiones de la sentencia Read no es de tipo simple (integer, double o character)", read);
+		predicate(checkTypes, "Alguna de las expresiones de la sentencia Read no es de tipo simple (INTEGER, DOUBLE o CHARACTER)", read);
 
 		return null;
 	}
@@ -198,7 +210,7 @@ public class TypeChecking extends DefaultVisitor {
 
 		//Regla -> input.all(e -> isPrimitive(e.type))
 		boolean checkTypes = print.getInput().stream().allMatch(e -> isPrimitive(e.getType()));
-		predicate(checkTypes, "Alguna de las expresiones de la sentencia Print no es de tipo simple (integer, double o character)", print);
+		predicate(checkTypes, "Alguna de las expresiones de la sentencia Print no es de tipo simple (INTEGER, DOUBLE o CHARACTER)", print);
 		return null;
 	}
 
@@ -305,7 +317,7 @@ public class TypeChecking extends DefaultVisitor {
 
 		// Predicado -> isPrimitive(op1.type)
 		boolean checkType = arithmeticExpr.getOp1().getType() instanceof IntType || arithmeticExpr.getOp1().getType() instanceof DoubleType;
-		predicate(checkType, "El tipo de la expresión de la izquierda debe de ser integer o double.", arithmeticExpr);
+		predicate(checkType, "El tipo de la expresión de la izquierda debe de ser INTEGER o DOUBLE.", arithmeticExpr);
 		// Predicado -> op1.type == op2.type
 		predicate(checkSameType(arithmeticExpr.getOp1().getType(), arithmeticExpr.getOp2().getType()), "Los tipos de las expresiones no coinciden", arithmeticExpr);
 		
@@ -323,7 +335,7 @@ public class TypeChecking extends DefaultVisitor {
 		super.visit(logicalExpr, param);
 
 		//Predicado -> op1.type == INTEGER
-		predicate(logicalExpr.getOp1().getType() instanceof IntType, "El tipo de la expresión de la izquierda debe de ser integer.", logicalExpr);
+		predicate(logicalExpr.getOp1().getType() instanceof IntType, "El tipo de la expresión de la izquierda debe de ser INTEGER.", logicalExpr);
 		//Predicado -> sameType(op1.type, op2.type)
 		predicate(checkSameType(logicalExpr.getOp1().getType(), logicalExpr.getOp2().getType()), "Los tipos de la condición deben de ser del mismo tipo.", logicalExpr);
 
@@ -342,7 +354,7 @@ public class TypeChecking extends DefaultVisitor {
 
 		//Predicado -> op1.type == INTEGER || op1.type == DOUBLE
 		boolean checkType = comparationExpr.getOp1().getType() instanceof IntType || comparationExpr.getOp1().getType() instanceof DoubleType;
-		predicate(checkType, "El tipo de la expresión de la izquierda debe de ser integer o double.", comparationExpr);
+		predicate(checkType, "El tipo de la expresión de la izquierda debe de ser INTEGER o DOUBLE.", comparationExpr);
 		//Predicado -> sameType(op1.type, op2.type)
 		predicate(checkSameType(comparationExpr.getOp1().getType(), comparationExpr.getOp2().getType()), "Los tipos de las expresiones no coinciden", comparationExpr);
 		
@@ -360,7 +372,7 @@ public class TypeChecking extends DefaultVisitor {
 		super.visit(minusExpr, param);
 		//Predicado -> op.type == INTEGER || op.type == DOUBLE
 		boolean checkType = minusExpr.getOp().getType() instanceof IntType || minusExpr.getOp().getType() instanceof DoubleType;
-		predicate(checkType, "El tipo de la expresión debe de ser integer o double.", minusExpr);
+		predicate(checkType, "El tipo de la expresión debe de ser INTEGER o DOUBLE.", minusExpr);
 
 		//Regla -> minusExpr.lValue = FALSE
 		minusExpr.setLvalue(false);
@@ -447,7 +459,7 @@ public class TypeChecking extends DefaultVisitor {
 		if(predicate(arrayAccess.getArray().getType() instanceof ArrayType, "El tipo de la expresión debe de ser un ArrayType", arrayAccess) &&
 
 		//Predicado -> index.type == IntType
-		predicate(arrayAccess.getIndex().getType() instanceof IntType, "El tipo de la expresión debe de ser integer", arrayAccess)){
+		predicate(arrayAccess.getIndex().getType() instanceof IntType, "El tipo de la expresión debe de ser INTEGER", arrayAccess)){
 
 		//Regla -> arrayAccess.lValue = TRUE
 		arrayAccess.setLvalue(true);
@@ -486,7 +498,7 @@ public class TypeChecking extends DefaultVisitor {
 	/**
 	 * Comprueba si un tipo es un tipo simple
 	 * @param type Tipo
-	 * @return true si el tipo es un tipo simple (int, double, char)
+	 * @return true si el tipo es un tipo simple (INTEGER, DOUBLE, CHARACTER)
 	 */
 	private boolean isPrimitive(Type type) {
 		return type instanceof IntType || type instanceof DoubleType || type instanceof CharType;

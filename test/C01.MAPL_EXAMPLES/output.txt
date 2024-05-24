@@ -1,6 +1,8 @@
-#source "HolaMundo.me"
+#source "Fuente07.me"
 
 'Declaraciones globales
+#global numero : int
+#global divisor : int
 
 '**builder main
 
@@ -11,31 +13,78 @@ HALT
 #ret void
 main:
 
-#LINE 13
-PUSHB 72
-OUTB
-PUSHB 111
-OUTB
-PUSHB 108
-OUTB
-PUSHB 97
-OUTB
-PUSHB 32
-OUTB
-PUSHB 77
-OUTB
-PUSHB 117
-OUTB
-PUSHB 110
-OUTB
-PUSHB 100
-OUTB
-PUSHB 111
-OUTB
-PUSHB 33
-OUTB
+#LINE 19
+PUSHA 0
+INI
+STOREI
 
-#LINE 14
-PUSHB 10
-OUTB
+#line 20
+'if
+PUSHA 0
+LOADI
+PUSHI 2
+LTI
+JZ else_0001
+'else
+
+#LINE 21
+PUSHI 0
+OUTI
+JMP endif_0001
+else_0001:
+
+#line 24
+'from
+
+#line 24
+PUSHA 2
+PUSHI 2
+STOREI
+untilcond_0002:
+PUSHA 2
+LOADI
+PUSHA 0
+LOADI
+GEI
+JNZ untilend_0002
+'loop body
+
+#line 26
+'if
+PUSHA 0
+LOADI
+PUSHA 2
+LOADI
+MODI
+PUSHI 0
+EQI
+JZ else_0003
+'else
+
+#LINE 27
+PUSHI 0
+OUTI
+
+#LINE 28
+RET 0, 0, 0
+JMP endif_0003
+else_0003:
+'end
+endif_0003:
+
+#line 30
+PUSHA 2
+PUSHA 2
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0002
+untilend_0002:
+
+#LINE 32
+PUSHI 1
+OUTI
+'end
+endif_0001:
 RET 0, 0, 0
