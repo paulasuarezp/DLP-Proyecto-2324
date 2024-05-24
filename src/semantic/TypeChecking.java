@@ -333,8 +333,14 @@ public class TypeChecking extends DefaultVisitor {
 	public Object visit(CastExpr castExpr, Object param) {
 		super.visit(castExpr, param);
 
+		// Predicado -> castExpr.value.type != castType
+		String errorMessage = "El tipo de la expresión a promocionar y el tipo final deben ser diferentes.";
+		predicate(!checkSameType(castExpr.getCastType(), castExpr.getValue().getType()), errorMessage, castExpr);
+		// Predicado -> isPrimitive(castExpr.value.type) && isPrimitive(castExpr.castType)
+		errorMessage = "El tipo de la expresión a promocionar y el tipo final deben ser tipos simples (INTEGER, DOUBLE o CHARACTER).";
+		predicate(isPrimitive(castExpr.getValue().getType()) && isPrimitive(castExpr.getCastType()), errorMessage, castExpr);
 		// Predicado -> checkCastType(castExpr.castType, castExpr.value.type)
-		String errorMessage = "No se puede castear un tipo " + getTypeName(castExpr.getValue().getType()) + " a un tipo " + getTypeName(castExpr.getCastType());
+		errorMessage = "No se puede castear un tipo " + getTypeName(castExpr.getValue().getType()) + " a un tipo " + getTypeName(castExpr.getCastType());
 		predicate(checkCastType(castExpr.getCastType(), castExpr.getValue().getType()), errorMessage, castExpr);
 
 		//Regla -> castExpr.lValue = FALSE
