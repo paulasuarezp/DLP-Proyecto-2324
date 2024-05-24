@@ -224,7 +224,7 @@ public class TypeChecking extends DefaultVisitor {
 		}
 
 		// Predicado -> owner.returnType != VOID 
-		if (!returnValue.getValue().isPresent() && returnValue.getOwner().getReturnType().isPresent()) {
+		if (!returnValue.getValue().isPresent() && returnValue.getOwner().getReturnType().isPresent() && returnValue.getOwner().getReturnType().get().getClass() != VoidType.class) {
 			notifyError("La expresión de retorno de la función \'" + returnValue.getOwner().getName() + "\' debe de retornar un valor de tipo " + returnValue.getOwner().getReturnType().get().toString(), returnValue.end());
 		}
 
