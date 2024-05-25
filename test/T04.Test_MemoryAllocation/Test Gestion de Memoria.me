@@ -1,15 +1,15 @@
 //*
-* Test para probar la Fase de Gestión de Memoria.
+* Test para probar la Fase de Gestiï¿½n de Memoria.
 * 
-* COMPROBACION: Las direcciones asignadas a cada nodo deben coincidir con la dirección del comentario de cada definición.
+* COMPROBACION: Las direcciones asignadas a cada nodo deben coincidir con la direcciï¿½n del comentario de cada definiciï¿½n.
 * 
-* CONSEJO: Para poder validar más cómodamente este ejercicio se aconseja añadir a 'visitor/ASTPrinter.java' la siguiente sentencia:
+* CONSEJO: Para poder validar mï¿½s cï¿½modamente este ejercicio se aconseja aï¿½adir a 'visitor/ASTPrinter.java' la siguiente sentencia:
 * 
 * 	print(indent + 1, "direccion", "int", node.getDireccion());
 * 
-* Esta llamada deberá añadirse en los métodos visit de los nodos a los que se les haya asignado un atributo 'direccion' (habitualmente aquellos que * representen definiciones de variables globales, locales, parámetros y/o campos de estructuras)
+* Esta llamada deberï¿½ aï¿½adirse en los mï¿½todos visit de los nodos a los que se les haya asignado un atributo 'direccion' (habitualmente aquellos que * representen definiciones de variables globales, locales, parï¿½metros y/o campos de estructuras)
 * 
-* Si se desea que ASTPrinter imprima el nombre del elemento, cambiar la implementación del método print (de ASTPrinter):
+* Si se desea que ASTPrinter imprima el nombre del elemento, cambiar la implementaciï¿½n del mï¿½todo print (de ASTPrinter):
 * 	private void print(int indent, String name, String type, Object value) {
 * 		write(indent, formatValue(value) + "  " + typeTag(type));
 * 	}
@@ -23,8 +23,8 @@
 *//
 
 //*
-* En el siguiente programa, al lado de cada variable (global, local y parámetro) y al lado de cada campo de tupla
-* se ha colocado la dirección que tendrá en ejecución como comentario. Comprobar que coinciden con las obetenidas.
+* En el siguiente programa, al lado de cada variable (global, local y parï¿½metro) y al lado de cada campo de tupla
+* se ha colocado la direcciï¿½n que tendrï¿½ en ejecuciï¿½n como comentario. Comprobar que coinciden con las obetenidas.
 *//
 
 class Test_MemoryAllocation;
@@ -47,9 +47,9 @@ class Test_MemoryAllocation;
 			d : INTEGER;		/* Dir 65 
 
 	create
-		f;
+		main;
 
-	/*--> Ojo, los parámetros van en sentido decreciente y comienzan en 4
+	/*--> Ojo, los parï¿½metros van en sentido decreciente y comienzan en 4
 	feature f (a: INTEGER, b: DOUBLE, h : CHARACTER) is /* a = BP+9, b = BP+5, h = BP+4  
 		local
 			c : CHARACTER;	/* BP-1 
@@ -58,9 +58,12 @@ class Test_MemoryAllocation;
 			f : DOUBLE; 	/* BP-67 
 		do
 	end
+
+	feature main is 
+		do
+			f(1, 2.5, 'a');
+	end
 end
 
-main
-	f(1, 2.5, 'a');
-end
+run main();
 

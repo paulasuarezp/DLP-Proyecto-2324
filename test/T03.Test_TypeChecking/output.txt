@@ -1,18 +1,35 @@
-#source "Test201.me"
+#source "Test900.me"
 
 'Declaraciones globales
-#type point: {
-	x : int
-	y : int
+#type tuple1: {
+	a : 7 * int
+	c : char
+	d : float
 }
-#type complex: {
-	i : float
-	j : float
+#type tuple2: {
+	aa : int
+	bb : 2 * int
+	tt : tuple1
+	ta : 3 * tuple1
 }
-#global b : int
+#global i : int
+#global j : int
+#global z : int
+#global ai : 2 * int
+#global bi : 2 * 2 * int
+#global t : tuple1
+#global cf : float
 
 '**builder inicio
 
+
+'**builder otroInicio
+
+PUSHI 2
+PUSHI 3
+PUSHI 4
+PUSHI 5
+ADDI
 CALL inicio
 HALT
 
@@ -24,17 +41,17 @@ factorial:
 #local k : int
 ENTER 4
 
-#line 28
+#line 40
 'from
 
-#line 28
+#line 40
 PUSH BP
 PUSH -2
 ADDI
 PUSHI 1
 STOREI
 
-#line 29
+#line 41
 PUSH BP
 PUSH -4
 ADDI
@@ -50,7 +67,7 @@ EQI
 JNZ untilend_0001
 'loop body
 
-#line 31
+#line 43
 PUSH BP
 PUSH -2
 ADDI
@@ -65,7 +82,7 @@ LOADI
 MULI
 STOREI
 
-#line 32
+#line 44
 PUSH BP
 PUSH -4
 ADDI
@@ -77,7 +94,7 @@ PUSHI 1
 ADDI
 STOREI
 
-#line 33
+#line 45
 PUSH BP
 PUSH 4
 ADDI
@@ -91,115 +108,310 @@ STOREI
 JMP untilcond_0001
 untilend_0001:
 
-#LINE 35
+#LINE 47
 PUSH BP
 PUSH -2
 ADDI
 LOADI
 RET 2, 4, 2
 
-#FUNC featureError
-#ret int
-featureError:
-#param k : point
-#param l : complex
-#local c : 3 * int
-#local p : point
-#local q : point
-ENTER 14
-
-#line 44
-PUSH BP
-PUSH 12
-ADDI
-PUSHI 0
-ADDI
-PUSHI 3
-CALL factorial
-STOREI
-
-#line 45
-PUSH BP
-PUSH 12
-ADDI
-PUSHI 0
-ADDI
-PUSH BP
-PUSH 12
-ADDI
-PUSHI 2
-ADDI
-LOADI
-CALL factorial
-STOREI
-
 #FUNC inicio
 #ret void
 inicio:
-#local k : int
-#local l : int
-#local c : 3 * int
-#local p : point
-#local q : point
-ENTER 18
+#param ii : int
+#param ij : int
+#param ik : int
+#local i : int
+#local ai : 5 * int
+#local t2 : tuple2
+ENTER 94
 
-#line 55
-PUSH BP
-PUSH -2
+#LINE 56
+PUSHA 18
+PUSHI 0
 ADDI
-PUSHI 3
-CALL factorial
-STOREI
-
-#line 56
-PUSH BP
-PUSH -2
+PUSHI 2
+PUSHI 2
+MULI
 ADDI
-PUSH BP
-PUSH -4
-ADDI
-LOADI
-CALL factorial
+INI
 STOREI
 
 #line 57
 PUSH BP
-PUSH -2
+PUSH -94
 ADDI
-PUSH BP
-PUSH -4
+PUSHI 25
 ADDI
-LOADI
-PUSHI 1
-GTI
-CALL factorial
+PUSHI 3
+PUSHI 19
+MULI
+ADDI
+PUSHI 0
+ADDI
+PUSHI 4
+PUSHI 2
+MULI
+ADDI
+PUSHI 8
 STOREI
 
 #line 58
+'if
 PUSH BP
-PUSH -2
+PUSH -12
 ADDI
-PUSH BP
-PUSH -10
+PUSHI 1
+PUSHI 2
+MULI
+ADDI
+LOADI
+PUSHA 18
+PUSHI 0
 ADDI
 PUSHI 2
 PUSHI 2
 MULI
 ADDI
 LOADI
+PUSHI 0
+EQI
+NOT
+AND
+JZ else_0002
+'else
+
+#line 59
+PUSHA 18
+PUSHI 0
+ADDI
+PUSHI 5
+PUSHI 2
+MULI
+ADDI
+PUSHA 18
+PUSHI 0
+ADDI
+PUSHI 7
+PUSHI 2
+MULI
+ADDI
+LOADI
+PUSHI 2
+MULI
+STOREI
+
+#LINE 60
+RET 0, 94, 6
+JMP endif_0002
+else_0002:
+
+#line 61
+'if
+PUSHA 18
+PUSHI 0
+ADDI
+PUSHI 4
+PUSHI 2
+MULI
+ADDI
+LOADI
+PUSHI 0
+EQI
+JZ else_0003
+'else
+
+#line 62
+PUSHA 18
+PUSHI 0
+ADDI
+PUSHI 4
+PUSHI 2
+MULI
+ADDI
+PUSHI 100
+STOREI
+JMP endif_0003
+else_0003:
+
+#line 64
+PUSHA 18
+PUSHI 0
+ADDI
+PUSHI 0
+PUSHI 2
+MULI
+ADDI
+PUSHA 18
+PUSHI 0
+ADDI
+PUSHI 0
+PUSHI 2
+MULI
+ADDI
+LOADI
+PUSHF 10.0
+F2I
+ADDI
+STOREI
+
+#line 65
+PUSHA 18
+PUSHI 0
+ADDI
+PUSHI 1
+PUSHI 2
+MULI
+ADDI
+PUSHA 18
+PUSHI 0
+ADDI
+PUSHI 0
+PUSHI 2
+MULI
+ADDI
+LOADI
+PUSHI -1
+MULI
+STOREI
+'end
+endif_0003:
+'end
+endif_0002:
+
+#line 71
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 1
 CALL factorial
 STOREI
 
-#line 59
+#LINE 72
+PUSHI 3
+CALL factorial
+POPI
+
+#line 74
+'from
+untilcond_0004:
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 5
+EQI
+JNZ untilend_0004
+'loop body
+
+#line 75
+PUSH BP
+PUSH -12
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 2
+MULI
+ADDI
+PUSHA 18
+PUSHI 0
+ADDI
+PUSHI 5
+PUSHI 2
+MULI
+ADDI
+LOADI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+MULI
+STOREI
+
+#line 76
 PUSH BP
 PUSH -2
 ADDI
 PUSH BP
-PUSH -14
+PUSH -2
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0004
+untilend_0004:
+
+#line 79
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -94
+ADDI
+PUSHI 2
+ADDI
+PUSHI 0
+PUSHI 2
+MULI
+ADDI
+LOADI
+STOREI
+
+#line 80
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -94
+ADDI
+PUSHI 25
+ADDI
+PUSHI 2
+PUSHI 19
+MULI
 ADDI
 PUSHI 0
 ADDI
+PUSHI 4
+PUSHI 2
+MULI
+ADDI
 LOADI
-CALL factorial
 STOREI
-RET 0, 18, 0
+RET 0, 94, 6
+
+#FUNC otroInicio
+#ret void
+otroInicio:
+
+#LINE 86
+PUSHB 72
+OUTB
+PUSHB 111
+OUTB
+PUSHB 108
+OUTB
+PUSHB 97
+OUTB
+PUSHB 32
+OUTB
+PUSHB 77
+OUTB
+PUSHB 117
+OUTB
+PUSHB 110
+OUTB
+PUSHB 100
+OUTB
+PUSHB 111
+OUTB
+PUSHB 33
+OUTB
+
+#LINE 87
+PUSHB 10
+OUTB
+RET 0, 0, 0

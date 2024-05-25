@@ -1,8 +1,10 @@
-#source "Fuente07.me"
+#source "Fuente08.me"
 
 'Declaraciones globales
 #global numero : int
 #global divisor : int
+#global encontrados : int
+#global ok : int
 
 '**builder main
 
@@ -13,43 +15,53 @@ HALT
 #ret void
 main:
 
-#LINE 19
-PUSHA 0
-INI
-STOREI
-
-#line 20
-'if
-PUSHA 0
-LOADI
-PUSHI 2
-LTI
-JZ else_0001
-'else
-
-#LINE 21
-PUSHI 0
-OUTI
-JMP endif_0001
-else_0001:
-
-#line 24
+#line 21
 'from
 
-#line 24
+#line 21
+PUSHA 4
+PUSHI 0
+STOREI
+
+#line 22
+PUSHA 0
+PUSHI 2
+STOREI
+untilcond_0001:
+PUSHA 4
+LOADI
+PUSHI 25
+GEI
+JNZ untilend_0001
+'loop body
+
+#line 25
+'from
+
+#line 25
 PUSHA 2
 PUSHI 2
 STOREI
+
+#line 26
+PUSHA 6
+PUSHI 0
+STOREI
 untilcond_0002:
-PUSHA 2
-LOADI
 PUSHA 0
 LOADI
-GEI
+PUSHA 2
+LOADI
+LEI
+PUSHA 6
+LOADI
+PUSHI 1
+EQI
+OR
 JNZ untilend_0002
 'loop body
 
-#line 26
+#line 29
 'if
 PUSHA 0
 LOADI
@@ -61,30 +73,61 @@ EQI
 JZ else_0003
 'else
 
-#LINE 27
-PUSHI 0
-OUTI
-
-#LINE 28
-RET 0, 0, 0
+#line 30
+PUSHA 6
+PUSHI 1
+STOREI
 JMP endif_0003
 else_0003:
-'end
-endif_0003:
 
-#line 30
+#line 32
 PUSHA 2
 PUSHA 2
 LOADI
 PUSHI 1
 ADDI
 STOREI
+'end
+endif_0003:
 JMP untilcond_0002
 untilend_0002:
 
-#LINE 32
-PUSHI 1
+#line 37
+'if
+PUSHA 0
+LOADI
+PUSHA 2
+LOADI
+EQI
+JZ else_0004
+'else
+
+#LINE 38
+PUSHA 0
+LOADI
 OUTI
+PUSHB 10
+OUTB
+
+#line 39
+PUSHA 4
+PUSHA 4
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP endif_0004
+else_0004:
 'end
-endif_0001:
+endif_0004:
+
+#line 41
+PUSHA 0
+PUSHA 0
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0001
+untilend_0001:
 RET 0, 0, 0

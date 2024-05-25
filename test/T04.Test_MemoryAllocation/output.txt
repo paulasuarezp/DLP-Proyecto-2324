@@ -1,0 +1,45 @@
+#source "Test Gestion de Memoria.me"
+
+'Declaraciones globales
+#type Persona: {
+	edad : int
+	meses : 12 * int
+	a : float
+}
+#type Prueba: {
+	campo1 : int
+	campo2 : int
+}
+#global a : char
+#global b : float
+#global c : 2 * Persona
+#global d : int
+
+'**builder main
+
+CALL main
+HALT
+
+#FUNC f
+#ret void
+f:
+#param a : int
+#param b : float
+#param h : char
+#local c : char
+#local d : int
+#local e : 2 * Persona
+#local f : float
+ENTER 67
+RET 0, 67, 7
+
+#FUNC main
+#ret void
+main:
+
+#LINE 64
+PUSHI 1
+PUSHF 2.5
+PUSHB 97
+CALL f
+RET 0, 0, 0
