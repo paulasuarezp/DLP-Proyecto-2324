@@ -49,7 +49,7 @@ public class TypeChecking extends DefaultVisitor {
 		predicate(args.size() == params.size(), "La llamada a la función \'" + runCall.getDefinition().getName() +
 			"\' esperaba " + params.size() + " argumentos y se le han proporcionado " + args.size() + "." , runCall);
 		// Predicado -> checkArgs(args, params)
-		predicate(checkArgs(args,params, runCall.getDefinition().getName()), "Los tipos de los parámetros no coinciden con los definidos en la función \'" + runCall.getDefinition().getName() +"\'." , runCall);		
+		checkArgs(args,params, runCall.getDefinition().getName());
 	
 
 		return null;
