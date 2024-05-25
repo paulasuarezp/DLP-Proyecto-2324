@@ -195,7 +195,7 @@ public class TypeChecking extends DefaultVisitor {
 		super.visit(ifElse, param);
 
 		// Predicado -> condition.type == INTEGER
-		predicate(ifElse.getCondition().getType() instanceof IntType, "La condición del \'if\' debe de ser de tipo boolean (INTEGER), no de tipo " +
+		predicate(ifElse.getCondition().getType() instanceof IntType, "La condición del \'if\' debe de ser de tipo INTEGER, no de tipo " +
 			getTypeName(ifElse.getCondition().getType()), ifElse);
 
 
@@ -216,7 +216,7 @@ public class TypeChecking extends DefaultVisitor {
 		//Regla -> input.all(e -> isPrimitive(e.type))
 		
 		for(Expression e: read.getInput()){
-			errorMessage = String.format("Solo se pueden hacer lecturas (read) en expresiones de tipo simple (INTEGER, DOUBLE o CHARACTER), no en %s",
+			errorMessage = String.format("Solo se pueden hacer lecturas (read) en expresiones de tipo simple (INTEGER, DOUBLE o CHARACTER), no de tipo %s",
 									getTypeName(e.getType()));
 			predicate(isPrimitive(e.getType()), errorMessage, read);
 		}
@@ -233,7 +233,7 @@ public class TypeChecking extends DefaultVisitor {
 		//Regla -> input.all(e -> isPrimitive(e.type))
 		String errorMessage = "";
 		for(Expression e: print.getInput()){
-			errorMessage = String.format("Solo se pueden imprimir (print) expresiones de tipo simple (INTEGER, DOUBLE o CHARACTER), no en %s",
+			errorMessage = String.format("Solo se pueden imprimir (print) expresiones de tipo simple (INTEGER, DOUBLE o CHARACTER), no de tipo %s",
 									getTypeName(e.getType()));
 			predicate(isPrimitive(e.getType()), errorMessage, print);
 		}
@@ -255,7 +255,7 @@ public class TypeChecking extends DefaultVisitor {
 		// Predicado -> owner.returnType == value.type
 		if (returnValue.getValue().isPresent() && returnValue.getOwner().getReturnType().isPresent()) {
 			if(returnValue.getOwner().getReturnType().get().getClass() == VoidType.class){
-				notifyError("La expresión de retorno debe de estar vacía", returnValue.end());
+				notifyError("La expresión de retorno debe de estar vacía en funciones void", returnValue.end());
 				return null;
 			}
 			errorMessage = String.format("El tipo de retorno de la función '%s' (%s) no coincide con el tipo de la expresión de retorno (%s)",
