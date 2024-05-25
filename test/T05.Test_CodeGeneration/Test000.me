@@ -1,7 +1,7 @@
 class Test000; /* Hola Mundo!
 /*/-------------------------------
 
-	create inicio;
+	create main;
 	
 /*/-------------------------------
 
@@ -11,8 +11,11 @@ class Test000; /* Hola Mundo!
             println '!';
 	end
 
+	feature main is 
+		do
+			inicio();
+	end
+
 end
 
-main
-	inicio();
-end
+run	main();

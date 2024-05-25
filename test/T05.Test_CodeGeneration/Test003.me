@@ -27,7 +27,7 @@ class Test003;
 		vars
 			F1: [3]Piloto;
 
-	create inicio;
+	create main;
 	
 	feature inicia(i:INTEGER, inicial:CHARACTER, q1:DOUBLE, q2:DOUBLE, q3:DOUBLE) is
 		do
@@ -73,8 +73,11 @@ class Test003;
 
 		imprimeElMejor();	/* Los ordenadores no se equivocan
 	end
+	feature main is 
+		do
+			inicio();
+	end
+
 end
 
-main
-	inicio();
-end
+run	main();

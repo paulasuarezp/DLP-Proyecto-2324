@@ -1,0 +1,320 @@
+#source "TestGenCode.me"
+
+'Declaraciones globales
+#type Persona: {
+	edad : int
+	meses : 12 * int
+	a : float
+}
+#type Prueba: {
+	campo1 : int
+	campo2 : int
+}
+#global b : float
+#global a : char
+#global c : 2 * Persona
+#global d : int
+
+'**builder main
+
+CALL main
+HALT
+
+#FUNC factorial
+#ret int
+factorial:
+#param i : int
+#local fac : int
+ENTER 2
+
+#line 62
+'from
+
+#line 62
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+STOREI
+untilcond_0001:
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+PUSHI 1
+EQI
+JNZ untilend_0001
+'loop body
+
+#line 64
+PUSH BP
+PUSH 4
+ADDI
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+PUSHI 1
+SUBI
+STOREI
+
+#line 65
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+MULI
+STOREI
+JMP untilcond_0001
+untilend_0001:
+
+#LINE 67
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+RET 2, 2, 2
+
+#FUNC f
+#ret void
+f:
+#param a : int
+#param b : float
+#param h : char
+#local c : char
+#local d : int
+#local e : 2 * Persona
+#local f : float
+ENTER 67
+
+#line 78
+PUSH BP
+PUSH 9
+ADDI
+PUSH BP
+PUSH 4
+ADDI
+LOADB
+B2I
+PUSH BP
+PUSH 5
+ADDI
+LOADF
+F2I
+ADDI
+STOREI
+
+#line 79
+'if
+PUSH BP
+PUSH 9
+ADDI
+LOADI
+PUSHI 0
+GTI
+JZ else_0002
+'else
+
+#line 80
+PUSH BP
+PUSH 9
+ADDI
+PUSH BP
+PUSH 9
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP endif_0002
+else_0002:
+
+#line 82
+PUSH BP
+PUSH 9
+ADDI
+PUSH BP
+PUSH 9
+ADDI
+LOADI
+PUSHI 1
+SUBI
+STOREI
+'end
+endif_0002:
+
+#line 84
+'if
+PUSH BP
+PUSH 4
+ADDI
+LOADB
+B2I
+PUSHI 72
+EQI
+JZ else_0003
+'else
+
+#line 85
+PUSH BP
+PUSH 9
+ADDI
+PUSH BP
+PUSH 9
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP endif_0003
+else_0003:
+
+#line 87
+PUSH BP
+PUSH 9
+ADDI
+PUSH BP
+PUSH 9
+ADDI
+LOADI
+PUSHI 1
+SUBI
+STOREI
+'end
+endif_0003:
+
+#line 90
+'from
+
+#line 90
+PUSH BP
+PUSH -3
+ADDI
+PUSH BP
+PUSH 9
+ADDI
+LOADI
+STOREI
+untilcond_0004:
+PUSH BP
+PUSH -3
+ADDI
+LOADI
+PUSHI 80
+LTI
+JNZ untilend_0004
+'loop body
+
+#line 92
+PUSH BP
+PUSH 9
+ADDI
+PUSH BP
+PUSH 9
+ADDI
+LOADI
+PUSHI 2
+ADDI
+STOREI
+
+#line 93
+PUSH BP
+PUSH -63
+ADDI
+PUSHI 1
+PUSHI 30
+MULI
+ADDI
+PUSHI 0
+ADDI
+PUSH BP
+PUSH 9
+ADDI
+LOADI
+STOREI
+
+#line 94
+PUSH BP
+PUSH -63
+ADDI
+PUSHI 1
+PUSHI 30
+MULI
+ADDI
+PUSHI 2
+ADDI
+PUSHI 2
+PUSHI 2
+MULI
+ADDI
+PUSHI 5
+STOREI
+
+#line 95
+PUSH BP
+PUSH -3
+ADDI
+PUSH BP
+PUSH -3
+ADDI
+LOADI
+PUSHI 1
+SUBI
+STOREI
+JMP untilcond_0004
+untilend_0004:
+
+#LINE 97
+PUSH BP
+PUSH 9
+ADDI
+LOADI
+OUTI
+
+#LINE 98
+PUSHB 10
+OUTB
+
+#line 99
+PUSH BP
+PUSH 9
+ADDI
+PUSHI 3
+CALL factorial
+STOREI
+
+#LINE 100
+PUSHI 3
+CALL factorial
+POPI
+
+#LINE 101
+PUSH BP
+PUSH 9
+ADDI
+LOADI
+OUTI
+PUSHB 10
+OUTB
+RET 0, 67, 7
+
+#FUNC main
+#ret void
+main:
+
+#LINE 106
+PUSHI 1
+PUSHF 2.5
+PUSHB 97
+CALL f
+RET 0, 0, 0

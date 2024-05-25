@@ -34,7 +34,7 @@ class Test005;
 
 /*/-------------------------------
 
-	create inicio;
+	create main;
 	
 /*/-------------------------------
 
@@ -138,8 +138,11 @@ class Test005;
 			end
 	end
 
+	feature main is 
+		do
+			inicio();
+	end
+
 end
 
-main
-	inicio();
-end
+run	main();

@@ -51,7 +51,7 @@ class
 			d : INTEGER;		/* Dir 65 
 
 	create
-		f;
+		main;
 
 	feature
 		factorial (i : INTEGER) : INTEGER is
@@ -101,9 +101,12 @@ class
 			println a;
 			/* return;
 	end
+	feature main is 
+		do
+			f(1, 2.5, 'a');
+	end
+
 end
 
-main
-	f(1, 2.5, 'a');
-end
+run	main();
 

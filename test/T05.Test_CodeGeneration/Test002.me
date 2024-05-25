@@ -33,7 +33,7 @@ class Test002;
 		vars
 			empresa:[4] Persona;
 	
-	create arranque;
+	create main;
 
 	feature inicia is
 		local
@@ -88,8 +88,11 @@ class Test002;
 
 			imprime();	/* No se recoge el valor de retorno
 	end
+	feature main is 
+		do
+			arranque();
+	end
+
 end
 
-main
-	arranque();
-end
+run	main();

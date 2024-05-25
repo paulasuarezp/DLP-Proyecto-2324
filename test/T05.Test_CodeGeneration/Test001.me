@@ -21,7 +21,7 @@ class Test001;
 		vars
 			varGlobal:DOUBLE;
 
-	create inicio;
+	create main;
 		
 	feature doble(valor:INTEGER):INTEGER is
 		do
@@ -44,8 +44,11 @@ class Test001;
 
 			println doble(2);
 	end
+	feature main is 
+		do
+			inicio();
+	end
+
 end
 
-main
-	inicio();
-end
+run	main();

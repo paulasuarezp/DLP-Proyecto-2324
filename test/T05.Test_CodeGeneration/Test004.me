@@ -19,7 +19,7 @@ class Test004_HIPOTECA;
 	global
 		/* No hay declaraciones aquí
 		
-	create calcularHipoteca;
+	create main;
 		
 	/* Features del cálculo
 	feature potencia(base: DOUBLE, exponente: INTEGER): DOUBLE is
@@ -64,8 +64,11 @@ class Test004_HIPOTECA;
 			print (letraHipoteca(precioViv, mesesHipoteca, interes));
 	end /* calcularHipoteca
 		
+	feature main is 
+		do
+			calcularHipoteca();
+	end
+
 end
 
-main
-	calcularHipoteca();
-end /* HIPOTECA
+run	main();
