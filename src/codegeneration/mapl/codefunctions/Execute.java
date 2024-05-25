@@ -29,7 +29,6 @@ public class Execute extends AbstractCodeFunction {
 		// value(runCall.args());
 		// address(runCall.args());
 
-		//out("\n#LINE " + runCall.end().getLine());
 		value(runCall.args());
 		out("CALL " + runCall.getName());
 		if(runCall.getDefinition().getReturnType().isPresent() && !(runCall.getDefinition().getReturnType().get() instanceof VoidType))
@@ -109,12 +108,13 @@ public class Execute extends AbstractCodeFunction {
 		String endifLabel = MaplUtils.formatLabel("endif_", labelCount);
 
 		out("\n#line " + ifElse.start().getLine()); 
-		out("'if");
+		out("'condition");
 		value(ifElse.getCondition());                
 		out("JZ " + elseLabel);  
-		out("'else");              
+		out("'if block");     
 		execute(ifElse.trueBlock());                 
-		out("JMP " + endifLabel);              
+		out("JMP " + endifLabel); 
+		out("'else block");               
 		out(elseLabel + ":");             
 		execute(ifElse.falseBlock());  
 		out("'end");              

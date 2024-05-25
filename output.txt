@@ -1,38 +1,60 @@
 #source "input.txt"
 
+'Clase: prog2
 'Declaraciones globales
-#type par2: {
-	entero2 : int
-	caracter2 : char
-}
-#type par1: {
-	entero : int
-	caracter : char
-	par2s : par2
-}
-#global par : par1
-#global a : int
+#global b : int
 
-'**builder main
+'**builder inicio
 
-CALL main
+PUSHI 1
+CALL inicio
 HALT
 
-#FUNC main
+#FUNC p
 #ret void
-main:
+p:
 
-#line 49
+#line 14
 PUSHA 0
-PUSHI 3
-ADDI
-PUSHI 0
-ADDI
-PUSHI 2
+PUSHI 1
 STOREI
-
-#LINE 50
-PUSHA 6
-LOADI
-OUTI
 RET 0, 0, 0
+
+#FUNC inicio
+#ret void
+inicio:
+#param a : int
+#local k : float
+ENTER 4
+
+#line 21
+'condition
+PUSHI 0
+PUSHI 1
+EQI
+JZ else_0001
+'if block
+
+#line 22
+PUSH BP
+PUSH -4
+ADDI
+PUSHF 1.0
+STOREF
+JMP endif_0001
+'else block
+else_0001:
+
+#line 24
+PUSH BP
+PUSH -4
+ADDI
+PUSHF 0.0
+STOREF
+'end
+endif_0001:
+
+#LINE 26
+PUSHB 10
+OUTB
+RET 0, 4, 2

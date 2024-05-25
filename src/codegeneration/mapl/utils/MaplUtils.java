@@ -145,6 +145,12 @@ public class MaplUtils {
         return size;
     }
 
+    /**
+     * Devuelve el offset de un campo en una StructType
+     * @param struct StructType a la que pertenece el campo
+     * @param field Nombre del campo
+     * @return Offset del campo. Si no existe el campo, lanza una excepción.
+     */
     public static int getFieldOffset(StructType struct, String field) {
         int offset = 0;
         for (FieldDefinition f : struct.getDefinition().getFields()) {

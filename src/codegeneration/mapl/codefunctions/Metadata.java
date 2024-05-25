@@ -29,6 +29,7 @@ public class Metadata extends AbstractCodeFunction {
 		// execute(program.getRunCall());
 
 		out("#source \"" + getSpecification().getSourceFile() + "\"\n");
+		out("'Clase: " + program.getName());
 		out("'Declaraciones globales");
 		metadata(program.types());
 		metadata(program.vars());

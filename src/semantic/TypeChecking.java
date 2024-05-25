@@ -475,12 +475,13 @@ public class TypeChecking extends DefaultVisitor {
 		predicate(!isVoid || functionCallExpr.getDefinition().isHasReturn() , errorMessage, functionCallExpr);
 		//Predicado -> functionCallExpr.args.size() == definition.params.size()
 		predicate(functionCallExpr.getArgs().size() == functionCallExpr.getDefinition().getParams().size(), errorMessage2, functionCallExpr);
-			//Predicado -> checkArgs(args, definition.params)
+		//Predicado -> checkArgs(args, definition.params)
 		checkArgs(functionCallExpr.getArgs(), functionCallExpr.getDefinition().getParams(), functionCallExpr.getName());
-				//Regla -> functionCallExpr.lValue = FALSE
-				functionCallExpr.setLvalue(false);
-				//Regla -> functionCallExpr.type = definition.returnType
-				functionCallExpr.setType(functionCallExpr.getDefinition().getReturnType().orElse(new VoidType()));			
+		
+		//Regla -> functionCallExpr.lValue = FALSE
+		functionCallExpr.setLvalue(false);
+		//Regla -> functionCallExpr.type = definition.returnType
+		functionCallExpr.setType(functionCallExpr.getDefinition().getReturnType().orElse(new VoidType()));			
 		
 
 		return null;
