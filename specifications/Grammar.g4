@@ -47,6 +47,20 @@ varListDefinition returns [List<VarDefinition> list = new ArrayList<VarDefinitio
 
 // ##FIN vars
 
+multipleAssignment returns [List<Assignment> list = new ArrayList<Assignment>()]
+	: (varListAssignment { $list.addAll($varListAssignment.list); })*
+	;
+
+varListAssignment returns [List<Assignment> list = new ArrayList<Assignment>()]
+	: varListExpr ':=' expr 
+		{ for (int i = 0; i < $varListExpr.list.size(); i++)
+		    $list.add(new Assignment($varListExpr.list.get(i), $expr.ast));
+		}
+	;
+// ##INICIO varListIdents: Lista de identificadores de variables
+varListExpr returns [List<Expression> list = new ArrayList<Expression>()]
+	:( e1=expr { $list.add($e1.ast); }) (',' e2=expr { $list.add($e2.ast); })* 
+	;
 
 // ##INICIO varListIdents: Lista de identificadores de variables
 varListIdents returns [List<String> list = new ArrayList<String>()]
@@ -90,6 +104,7 @@ sentence returns [Sentence ast]
 	| 'read' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Read($ctx.args != null ? $args : new ArrayList<>()); }
 	| op=('print'|'println') (args+=expr (',' args+=expr)*)? ';'		{ $ast = new Print($op, $ctx.args != null ? $args : new ArrayList<>()); }
 	| left=expr ':=' right=expr ';'										{ $ast = new Assignment($left.ast, $right.ast); }
+	| multipleAssignment ';'											{ $ast = new MultipleAssignment($multipleAssignment.list); }
 	| token='return' expr? ';'											{ $ast = new Return($ctx.expr != null ? $expr.ast : null); $ast.updatePositions($token);}
 	| IDENT '(' (args+=expr (',' args+=expr)*)? ')' ';'  				{ $ast = new FunctionCallSent($IDENT, $ctx.args != null ? $args : new ArrayList<>()); }// functionCallSent
 	;

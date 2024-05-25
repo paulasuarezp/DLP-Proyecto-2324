@@ -201,6 +201,17 @@ public class MemoryAllocation extends DefaultVisitor {
 		return null;
 	}
 
+	// class MultipleAssignment(List<Assignment> assignments)
+	// phase TypeChecking { FunctionDefinition owner }
+	@Override
+	public Object visit(MultipleAssignment multipleAssignment, Object param) {
+
+		// multipleAssignment.getAssignments().forEach(assignment -> assignment.accept(this, param));
+		super.visit(multipleAssignment, param);
+
+		return null;
+	}
+
 	// class Loop(List<Assignment> from, Expression until, List<Sentence> body)
 	// phase TypeChecking { FunctionDefinition owner }
 	@Override

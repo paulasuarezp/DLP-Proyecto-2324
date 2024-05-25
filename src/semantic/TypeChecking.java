@@ -535,6 +535,21 @@ public class TypeChecking extends DefaultVisitor {
 		return null;
 	}
 
+	// class MultipleAssignment(List<Assignment> assignments)
+	// phase TypeChecking { FunctionDefinition owner }
+	@Override
+	public Object visit(MultipleAssignment multipleAssignment, Object param) {
+
+		for (var assignment : multipleAssignment.getAssignments()) {
+			assignment.setOwner(multipleAssignment.getOwner());
+		}
+
+		// multipleAssignment.getAssignments().forEach(assignment -> assignment.accept(this, param));
+		super.visit(multipleAssignment, param);
+
+		return null;
+	}
+
 
     //# ----------------------------------------------------------
     //# Auxiliary methods (optional)
