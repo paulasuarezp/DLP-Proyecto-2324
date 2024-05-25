@@ -209,7 +209,7 @@ public class Identification extends DefaultVisitor {
         // Predicado -> functions[name] != ∅
         if (predicate(def != null, "Función  \'" + runCall.getName() + "\' no definida.", runCall) &&
             // Predicado -> function.isBuilder
-            predicate(def.isIsBuilder(), "La función \'" + runCall.getName() + "\' no es un constructor.", runCall)){
+            predicate(def.isIsBuilder(), "La función \'" + runCall.getName() + "\' llamada en 'run' no es un constructor.", runCall)){
                 // Regla -> runCall.definition = functions[name]
                 runCall.setDefinition(def);
                 
