@@ -536,6 +536,56 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 
+	// class Switch(Expression value, List<SwitchCase> cases, List<Sentence> defaultCase)
+	// phase TypeChecking { FunctionDefinition owner }
+	@Override
+	public Object visit(Switch switchValue, Object param) {
+
+		for (var switchCase : switchValue.getCases()) {
+			switchCase.setOwner(switchValue.getOwner());
+		}
+
+		for (var sentence : switchValue.getDefaultCase()) {
+			sentence.setOwner(switchValue.getOwner());
+		}
+
+		super.visit(switchValue, param);
+
+		boolean isPrimitive = isPrimitive(switchValue.getValue().getType());
+		String errorMessage = String.format("El tipo de la expresión del switch '%s' debe de ser un tipo simple (INTEGER, DOUBLE o CHARACTER), no puede ser %s.", 
+										switchValue.getValue(),
+										getTypeName(switchValue.getValue().getType()));
+		predicate(isPrimitive, errorMessage, switchValue);
+		boolean sameType = switchValue.getCases().stream().allMatch(s -> checkSameType(switchValue.getValue().getType(), s.getValue().getType()));
+		errorMessage = String.format("El tipo de la expresión del switch '%s' debe de ser igual al tipo de las expresiones de todos los casos.", 
+										switchValue.getValue());
+										
+		predicate(sameType, errorMessage, switchValue);
+
+		// switchValue.getValue().accept(this, param);
+		// switchValue.getCases().forEach(switchCase -> switchCase.accept(this, param));
+		// switchValue.getDefaultCase().forEach(sentence -> sentence.accept(this, param));
+		
+
+		return null;
+	}
+
+	// class SwitchCase(Expression value, List<Sentence> body)
+	@Override
+	public Object visit(SwitchCase switchCase, Object param) {
+
+		for (var sentence : switchCase.getBody()) {
+			sentence.setOwner(switchCase.getOwner());
+		}
+
+		// switchCase.getValue().accept(this, param);
+		// switchCase.getBody().forEach(sentence -> sentence.accept(this, param));
+		super.visit(switchCase, param);
+
+		return null;
+	}
+
+
     //# ----------------------------------------------------------
     //# Auxiliary methods (optional)
 

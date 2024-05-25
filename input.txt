@@ -1,35 +1,28 @@
 class
 	prog2;
 	
-global
-
-	vars
-		b : INTEGER;
 
 	create
 		inicio;
 
-	feature p is 
-		do
-			b := 1;
-	end
-	feature inicio(a:INTEGER) is 
+	feature inicio is 
 		local
 			k : INTEGER;
 			
 		do
-			k:=1;
+			k:=2;
 			switch k {
-				case k=1:
+				case 1:
 					println 'c','a','s','o','1';
 					break;
-				case k=0:
+				case 0:
 					println 'c','a','s','o','2';
 					break;
 				default:
+					println k;
 					break;
 			}
 	end
 end
 
-run inicio(1); 
+run inicio(); 

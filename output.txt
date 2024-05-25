@@ -2,35 +2,90 @@
 
 'Clase: prog2
 'Declaraciones globales
-#global b : int
 
 '**builder inicio
 
-PUSHI 1
 CALL inicio
 HALT
-
-#FUNC p
-#ret void
-p:
-
-#line 14
-PUSHA 0
-PUSHI 1
-STOREI
-RET 0, 0, 0
 
 #FUNC inicio
 #ret void
 inicio:
-#param a : int
 #local k : int
 ENTER 2
 
-#line 21
+#line 13
 PUSH BP
 PUSH -2
 ADDI
-PUSHI 1
+PUSHI 2
 STOREI
-RET 0, 2, 2
+
+#line 14
+
+#line 15
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 1
+EQI
+JNZ switchCase_0002
+
+#line 18
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 0
+EQI
+JNZ switchCase_0003
+JMP defaultCase_0001
+'case 0:
+
+switchCase_0002:
+
+#LINE 16
+PUSHB 99
+OUTB
+PUSHB 97
+OUTB
+PUSHB 115
+OUTB
+PUSHB 111
+OUTB
+PUSHB 49
+OUTB
+PUSHB 10
+OUTB
+JMP endSwitch_0001
+'case 1:
+
+switchCase_0003:
+
+#LINE 19
+PUSHB 99
+OUTB
+PUSHB 97
+OUTB
+PUSHB 115
+OUTB
+PUSHB 111
+OUTB
+PUSHB 50
+OUTB
+PUSHB 10
+OUTB
+JMP endSwitch_0001
+defaultCase_0001:
+
+#LINE 22
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+OUTI
+PUSHB 10
+OUTB
+endSwitch_0001:
+RET 0, 2, 0

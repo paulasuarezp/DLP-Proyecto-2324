@@ -274,6 +274,7 @@ public class MemoryAllocation extends DefaultVisitor {
 	}
 
 	// class SwitchCase(Expression value, List<Sentence> body)
+	// phase TypeChecking { FunctionDefinition owner }
 	@Override
 	public Object visit(SwitchCase switchCase, Object param) {
 

@@ -17,6 +17,9 @@ import visitor.Visitor;
 
 /*
 	switchCase -> value:expression body:sentence*
+	
+	PHASE TypeChecking
+	switchCase -> owner:functionDefinition
 */
 public class SwitchCase extends AbstractAST  {
 
@@ -26,6 +29,9 @@ public class SwitchCase extends AbstractAST  {
 	// switchCase -> value:expression body:sentence*
 	private Expression value;
 	private List<Sentence> body;
+
+    // PHASE TypeChecking
+	private FunctionDefinition owner;
 
     // ----------------------------------
     // Constructors
@@ -88,6 +94,24 @@ public class SwitchCase extends AbstractAST  {
 
     public Stream<Sentence> body() {
         return body.stream();
+    }
+
+
+
+    // --------------------------------
+    // PHASE TypeChecking
+
+	// Attribute 'owner:functionDefinition' 
+
+	public void setOwner(FunctionDefinition owner) {
+		if (owner == null)
+			throw new IllegalArgumentException("Parameter 'owner' can't be null. Pass a non-null value or use 'functionDefinition?' in the abstract grammar");
+		this.owner = owner;
+
+	}
+
+    public FunctionDefinition getOwner() {
+        return owner;
     }
 
 

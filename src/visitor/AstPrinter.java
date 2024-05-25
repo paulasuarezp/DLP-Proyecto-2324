@@ -348,7 +348,8 @@ public class AstPrinter implements Visitor {
         printListOfNodesChild(indent + 1, "body", "List<Sentence>", switchCase.getBody());
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
-		printUnknownFields(indent + 1, switchCase, "value", "body");
+        printToString(indent + 1, "vgen-attribute-phase-1", "owner", "FunctionDefinition", switchCase.getOwner());
+		printUnknownFields(indent + 1, switchCase, "value", "body", "owner");
 		return null;
 	}
 

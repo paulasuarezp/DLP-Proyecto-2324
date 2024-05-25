@@ -270,6 +270,11 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(Switch switchValue, Object param) {
 
+		for (var switchCase : switchValue.getCases()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// switchCase.setOwner(switchValue.getOwner());
+		}
+
 		for (var sentence : switchValue.getDefaultCase()) {
 			// TODO: Remember to initialize INHERITED attributes <----
 			// sentence.setOwner(switchValue.getOwner());
@@ -284,12 +289,13 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// class SwitchCase(Expression value, List<Sentence> body)
+	// phase TypeChecking { FunctionDefinition owner }
 	@Override
 	public Object visit(SwitchCase switchCase, Object param) {
 
 		for (var sentence : switchCase.getBody()) {
 			// TODO: Remember to initialize INHERITED attributes <----
-			// sentence.setOwner(?);
+			// sentence.setOwner(switchCase.getOwner());
 		}
 
 		// switchCase.getValue().accept(this, param);

@@ -164,6 +164,7 @@ class SwitchCase {
 AbstractAST <|-[#808080]- SwitchCase
 SwitchCase o-[#404040,thickness=2]-  Expression : value >
 SwitchCase o-[#404040,thickness=2]- "✱" Sentence : body >
+SwitchCase -[#3366cc,thickness=3]-  FunctionDefinition #text:3366cc : owner >
 
 class IntConstant {
 	+String value

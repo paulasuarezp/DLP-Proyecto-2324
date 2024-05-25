@@ -2,6 +2,8 @@
 
 package codegeneration.mapl.codefunctions;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import ast.*;
@@ -189,16 +191,45 @@ public class Execute extends AbstractCodeFunction {
 	// phase TypeChecking { FunctionDefinition owner }
 	@Override
 	public Object visit(Switch switchValue, Object param) {
+		labelCount++;
+		String defaultLabel = MaplUtils.formatLabel("defaultCase_", labelCount);
+		String endLabel = MaplUtils.formatLabel("endSwitch_", labelCount);
 
-		// value(switchValue.getValue());
-		// address(switchValue.getValue());
+		out("\n#line " + switchValue.start().getLine());
+		
+		List<String> caseLabels = new ArrayList<String>();
+		
+		int x = 0;
 
-		// execute(switchValue.defaultCase());
+		for(SwitchCase sc : switchValue.getCases()) {
+			labelCount++;
+			String caseLabel = MaplUtils.formatLabel("switchCase_", labelCount);
+			caseLabels.add(caseLabel);
+			out("\n#line " + switchValue.getCases().get(x).start().getLine());
+			value(switchValue.getValue());
+			value(sc.getValue());
+			out("EQ" + MaplUtils.maplSuffix(switchValue.getValue().getType()));
+			out("JNZ " + caseLabel);
+			x++;
+		}
+	
+
+		out("JMP " + defaultLabel);
+
+		for(int i = 0; i < switchValue.getCases().size(); i++) {
+			out("'case " + i + ":\n");
+			out(caseLabels.get(i) + ":");
+			execute(switchValue.getCases().get(i).body());
+			out("JMP " + endLabel);
+		}
 
 		
+		out(defaultLabel + ":");
+		execute(switchValue.defaultCase());
+
+		out(endLabel + ":");
 
 		return null;
 	}
-
 
 }
