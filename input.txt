@@ -2,7 +2,10 @@ class
 	prog2;
 	
 global
-
+	types
+		deftuple Persona as 
+			edad: INTEGER;
+		end
 	vars
 		b : INTEGER;
 
@@ -12,29 +15,30 @@ global
 	feature inicio(a:INTEGER) is 
 		local
 			k : INTEGER;
+			z: [3] INTEGER;
+			persona: Persona;
 			
 		do
 			a:=2;
 			print 'a', ':';
 			println a;
 
-			//*a:=k:=a:=b:=1;
-			print 'a', ':';
-			println a;
-			print 'k', ':';
-			println k;*//
 
-			a:=k:=a:=b:=1;
+			a:=k:=a:=z[0]:=b:=1;
 			print 'a', ':';
 			println a;
 			print 'k', ':';
 			println k;
-
-			a:=b:=3;
+			print 'z', ':';
+			println z[0];
 			print 'b', ':';
 			println b;
-			print 'a', ':';
-			println a;
+
+			a:=persona.edad:=18;
+			print 'b', ':';
+			println b;
+			print 'p','.','e','d','a','d', ':';
+			println persona.edad;
 			
 	end
 end

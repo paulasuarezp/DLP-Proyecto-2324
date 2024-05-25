@@ -1,0 +1,76 @@
+Grammar.g4
+En sentencias:
+	| left=expr ':=' right=expr ';'										{ $ast = new Assignment($left.ast, $right.ast); }
+	| complexAssignment ';'												{ $ast = $complexAssignment.ast ; }
+	
+	
+nuevas producciones:
+
+	varListExpr returns [List<Expression> list = new ArrayList<Expression>()]
+		:( e1=expr { $list.add($e1.ast); }) (':=' e2=expr { $list.add($e2.ast); })* 
+		;
+
+	complexAssignment returns [ComplexAssignment ast]
+		: left=expr ':=' right=varListExpr  { $ast = new ComplexAssignment($left.ast, $right.list); }
+		;
+
+
+abstractGrammar:
+complexAssignment: sentence -> left:expression right:expression*;
+
+
+typechecking:
+
+	// class ComplexAssignment(Expression left, List<Expression> right)
+	// phase TypeChecking { FunctionDefinition owner }
+	@Override
+	public Object visit(ComplexAssignment complexAssignment, Object param) {
+
+		super.visit(complexAssignment, param);
+
+		// complexAssignment.getLeft().accept(this, param);
+		// complexAssignment.getRight().forEach(expression -> expression.accept(this, param));
+
+		Expression value = complexAssignment.getRight().get(complexAssignment.getRight().size() - 1);
+		boolean sameType = checkSameType(complexAssignment.getLeft().getType(), value.getType()) && complexAssignment.getRight().stream().allMatch(e -> checkSameType(e.getType(), value.getType()));
+		String errorMessage = "Todos los elementos de la lista deben de ser del mismo tipo que la expresión de la izquierda.";
+		predicate(sameType, errorMessage, complexAssignment);
+
+		boolean isPrimitive = isPrimitive(complexAssignment.getLeft().getType()) && complexAssignment.getRight().stream().allMatch(e -> isPrimitive(e.getType()));
+		errorMessage = "Todos los elementos de la lista de asignaciones deben de ser de tipo simple (INTEGER, DOUBLE o CHARACTER).";
+		predicate(isPrimitive, errorMessage, complexAssignment);
+
+		for(int i = 0; i < complexAssignment.getRight().size()-1; i++){
+			Expression e = complexAssignment.getRight().get(i);
+			predicate(e.isLvalue(), "Solo se pueden hacer asignaciones a expresiones modificables (lValue = TRUE)", e);
+		}
+
+		
+		return null;
+	}
+	
+	
+en la funcion de codigo execute:
+
+// class ComplexAssignment(Expression left, List<Expression> right)
+	// phase TypeChecking { FunctionDefinition owner }
+	@Override
+	public Object visit(ComplexAssignment complexAssignment, Object param) {
+		out("\n#line " + complexAssignment.end().getLine());
+
+		Expression valueToAssign = complexAssignment.getRight().get(complexAssignment.getRight().size()-1);
+
+		address(complexAssignment.getLeft());
+		value(valueToAssign);
+		out("STORE" + MaplUtils.maplSuffix(complexAssignment.getLeft().getType()));
+
+		for(int i = 0; i < complexAssignment.getRight().size()-1; i++) {
+			address(complexAssignment.getRight().get(i));
+			value(valueToAssign);
+			out("STORE" + MaplUtils.maplSuffix(complexAssignment.getLeft().getType()));
+		}
+
+		
+
+		return null;
+	}

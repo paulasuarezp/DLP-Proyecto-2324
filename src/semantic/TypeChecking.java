@@ -536,32 +536,34 @@ public class TypeChecking extends DefaultVisitor {
 	}
 
 	// AMPLIACIÓN
-	// class MultipleAssignment(List<Expression> inits, Expression value)
+	// class ComplexAssignment(Expression left, List<Expression> right)
 	// phase TypeChecking { FunctionDefinition owner }
-	/* 
 	@Override
-	public Object visit(MultipleAssignment multipleAssignment, Object param) {
+	public Object visit(ComplexAssignment complexAssignment, Object param) {
 
-		// multipleAssignment.getInits().forEach(expression -> expression.accept(this, param));
-		// multipleAssignment.getValue().accept(this, param);
-		super.visit(multipleAssignment, param);
+		super.visit(complexAssignment, param);
 
-		for(Expression e: multipleAssignment.getInits()){
-			//Predicado -> e.lValue = TRUE
-			String errorMessage = "Solo se pueden hacer asignaciones a expresiones modificables (lValue = TRUE)";
-			predicate(e.isLvalue(), errorMessage, e);
-			//Predicado -> isPrimitive(e.type)
-			errorMessage = "El tipo de la expresión de la izquierda de una asignación debe de ser de tipo INTEGER, DOUBLE o CHARACTER.";
-			predicate(isPrimitive(e.getType()), errorMessage, e);
-			//Predicado -> sameType(e.type, value.type)
-			errorMessage = String.format("Los tipos de la izquierda y derecha deben de ser iguales. No es posible asignar un tipo %s a un tipo %s", 
-								getTypeName(multipleAssignment.getValue().getType()), 
-								getTypeName(e.getType()));
-			predicate(checkSameType(e.getType(), multipleAssignment.getValue().getType()), errorMessage, e);
+		// complexAssignment.getLeft().accept(this, param);
+		// complexAssignment.getRight().forEach(expression -> expression.accept(this, param));
+
+		Expression value = complexAssignment.getRight().get(complexAssignment.getRight().size() - 1);
+		boolean sameType = checkSameType(complexAssignment.getLeft().getType(), value.getType()) && complexAssignment.getRight().stream().allMatch(e -> checkSameType(e.getType(), value.getType()));
+		String errorMessage = "Todos los elementos de la lista deben de ser del mismo tipo que la expresión de la izquierda.";
+		predicate(sameType, errorMessage, complexAssignment);
+
+		boolean isPrimitive = isPrimitive(complexAssignment.getLeft().getType()) && complexAssignment.getRight().stream().allMatch(e -> isPrimitive(e.getType()));
+		errorMessage = "Todos los elementos de la lista de asignaciones deben de ser de tipo simple (INTEGER, DOUBLE o CHARACTER).";
+		predicate(isPrimitive, errorMessage, complexAssignment);
+
+		for(int i = 0; i < complexAssignment.getRight().size()-1; i++){
+			Expression e = complexAssignment.getRight().get(i);
+			predicate(e.isLvalue(), "Solo se pueden hacer asignaciones a expresiones modificables (lValue = TRUE)", e);
 		}
 
+		
 		return null;
-	}*/
+	}
+
 
 
     //# ----------------------------------------------------------

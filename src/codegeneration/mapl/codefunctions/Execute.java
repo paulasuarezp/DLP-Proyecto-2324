@@ -189,12 +189,19 @@ public class Execute extends AbstractCodeFunction {
 	// phase TypeChecking { FunctionDefinition owner }
 	@Override
 	public Object visit(ComplexAssignment complexAssignment, Object param) {
+		out("\n#line " + complexAssignment.end().getLine());
 
-		// value(complexAssignment.getLeft());
-		// address(complexAssignment.getLeft());
+		Expression valueToAssign = complexAssignment.getRight().get(complexAssignment.getRight().size()-1);
 
-		// value(complexAssignment.right());
-		// address(complexAssignment.right());
+		address(complexAssignment.getLeft());
+		value(valueToAssign);
+		out("STORE" + MaplUtils.maplSuffix(complexAssignment.getLeft().getType()));
+
+		for(int i = 0; i < complexAssignment.getRight().size()-1; i++) {
+			address(complexAssignment.getRight().get(i));
+			value(valueToAssign);
+			out("STORE" + MaplUtils.maplSuffix(complexAssignment.getLeft().getType()));
+		}
 
 		
 
