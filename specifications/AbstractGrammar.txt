@@ -25,6 +25,9 @@ ifElse: sentence -> condition:expression trueBlock:sentence* falseBlock:sentence
 read: sentence -> input:expression* ;
 print: sentence -> op:string input:expression* ;
 return: sentence -> value: expression? ;
+switch: sentence -> value:expression cases:switchCase* defaultCase:sentence*;
+
+switchCase -> value:expression body:sentence*;
 
 
 intConstant: expression -> value:string;

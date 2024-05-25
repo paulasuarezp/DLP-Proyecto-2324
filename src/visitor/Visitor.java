@@ -43,6 +43,10 @@ public interface Visitor {
 
 	public Object visit(Return returnValue, Object param);
 
+	public Object visit(Switch switchValue, Object param);
+
+	public Object visit(SwitchCase switchCase, Object param);
+
 	public Object visit(IntConstant intConstant, Object param);
 
 	public Object visit(RealConstant realConstant, Object param);

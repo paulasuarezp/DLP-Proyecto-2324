@@ -92,9 +92,13 @@ sentence returns [Sentence ast]
 	| left=expr ':=' right=expr ';'										{ $ast = new Assignment($left.ast, $right.ast); }
 	| token='return' expr? ';'											{ $ast = new Return($ctx.expr != null ? $expr.ast : null); $ast.updatePositions($token);}
 	| IDENT '(' (args+=expr (',' args+=expr)*)? ')' ';'  				{ $ast = new FunctionCallSent($IDENT, $ctx.args != null ? $args : new ArrayList<>()); }// functionCallSent
+	| 'switch' cond=expr '{' cases+=switchCase* 'default:' d+=sentence* 'break;' '}'	{ $ast = new Switch($cond.ast, $cases, $d); }
 	;
 // ##FIN sentence
 
+switchCase returns [SwitchCase ast]
+	: 'case' expr ':' b+=sentence* 	'break;'									{ $ast = new SwitchCase($expr.ast, $b); }
+	;
 
 // ##INICIO initFromLoop: Inicialización de variables del bucle
 initFromLoop returns [List<Assignment> initializations = new ArrayList<Assignment>()]

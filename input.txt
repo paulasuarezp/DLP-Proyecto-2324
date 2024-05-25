@@ -15,15 +15,20 @@ global
 	end
 	feature inicio(a:INTEGER) is 
 		local
-			k : DOUBLE;
+			k : INTEGER;
 			
 		do
-			if 0 = 1 then 
-				k := 1.0;
-			else 
-				k := 0.0;
-			end
-			print '\n';
+			k:=1;
+			switch k {
+				case k=1:
+					println 'c','a','s','o','1';
+					break;
+				case k=0:
+					println 'c','a','s','o','2';
+					break;
+				default:
+					break;
+			}
 	end
 end
 

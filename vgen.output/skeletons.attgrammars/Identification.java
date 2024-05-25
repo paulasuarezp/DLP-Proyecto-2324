@@ -256,6 +256,29 @@ public class Identification extends DefaultVisitor {
 		return null;
 	}
 
+	// class Switch(Expression value, List<SwitchCase> cases, List<Sentence> defaultCase)
+	@Override
+	public Object visit(Switch switchValue, Object param) {
+
+		// switchValue.getValue().accept(this, param);
+		// switchValue.getCases().forEach(switchCase -> switchCase.accept(this, param));
+		// switchValue.getDefaultCase().forEach(sentence -> sentence.accept(this, param));
+		super.visit(switchValue, param);
+
+		return null;
+	}
+
+	// class SwitchCase(Expression value, List<Sentence> body)
+	@Override
+	public Object visit(SwitchCase switchCase, Object param) {
+
+		// switchCase.getValue().accept(this, param);
+		// switchCase.getBody().forEach(sentence -> sentence.accept(this, param));
+		super.visit(switchCase, param);
+
+		return null;
+	}
+
 	// class IntConstant(String value)
 	@Override
 	public Object visit(IntConstant intConstant, Object param) {

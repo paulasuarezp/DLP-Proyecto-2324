@@ -58,6 +58,7 @@ sentence returns[Sentence ast]
     | input+=expression*                  { $ast = new Read($input); }                           
     | op=IDENT input+=expression*         { $ast = new Print($op, $input); }                     
     | expression?                         { $ast = new Return(($expression.ctx == null) ? null : $expression.ast); }
+    | expression cases+=switchCase* defaultCase+=sentence* { $ast = new Switch($expression.ast, $cases, $defaultCase); }
 	;
 
 expression returns[Expression ast]
@@ -78,6 +79,10 @@ expression returns[Expression ast]
 
 assignment returns[Assignment ast]
     : left=expression right=expression    { $ast = new Assignment($left.ast, $right.ast); }      
+	;
+
+switchCase returns[SwitchCase ast]
+    : expression body+=sentence*          { $ast = new SwitchCase($expression.ast, $body); }     
 	;
 
 runCall returns[RunCall ast]

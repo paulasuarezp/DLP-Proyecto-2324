@@ -106,6 +106,18 @@ public class ExceptionThrowerVisitor implements Visitor {
 	}
 
 	@Override
+	public Object visit(Switch switchValue, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(Switch)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
+	public Object visit(SwitchCase switchCase, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(SwitchCase)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
 	public Object visit(IntConstant intConstant, Object param) {
 
         throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(IntConstant)' has been invoked but it has not been implemented.");

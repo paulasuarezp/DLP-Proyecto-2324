@@ -152,6 +152,19 @@ class Return {
 AbstractSentence <|-[#808080]- Return
 Return o-[#404040,thickness=2]- "0..1" Expression : value >
 
+class Switch {
+}
+AbstractSentence <|-[#808080]- Switch
+Switch o-[#404040,thickness=2]-  Expression : value >
+Switch o-[#404040,thickness=2]- "✱" SwitchCase : cases >
+Switch o-[#404040,thickness=2]- "✱" Sentence : defaultCase >
+
+class SwitchCase {
+}
+AbstractAST <|-[#808080]- SwitchCase
+SwitchCase o-[#404040,thickness=2]-  Expression : value >
+SwitchCase o-[#404040,thickness=2]- "✱" Sentence : body >
+
 class IntConstant {
 	+String value
 }

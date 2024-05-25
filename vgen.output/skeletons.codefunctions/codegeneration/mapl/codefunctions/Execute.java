@@ -130,4 +130,19 @@ public class Execute extends AbstractCodeFunction {
 		return null;
 	}
 
+	// class Switch(Expression value, List<SwitchCase> cases, List<Sentence> defaultCase)
+	// phase TypeChecking { FunctionDefinition owner }
+	@Override
+	public Object visit(Switch switchValue, Object param) {
+
+		// value(switchValue.getValue());
+		// address(switchValue.getValue());
+
+		// execute(switchValue.defaultCase());
+
+		out("<instruction>");
+
+		return null;
+	}
+
 }

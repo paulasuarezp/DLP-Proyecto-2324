@@ -24,37 +24,13 @@ RET 0, 0, 0
 #ret void
 inicio:
 #param a : int
-#local k : float
-ENTER 4
+#local k : int
+ENTER 2
 
 #line 21
-'condition
-PUSHI 0
+PUSH BP
+PUSH -2
+ADDI
 PUSHI 1
-EQI
-JZ else_0001
-'if block
-
-#line 22
-PUSH BP
-PUSH -4
-ADDI
-PUSHF 1.0
-STOREF
-JMP endif_0001
-'else block
-else_0001:
-
-#line 24
-PUSH BP
-PUSH -4
-ADDI
-PUSHF 0.0
-STOREF
-'end
-endif_0001:
-
-#LINE 26
-PUSHB 10
-OUTB
-RET 0, 4, 2
+STOREI
+RET 0, 2, 2
