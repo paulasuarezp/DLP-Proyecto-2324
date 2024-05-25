@@ -3,8 +3,9 @@ class
     T_ERRIDE12;
 	
 	global
-		i : INTEGER;
-		i : INTEGER;	/* Error, declaración repetida
+		vars
+			i : INTEGER;
+			i : INTEGER;	/* Error, declaración repetida
 	create
 		inicio; 
 		otroInicio; /*Se podrían definir tantos constructores como se desee
@@ -18,7 +19,7 @@ class
 			from
 				j:= -1;
 			until
-				i = 0;
+				i = 0
 			loop
 				j := -(j + i) * i;
 				i := i - -1;  /* Vale así o hau que poner  i - (-1)?;
@@ -48,7 +49,7 @@ class
 			from
 				i:= 0;
 			until
-				i = 5;
+				i = 5
 			loop
 				ai[i] := 3 * i;
 				i := i + factorial(4);
@@ -73,7 +74,6 @@ class
 	
 end /*T_ERRIDE12
 
-main
-    inicio(2, 3, 4+5); /* Error, inicio no se ha declarado como constructor
+run    inicio(2, 3, 4+5); /* Error, inicio no se ha declarado como constructor
 	/* EJEMPLO.otroInicio(6); /* inicio alternativo: habría que comentar la linea anterior y descomentar esta
-end /*main
+
