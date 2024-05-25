@@ -71,6 +71,8 @@ public interface Visitor {
 
 	public Object visit(ArrayAccess arrayAccess, Object param);
 
+	public Object visit(NullExpr nullExpr, Object param);
+
 	public Object visit(IntType intType, Object param);
 
 	public Object visit(DoubleType doubleType, Object param);

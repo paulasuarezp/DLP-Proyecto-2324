@@ -41,6 +41,7 @@ notExpr: expression -> op:expression ;
 functionCallExpr: expression -> name:string args:expression*;
 fieldAccess: expression -> root:expression field:string ;
 arrayAccess: expression -> array:expression index:expression ;
+nullExpr: expression -> ;
 
 intType: type -> ;
 doubleType: type -> ;

@@ -539,13 +539,13 @@ public class GrammarParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class VarListAssignmentContext extends ParserRuleContext {
 		public List<Assignment> list = new ArrayList<Assignment>();
-		public VarListExprContext varListExpr;
-		public ExprContext expr;
-		public VarListExprContext varListExpr() {
-			return getRuleContext(VarListExprContext.class,0);
+		public VarListExprContext l;
+		public VarListExprContext r;
+		public List<VarListExprContext> varListExpr() {
+			return getRuleContexts(VarListExprContext.class);
 		}
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+		public VarListExprContext varListExpr(int i) {
+			return getRuleContext(VarListExprContext.class,i);
 		}
 		public VarListAssignmentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -560,13 +560,16 @@ public class GrammarParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(112);
-			((VarListAssignmentContext)_localctx).varListExpr = varListExpr();
+			((VarListAssignmentContext)_localctx).l = varListExpr();
 			setState(113);
 			match(T__10);
 			setState(114);
-			((VarListAssignmentContext)_localctx).expr = expr(0);
-			 for (int i = 0; i < ((VarListAssignmentContext)_localctx).varListExpr.list.size(); i++)
-					    _localctx.list.add(new Assignment(((VarListAssignmentContext)_localctx).varListExpr.list.get(i), ((VarListAssignmentContext)_localctx).expr.ast));
+			((VarListAssignmentContext)_localctx).r = varListExpr();
+			 for (int i = 0; i < ((VarListAssignmentContext)_localctx).l.list.size(); i++)
+						if (i < ((VarListAssignmentContext)_localctx).r.list.size())
+							_localctx.list.add(new Assignment(((VarListAssignmentContext)_localctx).l.list.get(i),  ((VarListAssignmentContext)_localctx).r.list.get(i)));
+						else 
+					    	_localctx.list.add(new Assignment(((VarListAssignmentContext)_localctx).l.list.get(i), new NullExpr()));
 					
 			}
 		}
@@ -1945,7 +1948,7 @@ public class GrammarParser extends Parser {
 		"\u0000\u0000kh\u0001\u0000\u0000\u0000lo\u0001\u0000\u0000\u0000mk\u0001"+
 		"\u0000\u0000\u0000mn\u0001\u0000\u0000\u0000n\u000b\u0001\u0000\u0000"+
 		"\u0000om\u0001\u0000\u0000\u0000pq\u0003\u000e\u0007\u0000qr\u0005\u000b"+
-		"\u0000\u0000rs\u0003\u001e\u000f\u0000st\u0006\u0006\uffff\uffff\u0000"+
+		"\u0000\u0000rs\u0003\u000e\u0007\u0000st\u0006\u0006\uffff\uffff\u0000"+
 		"t\r\u0001\u0000\u0000\u0000uv\u0003\u001e\u000f\u0000vw\u0006\u0007\uffff"+
 		"\uffff\u0000w~\u0001\u0000\u0000\u0000xy\u0005\f\u0000\u0000yz\u0003\u001e"+
 		"\u000f\u0000z{\u0006\u0007\uffff\uffff\u0000{}\u0001\u0000\u0000\u0000"+

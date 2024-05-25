@@ -458,6 +458,17 @@ public class TypeChecking extends DefaultVisitor {
 		return null;
 	}
 
+	// class NullExpr()
+	// phase TypeChecking { boolean lvalue, Type type }
+	@Override
+	public Object visit(NullExpr nullExpr, Object param) {
+
+		// TODO: Remember to initialize SYNTHESIZED attributes <-----
+		// nullExpr.setLvalue(?);
+		// nullExpr.setType(?);
+		return null;
+	}
+
 	// class IntType()
 	@Override
 	public Object visit(IntType intType, Object param) {

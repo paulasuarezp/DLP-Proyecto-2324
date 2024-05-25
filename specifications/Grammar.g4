@@ -52,9 +52,13 @@ multipleAssignment returns [List<Assignment> list = new ArrayList<Assignment>()]
 	;
 
 varListAssignment returns [List<Assignment> list = new ArrayList<Assignment>()]
-	: varListExpr ':=' expr 
-		{ for (int i = 0; i < $varListExpr.list.size(); i++)
-		    $list.add(new Assignment($varListExpr.list.get(i), $expr.ast));
+	: l=varListExpr ':=' r=varListExpr 
+
+		{ for (int i = 0; i < $l.list.size(); i++)
+			if (i < $r.list.size())
+				$list.add(new Assignment($l.list.get(i),  $r.list.get(i)));
+			else 
+		    	$list.add(new Assignment($l.list.get(i), new NullExpr()));
 		}
 	;
 // ##INICIO varListIdents: Lista de identificadores de variables

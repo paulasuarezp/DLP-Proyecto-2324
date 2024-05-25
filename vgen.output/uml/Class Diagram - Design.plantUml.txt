@@ -223,6 +223,10 @@ Expression <|-[#808080]- ArrayAccess
 ArrayAccess o-[#404040,thickness=2]-  Expression : array >
 ArrayAccess o-[#404040,thickness=2]-  Expression : index >
 
+class NullExpr {
+}
+Expression <|-[#808080]- NullExpr
+
 class IntType {
 }
 Type <|-[#808080]- IntType

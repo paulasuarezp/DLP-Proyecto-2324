@@ -382,6 +382,14 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 		return null;
 	}
 
+	// class NullExpr()
+	// phase TypeChecking { boolean lvalue, Type type }
+	@Override
+	public Object visit(NullExpr nullExpr, Object param) {
+
+		return null;
+	}
+
 	// class IntType()
 	@Override
 	public Object visit(IntType intType, Object param) {

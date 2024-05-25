@@ -544,6 +544,20 @@ public class AstPrinter implements Visitor {
 	}
 
 	@Override
+	public Object visit(NullExpr nullExpr, Object param) {
+
+		int indent = ((Integer)param);
+
+		// Imprimir los hijos (y recorrer si son nodos del AST)
+
+		// Imprimir el 'toString()' de los atributos (pero no recorrer)
+        printToString(indent + 1, "vgen-attribute-phase-1", "lvalue", "boolean", nullExpr.isLvalue());
+        printToString(indent + 1, "vgen-attribute-phase-1", "type", "Type", nullExpr.getType());
+		printUnknownFields(indent + 1, nullExpr, "lvalue", "type");
+		return null;
+	}
+
+	@Override
 	public Object visit(IntType intType, Object param) {
 
 		int indent = ((Integer)param);

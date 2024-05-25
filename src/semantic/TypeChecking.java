@@ -540,8 +540,14 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(MultipleAssignment multipleAssignment, Object param) {
 
+		boolean checkEquilibrado = multipleAssignment.getAssignments().stream().anyMatch(a -> a.getRight() instanceof NullExpr);
+		String errorMessage = String.format("La asignación múltiple no está equilibrada, hay %d expresiones a la izquierda y %d expresiones a la derecha.", 
+								multipleAssignment.getAssignments().size(), 
+								multipleAssignment.getAssignments().size());
+		predicate(!checkEquilibrado, errorMessage, multipleAssignment);
 		for (var assignment : multipleAssignment.getAssignments()) {
 			assignment.setOwner(multipleAssignment.getOwner());
+			
 		}
 
 		// multipleAssignment.getAssignments().forEach(assignment -> assignment.accept(this, param));

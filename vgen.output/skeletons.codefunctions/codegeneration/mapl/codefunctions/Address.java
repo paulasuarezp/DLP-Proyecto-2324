@@ -184,4 +184,14 @@ public class Address extends AbstractCodeFunction {
 		return null;
 	}
 
+	// class NullExpr()
+	// phase TypeChecking { boolean lvalue, Type type }
+	@Override
+	public Object visit(NullExpr nullExpr, Object param) {
+
+		out("<instruction>");
+
+		return null;
+	}
+
 }

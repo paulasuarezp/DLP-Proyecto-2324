@@ -14,7 +14,6 @@ import visitor.Visitor;
 
 // %% -------------------------------
 
-
 /*
 	multipleAssignment: sentence -> assignments:assignment*
 	sentence -> 
@@ -91,5 +90,4 @@ public class MultipleAssignment extends AbstractSentence  {
         // Methods/attributes in this section will be preserved. Delete if not needed
 
     // %% --------------------------------------
-
 }

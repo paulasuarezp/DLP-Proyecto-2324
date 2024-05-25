@@ -234,6 +234,12 @@ public class DefaultVisitor implements Visitor {
 	}
 
 	@Override
+	public Object visit(NullExpr nullExpr, Object param) {
+
+		return null;
+	}
+
+	@Override
 	public Object visit(IntType intType, Object param) {
 
 		return null;

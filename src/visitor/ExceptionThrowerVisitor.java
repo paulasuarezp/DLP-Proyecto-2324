@@ -190,6 +190,12 @@ public class ExceptionThrowerVisitor implements Visitor {
 	}
 
 	@Override
+	public Object visit(NullExpr nullExpr, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(NullExpr)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
 	public Object visit(IntType intType, Object param) {
 
         throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(IntType)' has been invoked but it has not been implemented.");

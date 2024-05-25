@@ -75,6 +75,7 @@ expression returns[Expression ast]
     | name=IDENT args+=expression*        { $ast = new FunctionCallExpr($name, $args); }         
     | expression field=IDENT              { $ast = new FieldAccess($expression.ast, $field); }   
     | array=expression index=expression   { $ast = new ArrayAccess($array.ast, $index.ast); }    
+    |                                     { $ast = new NullExpr(); }                             
 	;
 
 assignment returns[Assignment ast]
