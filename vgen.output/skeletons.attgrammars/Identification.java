@@ -202,6 +202,16 @@ public class Identification extends DefaultVisitor {
 		return null;
 	}
 
+	// class MultipleAssignment(List<Assignment> assignments)
+	@Override
+	public Object visit(MultipleAssignment multipleAssignment, Object param) {
+
+		// multipleAssignment.getAssignments().forEach(assignment -> assignment.accept(this, param));
+		super.visit(multipleAssignment, param);
+
+		return null;
+	}
+
 	// class Loop(List<Assignment> from, Expression until, List<Sentence> body)
 	@Override
 	public Object visit(Loop loop, Object param) {

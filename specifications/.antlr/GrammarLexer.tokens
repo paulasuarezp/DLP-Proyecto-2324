@@ -83,8 +83,8 @@ WHITESPACE=58
 'read'=25
 'print'=26
 'println'=27
-':='=28
-'return'=29
+'return'=28
+':='=29
 '.'=30
 '['=31
 ']'=32

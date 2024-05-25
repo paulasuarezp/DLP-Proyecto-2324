@@ -535,6 +535,34 @@ public class TypeChecking extends DefaultVisitor {
 		return null;
 	}
 
+	// AMPLIACIÓN
+	// class MultipleAssignment(List<Expression> inits, Expression value)
+	// phase TypeChecking { FunctionDefinition owner }
+	/* 
+	@Override
+	public Object visit(MultipleAssignment multipleAssignment, Object param) {
+
+		// multipleAssignment.getInits().forEach(expression -> expression.accept(this, param));
+		// multipleAssignment.getValue().accept(this, param);
+		super.visit(multipleAssignment, param);
+
+		for(Expression e: multipleAssignment.getInits()){
+			//Predicado -> e.lValue = TRUE
+			String errorMessage = "Solo se pueden hacer asignaciones a expresiones modificables (lValue = TRUE)";
+			predicate(e.isLvalue(), errorMessage, e);
+			//Predicado -> isPrimitive(e.type)
+			errorMessage = "El tipo de la expresión de la izquierda de una asignación debe de ser de tipo INTEGER, DOUBLE o CHARACTER.";
+			predicate(isPrimitive(e.getType()), errorMessage, e);
+			//Predicado -> sameType(e.type, value.type)
+			errorMessage = String.format("Los tipos de la izquierda y derecha deben de ser iguales. No es posible asignar un tipo %s a un tipo %s", 
+								getTypeName(multipleAssignment.getValue().getType()), 
+								getTypeName(e.getType()));
+			predicate(checkSameType(e.getType(), multipleAssignment.getValue().getType()), errorMessage, e);
+		}
+
+		return null;
+	}*/
+
 
     //# ----------------------------------------------------------
     //# Auxiliary methods (optional)

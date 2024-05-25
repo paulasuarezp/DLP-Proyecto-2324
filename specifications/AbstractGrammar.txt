@@ -20,6 +20,7 @@ functionBuilder -> name:string;
 
 functionCallSent: sentence -> name:string args:expression* ;
 assignment: sentence -> left:expression right:expression ;
+multipleAssignment: sentence -> assignment* ;
 loop: sentence -> from:assignment* until:expression body:sentence* ;
 ifElse: sentence -> condition:expression trueBlock:sentence* falseBlock:sentence* ;
 read: sentence -> input:expression* ;

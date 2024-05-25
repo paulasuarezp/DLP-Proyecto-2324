@@ -76,6 +76,12 @@ public class ExceptionThrowerVisitor implements Visitor {
 	}
 
 	@Override
+	public Object visit(MultipleAssignment multipleAssignment, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(MultipleAssignment)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
 	public Object visit(Loop loop, Object param) {
 
         throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(Loop)' has been invoked but it has not been implemented.");

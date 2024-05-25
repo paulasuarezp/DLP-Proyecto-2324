@@ -89,11 +89,71 @@ sentence returns [Sentence ast]
 	| ('from' initFromLoop)? 'until' expr 'loop' c+=sentence* 'end'		{ $ast = new Loop($ctx.initFromLoop != null ? $initFromLoop.initializations : null, $expr.ast, $c); }
 	| 'read' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Read($ctx.args != null ? $args : new ArrayList<>()); }
 	| op=('print'|'println') (args+=expr (',' args+=expr)*)? ';'		{ $ast = new Print($op, $ctx.args != null ? $args : new ArrayList<>()); }
-	| left=expr ':=' right=expr ';'										{ $ast = new Assignment($left.ast, $right.ast); }
+	| assignment 											{ $ast = $assignment.ast ; }
+	//| left=expr ':=' right=expr ';'										{ $ast = new Assignment($left.ast, $right.ast); }
 	| token='return' expr? ';'											{ $ast = new Return($ctx.expr != null ? $expr.ast : null); $ast.updatePositions($token);}
 	| IDENT '(' (args+=expr (',' args+=expr)*)? ')' ';'  				{ $ast = new FunctionCallSent($IDENT, $ctx.args != null ? $args : new ArrayList<>()); }// functionCallSent
 	;
 // ##FIN sentence
+
+// ##INICIO multipleAssignment: Asignaciones múltiples
+/*
+assignment returns [Sentence ast]
+    : left=expr ':=' right=expr { $ast = new Assignment($left.ast, $right.ast); }
+	| expr (':=' e+=expr)+ {
+        List<Expression> inits = new ArrayList<>();
+        for (int i = 0; i < $e.size() - 1; i++) {
+            inits.add($e.get(i).ast);
+        }
+        $ast = new Assignment(inits, $e.get($e.size() - 1).ast);
+    }
+    ;
+
+assignment2 returns [Sentence ast]
+    : left=expr ':=' right=expr { $ast = new Assignment($left.ast, $right.ast); }
+    | f=expr (':=' e+=expr)+ {
+        List<Assignment> assignments = new ArrayList<>();
+        assignments.add(new Assignment($f.ast, $e.get(0).ast));
+        for (int i = 0; i < $e.size() - 1; i++) {
+            assignments.add(new Assignment($e.get(i).ast, $e.get(i + 1).ast));
+        }
+
+        // Combinar las asignaciones en un nodo compuesto o manejar el último como resultado
+        $ast = assignments.get(assignments.size() - 1);
+    }
+    ;
+
+	*/
+
+assignment returns [Sentence ast]
+    : left=expr ':=' right=expr ';' 
+        { $ast = new Assignment($left.ast, $right.ast); }
+    | m=multipleAssignment ';' 
+        { $ast = new MultipleAssignment($m.list); }
+    ;
+
+
+multipleAssignment returns [List<Assignment> list = new ArrayList<Assignment>()]
+    : multipleAssignmentAux { $list.addAll($multipleAssignmentAux.list); }
+    ;
+
+multipleAssignmentAux returns [List<Assignment> list = new ArrayList<Assignment>()]
+    : f=expr (':=' e+=expr)+  
+        { 
+            // Añade la primera asignación
+            $list.add(new Assignment($f.ast, $e.get(0).ast));
+            // Añade las siguientes asignaciones
+            for (int i = 0; i < $e.size() - 2; i++) {
+                $list.add(new Assignment($e.get(i).ast, $e.get($e.size()-1).ast));
+            }
+        }
+    ;
+
+// ##FIN vars
+
+
+// ##FIN multipleAssignment
+
 
 
 // ##INICIO initFromLoop: Inicialización de variables del bucle

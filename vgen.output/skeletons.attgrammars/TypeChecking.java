@@ -186,6 +186,22 @@ public class TypeChecking extends DefaultVisitor {
 		return null;
 	}
 
+	// class MultipleAssignment(List<Assignment> assignments)
+	// phase TypeChecking { FunctionDefinition owner }
+	@Override
+	public Object visit(MultipleAssignment multipleAssignment, Object param) {
+
+		for (var assignment : multipleAssignment.getAssignments()) {
+			// TODO: Remember to initialize INHERITED attributes <----
+			// assignment.setOwner(multipleAssignment.getOwner());
+		}
+
+		// multipleAssignment.getAssignments().forEach(assignment -> assignment.accept(this, param));
+		super.visit(multipleAssignment, param);
+
+		return null;
+	}
+
 	// class Loop(List<Assignment> from, Expression until, List<Sentence> body)
 	// phase TypeChecking { FunctionDefinition owner }
 	@Override

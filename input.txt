@@ -9,22 +9,26 @@ global
 	create
 		inicio;
 
-	feature p is 
-		do
-			b := 1;
-	end
 	feature inicio(a:INTEGER) is 
 		local
-			k : DOUBLE;
+			k : INTEGER;
 			
 		do
-			if 0 = 1 then 
-				k := 1.0;
-			else 
-				k := 0.0;
-			end
-			print '\n';
+			a:=2;
+			print 'a', ':';
+			println a;
+			a:=k:=a:=b:=1;
+			print 'a', ':';
+			println a;
+			print 'k', ':';
+			println k;
+			a:=b:=3;
+			print 'b', ':';
+			println b;
+			print 'a', ':';
+			println a;
+			
 	end
 end
 
-run inicio(1); 
+run inicio(2); 
