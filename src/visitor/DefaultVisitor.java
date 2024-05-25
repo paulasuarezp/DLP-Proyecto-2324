@@ -96,9 +96,10 @@ public class DefaultVisitor implements Visitor {
 	}
 
 	@Override
-	public Object visit(MultipleAssignment multipleAssignment, Object param) {
+	public Object visit(ComplexAssignment complexAssignment, Object param) {
 
-		multipleAssignment.getAssignments().forEach(assignment -> assignment.accept(this, param));
+		complexAssignment.getLeft().accept(this, param);
+		complexAssignment.getRight().forEach(expression -> expression.accept(this, param));
 		return null;
 	}
 

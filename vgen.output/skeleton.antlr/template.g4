@@ -53,7 +53,7 @@ functionDefinition returns[FunctionDefinition ast]
 sentence returns[Sentence ast]
     : name=IDENT args+=expression*        { $ast = new FunctionCallSent($name, $args); }         
     | left=expression right=expression    { $ast = new Assignment($left.ast, $right.ast); }      
-    | assignments+=assignment*            { $ast = new MultipleAssignment($assignments); }       
+    | left=expression right+=expression*  { $ast = new ComplexAssignment($left.ast, $right); }   
     | from+=assignment* expression body+=sentence* { $ast = new Loop($from, $expression.ast, $body); }    
     | expression trueBlock+=sentence* falseBlock+=sentence* { $ast = new IfElse($expression.ast, $trueBlock, $falseBlock); }
     | input+=expression*                  { $ast = new Read($input); }                           

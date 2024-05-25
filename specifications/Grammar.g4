@@ -89,8 +89,8 @@ sentence returns [Sentence ast]
 	| ('from' initFromLoop)? 'until' expr 'loop' c+=sentence* 'end'		{ $ast = new Loop($ctx.initFromLoop != null ? $initFromLoop.initializations : null, $expr.ast, $c); }
 	| 'read' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Read($ctx.args != null ? $args : new ArrayList<>()); }
 	| op=('print'|'println') (args+=expr (',' args+=expr)*)? ';'		{ $ast = new Print($op, $ctx.args != null ? $args : new ArrayList<>()); }
-	| assignment 											{ $ast = $assignment.ast ; }
-	//| left=expr ':=' right=expr ';'										{ $ast = new Assignment($left.ast, $right.ast); }
+	| left=expr ':=' right=expr ';'										{ $ast = new Assignment($left.ast, $right.ast); }
+	| complexAssignment ';'												{ $ast = $complexAssignment.ast ; }
 	| token='return' expr? ';'											{ $ast = new Return($ctx.expr != null ? $expr.ast : null); $ast.updatePositions($token);}
 	| IDENT '(' (args+=expr (',' args+=expr)*)? ')' ';'  				{ $ast = new FunctionCallSent($IDENT, $ctx.args != null ? $args : new ArrayList<>()); }// functionCallSent
 	;
@@ -123,7 +123,7 @@ assignment2 returns [Sentence ast]
     }
     ;
 
-	*/
+	
 
 assignment returns [Sentence ast]
     : left=expr ':=' right=expr ';' 
@@ -148,6 +148,15 @@ multipleAssignmentAux returns [List<Assignment> list = new ArrayList<Assignment>
             }
         }
     ;
+*/
+varListExpr returns [List<Expression> list = new ArrayList<Expression>()]
+	:( e1=expr { $list.add($e1.ast); }) (':=' e2=expr { $list.add($e2.ast); })* 
+	;
+
+complexAssignment returns [ComplexAssignment ast]
+	: left=expr ':=' right=varListExpr  { $ast = new ComplexAssignment($left.ast, $right.list); }
+	;
+
 
 // ##FIN vars
 

@@ -57,12 +57,16 @@ public class Execute extends AbstractCodeFunction {
 		return null;
 	}
 
-	// class MultipleAssignment(List<Assignment> assignments)
+	// class ComplexAssignment(Expression left, List<Expression> right)
 	// phase TypeChecking { FunctionDefinition owner }
 	@Override
-	public Object visit(MultipleAssignment multipleAssignment, Object param) {
+	public Object visit(ComplexAssignment complexAssignment, Object param) {
 
-		// execute(multipleAssignment.assignments());
+		// value(complexAssignment.getLeft());
+		// address(complexAssignment.getLeft());
+
+		// value(complexAssignment.right());
+		// address(complexAssignment.right());
 
 		out("<instruction>");
 

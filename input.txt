@@ -17,11 +17,19 @@ global
 			a:=2;
 			print 'a', ':';
 			println a;
+
+			//*a:=k:=a:=b:=1;
+			print 'a', ':';
+			println a;
+			print 'k', ':';
+			println k;*//
+
 			a:=k:=a:=b:=1;
 			print 'a', ':';
 			println a;
 			print 'k', ':';
 			println k;
+
 			a:=b:=3;
 			print 'b', ':';
 			println b;

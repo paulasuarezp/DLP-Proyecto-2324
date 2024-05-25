@@ -111,10 +111,11 @@ Sentence <|-[#808080]- Assignment
 Assignment o-[#404040,thickness=2]-  Expression : left >
 Assignment o-[#404040,thickness=2]-  Expression : right >
 
-class MultipleAssignment {
+class ComplexAssignment {
 }
-Sentence <|-[#808080]- MultipleAssignment
-MultipleAssignment o-[#404040,thickness=2]- "✱" Assignment : assignments >
+Sentence <|-[#808080]- ComplexAssignment
+ComplexAssignment o-[#404040,thickness=2]-  Expression : left >
+ComplexAssignment o-[#404040,thickness=2]- "✱" Expression : right >
 
 class Loop {
 }

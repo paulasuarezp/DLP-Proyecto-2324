@@ -76,9 +76,9 @@ public class ExceptionThrowerVisitor implements Visitor {
 	}
 
 	@Override
-	public Object visit(MultipleAssignment multipleAssignment, Object param) {
+	public Object visit(ComplexAssignment complexAssignment, Object param) {
 
-        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(MultipleAssignment)' has been invoked but it has not been implemented.");
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(ComplexAssignment)' has been invoked but it has not been implemented.");
 	}
 
 	@Override

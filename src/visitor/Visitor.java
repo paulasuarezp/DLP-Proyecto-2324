@@ -33,7 +33,7 @@ public interface Visitor {
 
 	public Object visit(Assignment assignment, Object param);
 
-	public Object visit(MultipleAssignment multipleAssignment, Object param);
+	public Object visit(ComplexAssignment complexAssignment, Object param);
 
 	public Object visit(Loop loop, Object param);
 

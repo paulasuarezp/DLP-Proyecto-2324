@@ -248,16 +248,17 @@ public class AstPrinter implements Visitor {
 	}
 
 	@Override
-	public Object visit(MultipleAssignment multipleAssignment, Object param) {
+	public Object visit(ComplexAssignment complexAssignment, Object param) {
 
 		int indent = ((Integer)param);
 
 		// Imprimir los hijos (y recorrer si son nodos del AST)
-        printListOfNodesChild(indent + 1, "assignments", "List<Assignment>", multipleAssignment.getAssignments());
+        printNodeChild(indent + 1, "left", "Expression", complexAssignment.getLeft());
+        printListOfNodesChild(indent + 1, "right", "List<Expression>", complexAssignment.getRight());
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
-        printToString(indent + 1, "vgen-attribute-phase-1", "owner", "FunctionDefinition", multipleAssignment.getOwner());
-		printUnknownFields(indent + 1, multipleAssignment, "assignments", "owner");
+        printToString(indent + 1, "vgen-attribute-phase-1", "owner", "FunctionDefinition", complexAssignment.getOwner());
+		printUnknownFields(indent + 1, complexAssignment, "left", "right", "owner");
 		return null;
 	}
 
