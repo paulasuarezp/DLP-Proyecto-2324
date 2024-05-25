@@ -7,6 +7,8 @@ package semantic;
 
 import java.util.List;
 
+import org.antlr.v4.parse.ANTLRParser.atom_return;
+
 import ast.*;
 import main.ErrorManager;
 import visitor.DefaultVisitor;
@@ -359,7 +361,13 @@ public class TypeChecking extends DefaultVisitor {
 		// Predicado -> isPrimitive(op1.type)
 		String errorMessage = "El tipo de la expresión de la izquierda de una operación aritmética debe de ser de tipo INTEGER o DOUBLE.";
 		boolean checkType = arithmeticExpr.getOp1().getType() instanceof IntType || arithmeticExpr.getOp1().getType() instanceof DoubleType;
+		if (arithmeticExpr.getOperator().equals("mod")) {
+			errorMessage = "El operador 'mod' sólo puede aplicarse a expresiones de tipo INTEGER.";
+			checkType = arithmeticExpr.getOp1().getType() instanceof IntType;
+		} 
 		predicate(checkType, errorMessage, arithmeticExpr);
+		
+		
 		// Predicado -> op1.type == op2.type
 		errorMessage = String.format("Los tipos de la izquierda y derecha deben de ser iguales. No es posible realizar una operación aritmética entre un tipo %s y un tipo %s", 
 							getTypeName(arithmeticExpr.getOp1().getType()), 
