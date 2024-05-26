@@ -18,12 +18,8 @@ global
 			k : DOUBLE;
 			
 		do
-			if 0 = 1 then 
-				k := 1.0;
-			else 
-				k := 0.0;
-			end
-			print '\n';
+			read k;
+			print;
 	end
 end
 

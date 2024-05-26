@@ -87,7 +87,7 @@ runCall	returns [RunCall ast]
 sentence returns [Sentence ast]
 	: 'if' expr 'then' tb+=sentence* ('else' fb+=sentence*)? 'end' 		{ $ast = new IfElse($expr.ast, $tb, $ctx.fb != null ? $fb : null); }
 	| ('from' initFromLoop)? 'until' expr 'loop' c+=sentence* 'end'		{ $ast = new Loop($ctx.initFromLoop != null ? $initFromLoop.initializations : null, $expr.ast, $c); }
-	| 'read' (args+=expr (',' args+=expr)*)? ';'						{ $ast = new Read($ctx.args != null ? $args : new ArrayList<>()); }
+	| 'read' args+=expr (',' args+=expr)* ';'							{ $ast = new Read($ctx.args != null ? $args : new ArrayList<>()); }
 	| op=('print'|'println') (args+=expr (',' args+=expr)*)? ';'		{ $ast = new Print($op, $ctx.args != null ? $args : new ArrayList<>()); }
 	| left=expr ':=' right=expr ';'										{ $ast = new Assignment($left.ast, $right.ast); }
 	| token='return' expr? ';'											{ $ast = new Return($ctx.expr != null ? $expr.ast : null); $ast.updatePositions($token);}
