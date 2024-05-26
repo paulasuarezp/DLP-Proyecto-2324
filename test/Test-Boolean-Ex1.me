@@ -1,0 +1,43 @@
+class
+	prog2;
+
+	create
+		inicio;
+	feature f(a: BOOLEAN, b: BOOLEAN, c:BOOLEAN): BOOLEAN is
+		do
+			return (a and b) or not c;
+	end
+	feature inicio() is 
+		local
+			b1, b2, b3, b4 : BOOLEAN;
+			a: INTEGER;
+			
+		do
+			println f(true, false, false); /* 1
+			println f(true, false, true); /* 0
+			println f(false, true, true); /* 0
+			println f(false, false, false); /* 1
+
+			b1:= true;
+			b2 := 3>1;
+			b3 := 4.5 <= 4.2;
+			println b1;                           /* Imprime 1
+			println b2;                           /* Imprime 1
+			println b3;                           /* Imprime 0
+
+			if b1 then
+				println 'Y';
+			else
+				println 'N';
+			end
+
+			a := 0;
+
+			until a >= 10 loop 
+				print a;
+				a:= a+1; /* Imprime 0123456789
+			end
+	end
+end
+
+run inicio(); 

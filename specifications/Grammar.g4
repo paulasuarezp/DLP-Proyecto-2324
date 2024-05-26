@@ -105,7 +105,8 @@ initFromLoop returns [List<Assignment> initializations = new ArrayList<Assignmen
 
 // ##INICIO expr: Expresiones
 expr returns [Expression ast]
-: INT_CONSTANT 															{ $ast = new IntConstant($INT_CONSTANT); }
+: BOOLEAN_CONSTANT 														{ $ast = new BooleanConstant($BOOLEAN_CONSTANT); }
+| INT_CONSTANT 															{ $ast = new IntConstant($INT_CONSTANT); }
 | REAL_CONSTANT 														{ $ast = new RealConstant($REAL_CONSTANT); }
 | CHAR_CONSTANT															{ $ast = new CharConstant($CHAR_CONSTANT); }
 | IDENT 																{ $ast = new Variable($IDENT); }
@@ -128,7 +129,8 @@ expr returns [Expression ast]
 
 // ##INICIO type: Tipos de datos
 type returns [Type ast]
-	: token='INTEGER' 													{ $ast = new IntType(); $ast.updatePositions($token);}
+	: token='BOOLEAN' 													{ $ast = new BooleanType(); $ast.updatePositions($token);}
+	| token='INTEGER' 													{ $ast = new IntType(); $ast.updatePositions($token);}
 	| token='DOUBLE' 													{ $ast = new DoubleType(); $ast.updatePositions($token);}	
 	| token='CHARACTER' 												{ $ast = new CharType(); $ast.updatePositions($token);} 
 	| '[' INT_CONSTANT ']' type  										{$ast = new ArrayType(new IntConstant($INT_CONSTANT),$type.ast); $ast.updatePositions($ctx.start);}

@@ -139,8 +139,8 @@ public class TypeChecking extends DefaultVisitor {
 		predicate(assignment.getLeft().isLvalue(), errorMessage, assignment);
 
 		//Predicado -> isPrimitive(left.type)
-		errorMessage = "El tipo de la expresión de la izquierda de una asignación debe de ser un tipo simple (INTEGER, DOUBLE o CHARACTER), no puede ser " + getTypeName(assignment.getLeft().getType()) + ".";
-		predicate(isPrimitive(assignment.getLeft().getType()), errorMessage, assignment);
+		errorMessage = "El tipo de la expresión de la izquierda de una asignación debe de ser un tipo simple (INTEGER, DOUBLE o CHARACTER) o BOOLEAN, no puede ser " + getTypeName(assignment.getLeft().getType()) + ".";
+		predicate(isPrimitive(assignment.getLeft().getType()) || assignment.getLeft().getType() instanceof BooleanType, errorMessage, assignment);
 		//Predicado -> checkSameType(left.type, right.type)
 		errorMessage = String.format("Los tipos de la izquierda y derecha deben de ser iguales. No es posible asignar un %s a un tipo %s", 
 							getTypeName(assignment.getRight().getType()), 
@@ -197,7 +197,7 @@ public class TypeChecking extends DefaultVisitor {
 		super.visit(ifElse, param);
 
 		// Predicado -> condition.type == INTEGER
-		predicate(ifElse.getCondition().getType() instanceof IntType, "La condición del \'if\' debe de ser de tipo INTEGER, no de tipo " +
+		predicate(ifElse.getCondition().getType() instanceof IntType || ifElse.getCondition().getType() instanceof BooleanType, "La condición del \'if\' debe de ser de tipo INTEGER o BOOLEAN, no de tipo " +
 			getTypeName(ifElse.getCondition().getType()), ifElse);
 
 
@@ -235,9 +235,9 @@ public class TypeChecking extends DefaultVisitor {
 		//Regla -> input.all(e -> isPrimitive(e.type))
 		String errorMessage = "";
 		for(Expression e: print.getInput()){
-			errorMessage = String.format("Solo se pueden imprimir (print) expresiones de tipo simple (INTEGER, DOUBLE o CHARACTER), no de tipo %s",
+			errorMessage = String.format("Solo se pueden imprimir (print) expresiones de tipo simple (INTEGER, DOUBLE o CHARACTER) o BOOLEAN, no de tipo %s",
 									getTypeName(e.getType()));
-			predicate(isPrimitive(e.getType()), errorMessage, print);
+			predicate(isPrimitive(e.getType()) || e.getType() instanceof BooleanType, errorMessage, print);
 		}
 		return null;
 	}
@@ -388,8 +388,8 @@ public class TypeChecking extends DefaultVisitor {
 		super.visit(logicalExpr, param);
 
 		//Predicado -> op1.type == INTEGER
-		String errorMessage = "El tipo de la expresión de la izquierda de una operación lógica debe de ser de tipo INTEGER.";
-		predicate(logicalExpr.getOp1().getType() instanceof IntType, errorMessage, logicalExpr);
+		String errorMessage = "El tipo de la expresión de la izquierda de una operación lógica debe de ser de tipo INTEGE0R o BOOLEAN.";
+		predicate(logicalExpr.getOp1().getType() instanceof IntType || logicalExpr.getOp1().getType() instanceof BooleanType, errorMessage, logicalExpr);
 		//Predicado -> sameType(op1.type, op2.type)
 		errorMessage = String.format("Los tipos de la izquierda y derecha deben de ser iguales. No es posible realizar una operación lógica entre un tipo %s y un tipo %s", 
 							getTypeName(logicalExpr.getOp1().getType()), 
@@ -399,7 +399,7 @@ public class TypeChecking extends DefaultVisitor {
 		//Regla -> logicalExpr.lValue = FALSE
 		logicalExpr.setLvalue(false);
 		//Regla -> logicalExpr.type = op1.type
-		logicalExpr.setType(logicalExpr.getOp1().getType());
+		logicalExpr.setType(new BooleanType());
 		return null;
 	}
 
@@ -408,10 +408,15 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(ComparationExpr comparationExpr, Object param) {
 		super.visit(comparationExpr, param);
-
-		//Predicado -> op1.type == INTEGER || op1.type == DOUBLE
 		boolean checkType = comparationExpr.getOp1().getType() instanceof IntType || comparationExpr.getOp1().getType() instanceof DoubleType;
 		String errorMessage = "El tipo de la expresión de la izquierda de una comparación debe de ser INTEGER o DOUBLE.";
+
+		if(comparationExpr.getOperator().equals("=") || comparationExpr.getOperator().equals("<>") ){
+			checkType = comparationExpr.getOp1().getType() instanceof IntType || comparationExpr.getOp1().getType() instanceof DoubleType || comparationExpr.getOp1().getType() instanceof BooleanType;
+			errorMessage = "El tipo de la expresión de la izquierda de una comparación \'" +  comparationExpr.getOperator()  + "\'debe de ser INTEGER, DOUBLE o BOOLEAN.";
+		}
+		//Predicado -> op1.type == INTEGER || op1.type == DOUBLE
+		
 		predicate(checkType, errorMessage, comparationExpr);
 		//Predicado -> sameType(op1.type, op2.type)
 		errorMessage = String.format("Los tipos de la izquierda y derecha deben de ser iguales. No es posible realizar una comparación entre un tipo %s y un tipo %s", 
@@ -448,13 +453,13 @@ public class TypeChecking extends DefaultVisitor {
 	public Object visit(NotExpr notExpr, Object param) {
 		super.visit(notExpr, param);
 		//Predicado -> op.type == INTEGER
-		predicate(notExpr.getOp().getType() instanceof IntType, "El operador 'not' sólo puede aplicarse a expresiones de tipo INTEGER", notExpr);
+		predicate(notExpr.getOp().getType() instanceof IntType || notExpr.getOp().getType() instanceof BooleanType, "El operador 'not' sólo puede aplicarse a expresiones de tipo INTEGER o BOOLEAN", notExpr);
 		// notExpr.getOp().accept(this, param);
 		
 		//Regla -> notExpr.lValue = FALSE
 		notExpr.setLvalue(false);
 		//Regla -> notExpr.type = INTEGER
-		notExpr.setType(new IntType());
+		notExpr.setType(new BooleanType());
 		return null;
 	}
 
@@ -535,6 +540,15 @@ public class TypeChecking extends DefaultVisitor {
 		return null;
 	}
 
+	// class BooleanConstant(String value)
+	// phase TypeChecking { boolean lvalue, Type type }
+	@Override
+	public Object visit(BooleanConstant booleanConstant, Object param) {
+
+		booleanConstant.setLvalue(false);
+		booleanConstant.setType(new BooleanType());
+		return null;
+	}
 
     //# ----------------------------------------------------------
     //# Auxiliary methods (optional)
@@ -572,7 +586,7 @@ public class TypeChecking extends DefaultVisitor {
 	 * @return true si el tipo es un tipo simple (INTEGER, DOUBLE, CHARACTER)
 	 */
 	private boolean isPrimitive(Type type) {
-		return type instanceof IntType || type instanceof DoubleType || type instanceof CharType;
+		return type instanceof IntType || type instanceof DoubleType || type instanceof CharType || type instanceof BooleanType;
 	}
 
 
@@ -585,6 +599,12 @@ public class TypeChecking extends DefaultVisitor {
 	private boolean checkSameType(Type type1, Type type2) {
 		if(type1 == null || type2 == null){
 			return false;
+		}
+		if(type1 instanceof IntType && type2 instanceof BooleanType){
+			return true;
+		}
+		if(type1 instanceof BooleanType && type2 instanceof IntType){
+			return true;
 		}
 		return type1.getClass() == type2.getClass();
 	}
@@ -636,6 +656,8 @@ public class TypeChecking extends DefaultVisitor {
 			return "DOUBLE";
 		}else if(type instanceof CharType){
 			return "CHARACTER";
+		} else if(type instanceof BooleanType){
+			return "BOOLEAN";
 		}
 
 		return "'INDEFINIDO'";

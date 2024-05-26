@@ -7,6 +7,7 @@ import java.util.Map;
 import ast.*;
 import ast.expression.Expression;
 import ast.sentence.*;
+import ast.type.BooleanType;
 import ast.type.VoidType;
 import codegeneration.mapl.*;
 import codegeneration.mapl.utils.MaplUtils;

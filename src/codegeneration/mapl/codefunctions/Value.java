@@ -13,6 +13,21 @@ public class Value extends AbstractCodeFunction {
         super(specification);
     }
 
+	
+	// class BooleanConstant(String value)
+	// phase TypeChecking { boolean lvalue, Type type }
+	@Override
+	public Object visit(BooleanConstant booleanConstant, Object param) {
+		String value = booleanConstant.getValue();
+		if(value.equals("true"))
+			out("PUSHI 1");
+		else if (value.equals("false"))
+			out("PUSHI 0");
+		else
+			out("PUSHI " +  value);
+
+		return null;
+	}
 
 	// class IntConstant(String value)
 	// phase TypeChecking { boolean lvalue, Type type }

@@ -265,6 +265,17 @@ public class TypeChecking extends DefaultVisitor {
 		return null;
 	}
 
+	// class BooleanConstant(String value)
+	// phase TypeChecking { boolean lvalue, Type type }
+	@Override
+	public Object visit(BooleanConstant booleanConstant, Object param) {
+
+		// TODO: Remember to initialize SYNTHESIZED attributes <-----
+		// booleanConstant.setLvalue(?);
+		// booleanConstant.setType(?);
+		return null;
+	}
+
 	// class IntConstant(String value)
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override
@@ -485,6 +496,13 @@ public class TypeChecking extends DefaultVisitor {
 		// arrayType.getDimension().accept(this, param);
 		// arrayType.getTipo().accept(this, param);
 		super.visit(arrayType, param);
+
+		return null;
+	}
+
+	// class BooleanType()
+	@Override
+	public Object visit(BooleanType booleanType, Object param) {
 
 		return null;
 	}

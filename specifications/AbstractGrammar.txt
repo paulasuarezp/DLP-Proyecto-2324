@@ -27,6 +27,7 @@ print: sentence -> op:string input:expression* ;
 return: sentence -> value: expression? ;
 
 
+booleanConstant: expression -> value:string;
 intConstant: expression -> value:string;
 realConstant: expression -> value:string;
 charConstant: expression -> value:string;
@@ -47,6 +48,7 @@ charType: type -> ;
 voidType: type -> ;
 structType: type -> name:string;
 arrayType: type -> dimension:intConstant tipo:type;
+booleanType: type ->;
 
 
 

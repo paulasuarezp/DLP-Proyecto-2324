@@ -1,0 +1,27 @@
+class
+	prog2;
+	
+global
+
+	vars
+		b : INTEGER;
+
+	create
+		inicio;
+	feature inicio() is 
+		local
+			k : BOOLEAN;
+			
+		do
+			k := true;
+			b := false = 3 > 2;
+			println b;
+			b := true = 3 > 2;
+			println true = false;
+			println not k;
+			println k and false;
+			print k = b;
+	end
+end
+
+run inicio(); 

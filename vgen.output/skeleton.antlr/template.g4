@@ -32,6 +32,7 @@ type returns[Type ast]
     |                                     { $ast = new VoidType(); }                             
     | name=IDENT                          { $ast = new StructType($name); }                      
     | intConstant type                    { $ast = new ArrayType($intConstant.ast, $type.ast); } 
+    |                                     { $ast = new BooleanType(); }                          
 	;
 
 intConstant returns[IntConstant ast]
@@ -61,7 +62,8 @@ sentence returns[Sentence ast]
 	;
 
 expression returns[Expression ast]
-    : value=IDENT                         { $ast = new IntConstant($value); }                    
+    : value=IDENT                         { $ast = new BooleanConstant($value); }                
+    | value=IDENT                         { $ast = new IntConstant($value); }                    
     | value=IDENT                         { $ast = new RealConstant($value); }                   
     | value=IDENT                         { $ast = new CharConstant($value); }                   
     | name=IDENT                          { $ast = new Variable($name); }                        

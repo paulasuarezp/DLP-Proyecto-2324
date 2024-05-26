@@ -152,6 +152,11 @@ class Return {
 AbstractSentence <|-[#808080]- Return
 Return o-[#404040,thickness=2]- "0..1" Expression : value >
 
+class BooleanConstant {
+	+String value
+}
+AbstractExpression <|-[#808080]- BooleanConstant
+
 class IntConstant {
 	+String value
 }
@@ -256,5 +261,9 @@ class ArrayType {
 AbstractType <|-[#808080]- ArrayType
 ArrayType o-[#404040,thickness=2]-  IntConstant : dimension >
 ArrayType o-[#404040,thickness=2]-  Type : tipo >
+
+class BooleanType {
+}
+AbstractType <|-[#808080]- BooleanType
 
 @enduml

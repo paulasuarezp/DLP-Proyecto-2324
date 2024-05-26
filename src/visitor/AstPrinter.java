@@ -323,6 +323,21 @@ public class AstPrinter implements Visitor {
 	}
 
 	@Override
+	public Object visit(BooleanConstant booleanConstant, Object param) {
+
+		int indent = ((Integer)param);
+
+		// Imprimir los hijos (y recorrer si son nodos del AST)
+        printNonNodeChild(indent + 1, "value", "String", booleanConstant.getValue());
+
+		// Imprimir el 'toString()' de los atributos (pero no recorrer)
+        printToString(indent + 1, "vgen-attribute-phase-1", "lvalue", "boolean", booleanConstant.isLvalue());
+        printToString(indent + 1, "vgen-attribute-phase-1", "type", "Type", booleanConstant.getType());
+		printUnknownFields(indent + 1, booleanConstant, "value", "lvalue", "type");
+		return null;
+	}
+
+	@Override
 	public Object visit(IntConstant intConstant, Object param) {
 
 		int indent = ((Integer)param);
@@ -602,6 +617,18 @@ public class AstPrinter implements Visitor {
 
 		// Imprimir el 'toString()' de los atributos (pero no recorrer)
 		printUnknownFields(indent + 1, arrayType, "dimension", "tipo");
+		return null;
+	}
+
+	@Override
+	public Object visit(BooleanType booleanType, Object param) {
+
+		int indent = ((Integer)param);
+
+		// Imprimir los hijos (y recorrer si son nodos del AST)
+
+		// Imprimir el 'toString()' de los atributos (pero no recorrer)
+		printUnknownFields(indent + 1, booleanType, "");
 		return null;
 	}
 

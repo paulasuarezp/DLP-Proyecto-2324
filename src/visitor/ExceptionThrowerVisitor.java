@@ -106,6 +106,12 @@ public class ExceptionThrowerVisitor implements Visitor {
 	}
 
 	@Override
+	public Object visit(BooleanConstant booleanConstant, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(BooleanConstant)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
 	public Object visit(IntConstant intConstant, Object param) {
 
         throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(IntConstant)' has been invoked but it has not been implemented.");
@@ -217,6 +223,12 @@ public class ExceptionThrowerVisitor implements Visitor {
 	public Object visit(ArrayType arrayType, Object param) {
 
         throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(ArrayType)' has been invoked but it has not been implemented.");
+	}
+
+	@Override
+	public Object visit(BooleanType booleanType, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(BooleanType)' has been invoked but it has not been implemented.");
 	}
 
     // %% User Members -------------------------

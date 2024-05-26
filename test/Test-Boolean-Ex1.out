@@ -1,0 +1,199 @@
+#source "input.txt"
+
+'Clase: prog2
+'Declaraciones globales
+
+'**builder inicio
+
+CALL inicio
+HALT
+
+#FUNC f
+#ret int
+f:
+#param a : int
+#param b : int
+#param c : int
+
+#LINE 8
+PUSH BP
+PUSH 8
+ADDI
+LOADI
+PUSH BP
+PUSH 6
+ADDI
+LOADI
+AND
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+NOT
+OR
+RET 2, 0, 6
+
+#FUNC inicio
+#ret void
+inicio:
+#local b1 : int
+#local b2 : int
+#local b3 : int
+#local b4 : int
+#local a : int
+ENTER 10
+
+#LINE 16
+PUSHI 1
+PUSHI 0
+PUSHI 0
+CALL f
+OUTI
+PUSHB 10
+OUTB
+
+#LINE 17
+PUSHI 1
+PUSHI 0
+PUSHI 1
+CALL f
+OUTI
+PUSHB 10
+OUTB
+
+#LINE 18
+PUSHI 0
+PUSHI 1
+PUSHI 1
+CALL f
+OUTI
+PUSHB 10
+OUTB
+
+#LINE 19
+PUSHI 0
+PUSHI 0
+PUSHI 0
+CALL f
+OUTI
+PUSHB 10
+OUTB
+
+#line 21
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 1
+STOREI
+
+#line 22
+PUSH BP
+PUSH -4
+ADDI
+PUSHI 3
+PUSHI 1
+GTI
+STOREI
+
+#line 23
+PUSH BP
+PUSH -6
+ADDI
+PUSHF 4.5
+PUSHF 4.2
+LEF
+STOREI
+
+#LINE 24
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+OUTI
+PUSHB 10
+OUTB
+
+#LINE 25
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+OUTI
+PUSHB 10
+OUTB
+
+#LINE 26
+PUSH BP
+PUSH -6
+ADDI
+LOADI
+OUTI
+PUSHB 10
+OUTB
+
+#line 28
+'condition
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+JZ else_0001
+'if block
+
+#LINE 29
+PUSHB 89
+OUTB
+PUSHB 10
+OUTB
+JMP endif_0001
+'else block
+else_0001:
+
+#LINE 31
+PUSHB 78
+OUTB
+PUSHB 10
+OUTB
+'end
+endif_0001:
+
+#line 34
+PUSH BP
+PUSH -10
+ADDI
+PUSHI 0
+STOREI
+
+#line 36
+'from
+untilcond_0002:
+PUSH BP
+PUSH -10
+ADDI
+LOADI
+PUSHI 10
+GEI
+JNZ untilend_0002
+'loop body
+
+#LINE 37
+PUSH BP
+PUSH -10
+ADDI
+LOADI
+OUTI
+
+#line 38
+PUSH BP
+PUSH -10
+ADDI
+PUSH BP
+PUSH -10
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0002
+untilend_0002:
+RET 0, 10, 0

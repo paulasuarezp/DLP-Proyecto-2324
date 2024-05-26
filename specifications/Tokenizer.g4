@@ -1,5 +1,9 @@
 lexer grammar Tokenizer;
 
+BOOLEAN_CONSTANT
+	: 'true' | 'false'
+	;
+
 INT_CONSTANT
 	: [0-9]+
 	;

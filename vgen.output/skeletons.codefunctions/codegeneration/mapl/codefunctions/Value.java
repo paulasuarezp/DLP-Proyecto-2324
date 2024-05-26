@@ -13,6 +13,16 @@ public class Value extends AbstractCodeFunction {
     }
 
 
+	// class BooleanConstant(String value)
+	// phase TypeChecking { boolean lvalue, Type type }
+	@Override
+	public Object visit(BooleanConstant booleanConstant, Object param) {
+
+		out("<instruction>");
+
+		return null;
+	}
+
 	// class IntConstant(String value)
 	// phase TypeChecking { boolean lvalue, Type type }
 	@Override

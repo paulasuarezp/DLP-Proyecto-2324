@@ -135,6 +135,12 @@ public class DefaultVisitor implements Visitor {
 	}
 
 	@Override
+	public Object visit(BooleanConstant booleanConstant, Object param) {
+
+		return null;
+	}
+
+	@Override
 	public Object visit(IntConstant intConstant, Object param) {
 
 		return null;
@@ -261,6 +267,12 @@ public class DefaultVisitor implements Visitor {
 
 		arrayType.getDimension().accept(this, param);
 		arrayType.getTipo().accept(this, param);
+		return null;
+	}
+
+	@Override
+	public Object visit(BooleanType booleanType, Object param) {
+
 		return null;
 	}
 

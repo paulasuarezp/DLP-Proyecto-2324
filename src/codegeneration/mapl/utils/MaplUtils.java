@@ -11,6 +11,7 @@ import java.util.Set;
 import ast.FieldDefinition;
 import ast.VarDefinition;
 import ast.type.ArrayType;
+import ast.type.BooleanType;
 import ast.type.CharType; 
 import ast.type.DoubleType;
 import ast.type.IntType;
@@ -51,6 +52,7 @@ public class MaplUtils {
             case IntType i -> "I";
             case DoubleType f -> "F";
             case CharType c -> "B";
+            case BooleanType b -> "I";
             default -> throw new IllegalArgumentException("Unrecognized type");
         };
     }
@@ -69,6 +71,7 @@ public class MaplUtils {
             case StructType s -> getStructSize(s);
             case ArrayType a -> Integer.valueOf(a.getDimension().getValue()) * maplTypeSize(a.getTipo());
             case VoidType v -> 0;
+            case BooleanType b -> 2;
             default -> throw new IllegalArgumentException("Unrecognized type");
         };
     }
@@ -102,6 +105,7 @@ public class MaplUtils {
             case StructType s -> s.getName();
             case ArrayType a -> a.getDimension().getValue() + " * " + maplType(a.getTipo());
             case VoidType v -> "void";
+            case BooleanType b -> "int";
             default -> throw new IllegalArgumentException("Unrecognized type");
         };
     }

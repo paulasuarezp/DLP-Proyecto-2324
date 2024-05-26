@@ -43,6 +43,8 @@ public interface Visitor {
 
 	public Object visit(Return returnValue, Object param);
 
+	public Object visit(BooleanConstant booleanConstant, Object param);
+
 	public Object visit(IntConstant intConstant, Object param);
 
 	public Object visit(RealConstant realConstant, Object param);
@@ -80,6 +82,8 @@ public interface Visitor {
 	public Object visit(StructType structType, Object param);
 
 	public Object visit(ArrayType arrayType, Object param);
+
+	public Object visit(BooleanType booleanType, Object param);
 
 
 }

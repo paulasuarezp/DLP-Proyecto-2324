@@ -2,59 +2,130 @@
 
 'Clase: prog2
 'Declaraciones globales
-#global b : int
 
 '**builder inicio
 
-PUSHI 1
 CALL inicio
 HALT
 
-#FUNC p
-#ret void
-p:
+#FUNC g
+#ret int
+g:
+#param a : int
 
-#line 14
-PUSHA 0
-PUSHI 1
-STOREI
-RET 0, 0, 0
+#LINE 8
+PUSHI 3
+RET 2, 0, 2
 
 #FUNC inicio
 #ret void
 inicio:
-#param a : int
-#local k : float
+#local b1 : int
+#local a : int
 ENTER 4
 
-#line 21
-'condition
-PUSHI 0
+#LINE 16
+PUSHI 3
+CALL g
+POPI
+
+#line 17
+PUSH BP
+PUSH -4
+ADDI
 PUSHI 1
-EQI
-JZ else_0001
-'if block
+CALL g
+STOREI
+
+#line 18
+PUSH BP
+PUSH -4
+ADDI
+PUSHI 1
+STOREI
+
+#line 19
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 1
+STOREI
+
+#line 20
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 1
+PUSHI 1
+AND
+STOREI
+
+#line 21
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+NOT
+STOREI
 
 #line 22
 PUSH BP
-PUSH -4
+PUSH -2
 ADDI
-PUSHF 1.0
-STOREF
-JMP endif_0001
-'else block
-else_0001:
+PUSHI 3
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+GTI
+STOREI
 
-#line 24
+#line 23
 PUSH BP
 PUSH -4
 ADDI
-PUSHF 0.0
-STOREF
-'end
-endif_0001:
+PUSHI 3
+PUSHI 2
+GTI
+STOREI
+
+#line 24
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 1
+PUSHI 0
+NEI
+STOREI
+
+#line 25
+'from
+untilcond_0001:
+PUSHI 1
+JNZ untilend_0001
+'loop body
 
 #LINE 26
-PUSHB 10
-OUTB
-RET 0, 4, 2
+PUSHI 1
+OUTI
+JMP untilcond_0001
+untilend_0001:
+
+#line 28
+'condition
+PUSHI 3
+JZ else_0002
+'if block
+
+#LINE 29
+PUSHI 0
+OUTI
+JMP endif_0002
+'else block
+else_0002:
+'end
+endif_0002:
+RET 0, 4, 0

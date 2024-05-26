@@ -141,6 +141,11 @@ class Return {
 Sentence <|-[#808080]- Return
 Return o-[#404040,thickness=2]- "0..1" Expression : value >
 
+class BooleanConstant {
+	+String value
+}
+Expression <|-[#808080]- BooleanConstant
+
 class IntConstant {
 	+String value
 }
@@ -245,5 +250,9 @@ class ArrayType {
 Type <|-[#808080]- ArrayType
 ArrayType o-[#404040,thickness=2]-  IntConstant : dimension >
 ArrayType o-[#404040,thickness=2]-  Type : tipo >
+
+class BooleanType {
+}
+Type <|-[#808080]- BooleanType
 
 @enduml

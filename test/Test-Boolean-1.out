@@ -1,0 +1,88 @@
+#source "input.txt"
+
+'Clase: prog2
+'Declaraciones globales
+#global b : int
+
+'**builder inicio
+
+CALL inicio
+HALT
+
+#FUNC inicio
+#ret void
+inicio:
+#local k : int
+ENTER 2
+
+#line 16
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 1
+STOREI
+
+#line 17
+PUSHA 0
+PUSHI 0
+PUSHI 3
+PUSHI 2
+GTI
+EQI
+STOREI
+
+#LINE 18
+PUSHA 0
+LOADI
+OUTI
+PUSHB 10
+OUTB
+
+#line 19
+PUSHA 0
+PUSHI 1
+PUSHI 3
+PUSHI 2
+GTI
+EQI
+STOREI
+
+#LINE 20
+PUSHI 1
+PUSHI 0
+EQI
+OUTI
+PUSHB 10
+OUTB
+
+#LINE 21
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+NOT
+OUTI
+PUSHB 10
+OUTB
+
+#LINE 22
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 0
+AND
+OUTI
+PUSHB 10
+OUTB
+
+#LINE 23
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHA 0
+LOADI
+EQI
+OUTI
+RET 0, 2, 0

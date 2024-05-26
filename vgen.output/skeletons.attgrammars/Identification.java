@@ -256,6 +256,13 @@ public class Identification extends DefaultVisitor {
 		return null;
 	}
 
+	// class BooleanConstant(String value)
+	@Override
+	public Object visit(BooleanConstant booleanConstant, Object param) {
+
+		return null;
+	}
+
 	// class IntConstant(String value)
 	@Override
 	public Object visit(IntConstant intConstant, Object param) {
@@ -430,6 +437,13 @@ public class Identification extends DefaultVisitor {
 		// arrayType.getDimension().accept(this, param);
 		// arrayType.getTipo().accept(this, param);
 		super.visit(arrayType, param);
+
+		return null;
+	}
+
+	// class BooleanType()
+	@Override
+	public Object visit(BooleanType booleanType, Object param) {
 
 		return null;
 	}
