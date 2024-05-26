@@ -98,7 +98,7 @@ sentence returns [Sentence ast]
 
 // ##INICIO initFromLoop: Inicialización de variables del bucle
 initFromLoop returns [List<Assignment> initializations = new ArrayList<Assignment>()]
-	: (left=expr ':=' right=expr ';' { $initializations.add(new Assignment($left.ast, $right.ast)); })*
+	: (left=expr ':=' right=expr ';' { $initializations.add(new Assignment($left.ast, $right.ast)); })+
 	;
 // ##FIN initFromLoop
 

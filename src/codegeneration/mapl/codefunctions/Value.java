@@ -3,6 +3,7 @@
 package codegeneration.mapl.codefunctions;
 
 import ast.expression.*;
+import ast.type.CharType;
 import codegeneration.mapl.*;
 import codegeneration.mapl.utils.MaplUtils;
 
@@ -130,8 +131,19 @@ public class Value extends AbstractCodeFunction {
 		// address(comparationExpr.getOp2());
 
 		value(comparationExpr.getOp1());
+
+
+		if(comparationExpr.getOp1().getType() instanceof CharType)		// Casuística especial para comparaciones de caracteres
+			out("B2I");
 		value(comparationExpr.getOp2());
+		if(comparationExpr.getOp2().getType() instanceof CharType)		// Casuística especial para comparaciones de caracteres
+			out("B2I");
+
 		String instruction = MaplUtils.maplOperator(comparationExpr.getOperator(), comparationExpr.getOp1().getType());
+		
+		if (comparationExpr.getOp1().getType() instanceof ast.type.CharType) {		// Casuística especial para comparaciones de caracteres
+			instruction = MaplUtils.maplOperator(comparationExpr.getOperator(), comparationExpr.getType());
+		}
 		out(instruction);
 
 		return null;

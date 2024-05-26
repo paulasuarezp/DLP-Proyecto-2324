@@ -411,7 +411,13 @@ public class TypeChecking extends DefaultVisitor {
 
 		//Predicado -> op1.type == INTEGER || op1.type == DOUBLE
 		boolean checkType = comparationExpr.getOp1().getType() instanceof IntType || comparationExpr.getOp1().getType() instanceof DoubleType;
-		String errorMessage = "El tipo de la expresión de la izquierda de una comparación debe de ser INTEGER o DOUBLE.";
+		String errorMessage = String.format("El tipo de la expresión de la izquierda de una comparación '%s' debe de ser INTEGER o DOUBLE.",
+							comparationExpr.getOperator());
+		if(String.valueOf(comparationExpr.getOperator()).equals("=") || String.valueOf(comparationExpr.getOperator()).equals("<>")){
+			checkType = isPrimitive(comparationExpr.getOp1().getType());
+			errorMessage = String.format("El tipo de la expresión de la izquierda de una comparación '%s' debe de ser INTEGER, DOUBLE o CHARACTER.",
+							comparationExpr.getOperator());
+		}
 		predicate(checkType, errorMessage, comparationExpr);
 		//Predicado -> sameType(op1.type, op2.type)
 		errorMessage = String.format("Los tipos de la izquierda y derecha deben de ser iguales. No es posible realizar una comparación entre un tipo %s y un tipo %s", 

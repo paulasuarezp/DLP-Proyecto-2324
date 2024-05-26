@@ -2,7 +2,17 @@
 
 'Clase: prog2
 'Declaraciones globales
-#global b : int
+#type tuple1: {
+	a : int
+	c : char
+	d : float
+}
+#type vacia: {
+}
+#global ai : 010 * int
+#global af : 2 * 5 * float
+#global t : 2 * tuple1
+#global v : vacia
 
 '**builder inicio
 
@@ -10,29 +20,40 @@ PUSHI 1
 CALL inicio
 HALT
 
-#FUNC p
-#ret void
-p:
-
-#line 14
-PUSHA 0
-PUSHI 1
-STOREI
-RET 0, 0, 0
-
 #FUNC inicio
 #ret void
 inicio:
 #param a : int
-#local k : float
-ENTER 4
+#local k : char
+ENTER 1
 
-#LINE 21
-PUSH BP
-PUSH -4
+#line 52
+PUSHA 60
+PUSHI 0
+PUSHI 7
+MULI
 ADDI
-INF
-STOREF
+PUSHI 0
+ADDI
+PUSHI 100
+STOREI
 
-#LINE 22
-RET 0, 4, 2
+#LINE 53
+PUSHB 97
+OUTB
+
+#LINE 54
+PUSHB 10
+OUTB
+
+#LINE 55
+PUSHA 60
+PUSHI 0
+PUSHI 7
+MULI
+ADDI
+PUSHI 0
+ADDI
+LOADI
+OUTI
+RET 0, 1, 2
