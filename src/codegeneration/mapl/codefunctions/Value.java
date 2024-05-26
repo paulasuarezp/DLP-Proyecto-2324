@@ -4,6 +4,7 @@ package codegeneration.mapl.codefunctions;
 
 import ast.expression.*;
 import ast.type.CharType;
+import ast.type.VoidType;
 import codegeneration.mapl.*;
 import codegeneration.mapl.utils.MaplUtils;
 
@@ -13,6 +14,8 @@ public class Value extends AbstractCodeFunction {
     public Value(MaplCodeSpecification specification) {
         super(specification);
     }
+
+	private int labelCount = 0;
 
 
 	// class IntConstant(String value)
@@ -224,4 +227,23 @@ public class Value extends AbstractCodeFunction {
 		return null;
 	}
 
+	// class PotenciaExpr(String base, String exponente)
+	// phase TypeChecking { boolean lvalue, Type type }
+	@Override
+	public Object visit(PotenciaExpr potenciaExpr, Object param) {
+
+		// value(potenciaExpr.getBase());
+		// address(potenciaExpr.getBase());
+		
+		value(potenciaExpr.getBase());
+		value(potenciaExpr.getExponente());
+		
+		out("CALL potenciaAux");
+		
+
+
+		return null;
+	}
+
+	
 }

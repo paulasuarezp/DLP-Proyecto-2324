@@ -398,6 +398,18 @@ public class MemoryAllocation extends DefaultVisitor {
 		return null;
 	}
 
+	// class PotenciaExpr(Expression base, Expression exponente)
+	// phase TypeChecking { boolean lvalue, Type type }
+	@Override
+	public Object visit(PotenciaExpr potenciaExpr, Object param) {
+
+		// potenciaExpr.getBase().accept(this, param);
+		// potenciaExpr.getExponente().accept(this, param);
+		super.visit(potenciaExpr, param);
+
+		return null;
+	}
+
 	// class IntType()
 	@Override
 	public Object visit(IntType intType, Object param) {

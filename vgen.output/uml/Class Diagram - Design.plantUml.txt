@@ -218,6 +218,12 @@ Expression <|-[#808080]- ArrayAccess
 ArrayAccess o-[#404040,thickness=2]-  Expression : array >
 ArrayAccess o-[#404040,thickness=2]-  Expression : index >
 
+class PotenciaExpr {
+}
+Expression <|-[#808080]- PotenciaExpr
+PotenciaExpr o-[#404040,thickness=2]-  Expression : base >
+PotenciaExpr o-[#404040,thickness=2]-  Expression : exponente >
+
 class IntType {
 }
 Type <|-[#808080]- IntType

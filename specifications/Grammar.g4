@@ -116,6 +116,7 @@ expr returns [Expression ast]
 | 'to<' castType=type '>(' value=expr ')' 								{ $ast = $ctx.castType.ast != null ? new CastExpr($castType.ast, $value.ast) : new CastExpr(new VoidType(), $value.ast);}
 | '-' expr 																{ $ast = new MinusExpr($expr.ast); }
 | 'not' expr 															{ $ast = new NotExpr($expr.ast); }
+| <assoc=right> b=expr '^' e=expr 										{ $ast = new PotenciaExpr($b.ast, $e.ast); }
 | op1=expr operator=('*' | '/' | 'mod') op2=expr 						{ $ast = new ArithmeticExpr($op1.ast, $operator, $op2.ast); }					
 | op1=expr operator=('+' | '-') op2=expr 								{ $ast = new ArithmeticExpr($op1.ast, $operator, $op2.ast); }
 | op1=expr operator=( '>' | '<' | '>=' | '<=') op2=expr					{ $ast = new ComparationExpr($op1.ast, $operator, $op2.ast); }	

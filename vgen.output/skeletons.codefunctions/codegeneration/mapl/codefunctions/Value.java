@@ -184,4 +184,20 @@ public class Value extends AbstractCodeFunction {
 		return null;
 	}
 
+	// class PotenciaExpr(Expression base, Expression exponente)
+	// phase TypeChecking { boolean lvalue, Type type }
+	@Override
+	public Object visit(PotenciaExpr potenciaExpr, Object param) {
+
+		// value(potenciaExpr.getBase());
+		// address(potenciaExpr.getBase());
+
+		// value(potenciaExpr.getExponente());
+		// address(potenciaExpr.getExponente());
+
+		out("<instruction>");
+
+		return null;
+	}
+
 }

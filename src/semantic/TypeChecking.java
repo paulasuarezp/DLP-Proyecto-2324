@@ -541,6 +541,23 @@ public class TypeChecking extends DefaultVisitor {
 		return null;
 	}
 
+	// class PotenciaExpr(String base, String exponente)
+	// phase TypeChecking { boolean lvalue, Type type }
+	@Override
+	public Object visit(PotenciaExpr potenciaExpr, Object param) {
+
+		super.visit(potenciaExpr, param);
+
+		//Predicado -> exponente.type == INTEGER
+		predicate(potenciaExpr.getExponente().getType() instanceof IntType, "El exponente de una potencia debe de ser de tipo INTEGER", potenciaExpr);
+		//Predicado -> isPrimitive(base.type)
+		String errorMessage = "La base de una potencia debe de ser de tipo simple (CHARACTER, INTEGER o DOUBLE).";
+		predicate(isPrimitive(potenciaExpr.getBase().getType()), errorMessage, potenciaExpr);
+
+		potenciaExpr.setLvalue(false);
+		potenciaExpr.setType(potenciaExpr.getBase().getType());
+		return null;
+	}
 
     //# ----------------------------------------------------------
     //# Auxiliary methods (optional)

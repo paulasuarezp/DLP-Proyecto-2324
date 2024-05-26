@@ -227,6 +227,14 @@ public class DefaultVisitor implements Visitor {
 	}
 
 	@Override
+	public Object visit(PotenciaExpr potenciaExpr, Object param) {
+
+		potenciaExpr.getBase().accept(this, param);
+		potenciaExpr.getExponente().accept(this, param);
+		return null;
+	}
+
+	@Override
 	public Object visit(IntType intType, Object param) {
 
 		return null;

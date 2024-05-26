@@ -69,6 +69,8 @@ public interface Visitor {
 
 	public Object visit(ArrayAccess arrayAccess, Object param);
 
+	public Object visit(PotenciaExpr potenciaExpr, Object param);
+
 	public Object visit(IntType intType, Object param);
 
 	public Object visit(DoubleType doubleType, Object param);

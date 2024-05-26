@@ -2,58 +2,125 @@
 
 'Clase: prog2
 'Declaraciones globales
-#type tuple1: {
-	a : int
-	c : char
-	d : float
-}
-#type vacia: {
-}
-#global ai : 010 * int
-#global af : 2 * 5 * float
-#global t : 2 * tuple1
-#global v : vacia
 
 '**builder inicio
 
-PUSHI 1
 CALL inicio
 HALT
+#FUNC potenciaAux
+#ret int
+potenciaAux:
+#param b : int
+#param e : int
+#local total : int
+#local aux : int
+ENTER 4
+'from
+PUSH BP
+PUSH -4
+ADDI
+PUSHI 1
+STOREI
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH 6
+ADDI
+LOADI
+STOREI
+untilcond_0001:
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+PUSH BP
+PUSH 4
+ADDI
+LOADI
+GEI
+JNZ untilend_0001
+'loop body
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSH BP
+PUSH 6
+ADDI
+LOADI
+MULI
+STOREI
+PUSH BP
+PUSH -4
+ADDI
+PUSH BP
+PUSH -4
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0001
+untilend_0001:
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+RET 2, 4, 4
 
 #FUNC inicio
 #ret void
 inicio:
-#param a : int
-#local k : char
-ENTER 1
+#local k : int
+ENTER 2
 
-#line 52
-PUSHA 60
-PUSHI 0
-PUSHI 7
-MULI
+#line 27
+PUSH BP
+PUSH -2
 ADDI
-PUSHI 0
-ADDI
-PUSHI 100
+PUSHI 4
 STOREI
 
-#LINE 53
-PUSHB 97
-OUTB
-
-#LINE 54
-PUSHB 10
-OUTB
-
-#LINE 55
-PUSHA 60
-PUSHI 0
-PUSHI 7
-MULI
+#line 28
+PUSH BP
+PUSH -2
 ADDI
-PUSHI 0
+PUSHI 2
+PUSHI 3
+CALL potenciaAux
+STOREI
+
+#LINE 29
+PUSH BP
+PUSH -2
 ADDI
 LOADI
 OUTI
-RET 0, 1, 2
+PUSHB 10
+OUTB
+
+#line 30
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 4
+CALL potenciaAux
+STOREI
+
+#LINE 31
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+OUTI
+PUSHB 10
+OUTB
+RET 0, 2, 0

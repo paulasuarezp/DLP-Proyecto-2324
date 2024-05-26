@@ -530,6 +530,22 @@ public class AstPrinter implements Visitor {
 	}
 
 	@Override
+	public Object visit(PotenciaExpr potenciaExpr, Object param) {
+
+		int indent = ((Integer)param);
+
+		// Imprimir los hijos (y recorrer si son nodos del AST)
+        printNodeChild(indent + 1, "base", "Expression", potenciaExpr.getBase());
+        printNodeChild(indent + 1, "exponente", "Expression", potenciaExpr.getExponente());
+
+		// Imprimir el 'toString()' de los atributos (pero no recorrer)
+        printToString(indent + 1, "vgen-attribute-phase-1", "lvalue", "boolean", potenciaExpr.isLvalue());
+        printToString(indent + 1, "vgen-attribute-phase-1", "type", "Type", potenciaExpr.getType());
+		printUnknownFields(indent + 1, potenciaExpr, "base", "exponente", "lvalue", "type");
+		return null;
+	}
+
+	@Override
 	public Object visit(IntType intType, Object param) {
 
 		int indent = ((Integer)param);
