@@ -12,7 +12,7 @@ class
 		do
 			k:=2;
 			switch k {
-				case 1:
+				case 1+1:
 					println 'c','a','s','o','1';
 					break;
 				case 0:
