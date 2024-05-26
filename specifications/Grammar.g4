@@ -36,7 +36,7 @@ vars returns [List<VarDefinition> list = new ArrayList<VarDefinition>()]
 	;
 // ##FIN vars
 
-// ##INICIO vars: Declaración de variables 
+// ##INICIO varListDefinition: Declaración de variables 
 varListDefinition returns [List<VarDefinition> list = new ArrayList<VarDefinition>()]
 	: varListIdents ':' type ';' 
 		{ for (int i = 0; i < $varListIdents.list.size(); i++) 
