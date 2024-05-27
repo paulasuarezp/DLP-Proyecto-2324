@@ -1,0 +1,21 @@
+class examen1;
+    create main;
+    feature main is
+        local
+            a: INTEGER;
+        do
+            a := 3;
+            if a=3 and not (a>4) or a < 0 then
+                println a=3;
+            end
+
+            until a >= 6 loop
+                print a<4;
+                print ' ';
+                a := a + 1;
+            end
+    end
+
+end
+
+run main();

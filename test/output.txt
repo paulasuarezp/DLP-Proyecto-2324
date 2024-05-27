@@ -1,0 +1,104 @@
+#source "Examen1.me"
+
+'Clase: examen1
+'Declaraciones globales
+
+'**builder main
+
+CALL main
+HALT
+
+#FUNC main
+#ret void
+main:
+#local a : int
+ENTER 2
+
+#line 7
+PUSH BP
+PUSH -2
+ADDI
+PUSHI 3
+STOREI
+
+#line 8
+'condition
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 3
+EQI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 4
+GTI
+NOT
+AND
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 0
+LTI
+OR
+JZ else_0001
+'if block
+
+#LINE 9
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 3
+EQI
+OUTI
+PUSHB 10
+OUTB
+JMP endif_0001
+'else block
+else_0001:
+'end
+endif_0001:
+
+#line 12
+'from
+untilcond_0002:
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 6
+GEI
+JNZ untilend_0002
+'loop body
+
+#LINE 13
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 4
+LTI
+OUTI
+
+#LINE 14
+PUSHB 32
+OUTB
+
+#line 15
+PUSH BP
+PUSH -2
+ADDI
+PUSH BP
+PUSH -2
+ADDI
+LOADI
+PUSHI 1
+ADDI
+STOREI
+JMP untilcond_0002
+untilend_0002:
+RET 0, 2, 0
