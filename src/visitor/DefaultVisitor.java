@@ -264,5 +264,11 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
+	@Override
+	public Object visit(BooleanType booleanType, Object param) {
+
+		return null;
+	}
+
 
 }

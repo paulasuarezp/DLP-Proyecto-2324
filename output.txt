@@ -2,58 +2,48 @@
 
 'Clase: prog2
 'Declaraciones globales
-#type tuple1: {
-	a : int
-	c : char
-	d : float
-}
-#type vacia: {
-}
-#global ai : 010 * int
-#global af : 2 * 5 * float
-#global t : 2 * tuple1
-#global v : vacia
 
-'**builder inicio
+'**builder main
 
-PUSHI 1
-CALL inicio
+CALL main
 HALT
 
-#FUNC inicio
+#FUNC main
 #ret void
-inicio:
-#param a : int
-#local k : char
-ENTER 1
+main:
 
-#line 52
-PUSHA 60
-PUSHI 0
-PUSHI 7
-MULI
-ADDI
-PUSHI 0
-ADDI
-PUSHI 100
-STOREI
+#line 12
+'condition
+PUSHI 1
+PUSHI 1
+EQI
+JZ else_0001
+'if block
 
-#LINE 53
+#LINE 13
+PUSHB 116
+OUTB
+PUSHB 114
+OUTB
+PUSHB 117
+OUTB
+PUSHB 101
+OUTB
+JMP endif_0001
+'else block
+else_0001:
+
+#LINE 15
+PUSHB 102
+OUTB
 PUSHB 97
 OUTB
-
-#LINE 54
-PUSHB 10
+PUSHB 108
 OUTB
-
-#LINE 55
-PUSHA 60
-PUSHI 0
-PUSHI 7
-MULI
-ADDI
-PUSHI 0
-ADDI
-LOADI
-OUTI
-RET 0, 1, 2
+PUSHB 115
+OUTB
+PUSHB 101
+OUTB
+'end
+endif_0001:
+RET 0, 0, 0

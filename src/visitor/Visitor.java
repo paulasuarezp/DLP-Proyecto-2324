@@ -81,5 +81,7 @@ public interface Visitor {
 
 	public Object visit(ArrayType arrayType, Object param);
 
+	public Object visit(BooleanType booleanType, Object param);
+
 
 }

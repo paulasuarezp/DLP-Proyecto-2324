@@ -418,4 +418,11 @@ public class SkeletonForNewVisitors extends DefaultVisitor {
 		return null;
 	}
 
+	// class BooleanType()
+	@Override
+	public Object visit(BooleanType booleanType, Object param) {
+
+		return null;
+	}
+
 }

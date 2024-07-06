@@ -48,6 +48,8 @@ voidType: type -> ;
 structType: type -> name:string;
 arrayType: type -> dimension:intConstant tipo:type;
 
+booleanType: type -> ;
+
 
 
 //---------------------------------

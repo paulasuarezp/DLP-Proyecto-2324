@@ -445,4 +445,11 @@ public class MemoryAllocation extends DefaultVisitor {
 		return null;
 	}
 
+	// class BooleanType()
+	@Override
+	public Object visit(BooleanType booleanType, Object param) {
+
+		return null;
+	}
+
 }

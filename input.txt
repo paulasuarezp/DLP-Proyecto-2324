@@ -2,64 +2,19 @@ class
 	prog2;
 
 global
-	types
-		deftuple tuple1 as /*estructura 
-			a: INTEGER; 
-			c: CHARACTER; 
-			d: DOUBLE; 
-		end
-		deftuple vacia as
-		end
-	vars
-		ai : [010] INTEGER; /*array de una dimensión 
-		af : [2][5] DOUBLE; /*array de dos dimensiones
-		t : [2] tuple1;
-		v: vacia;
-
-
-	create
-		inicio;
-
 	
-	feature inicio(a:INTEGER) is 
-		local
-			k : CHARACTER;
+	create
+		main;
+
+
+	feature main is 
 		do
-		//*
-			t.d := 222.2;
-			a:= a > 5 + to<INTEGER>(7.5);
-			println a;
-			k := to<CHARACTER>(5 mod to<INTEGER>(7.5));
-			a := 11;
-			t.d := to<DOUBLE>(to<INTEGER>(t.d) mod a);
-			print t.d;
-
-			k := 'a';
-			if (11 < 12) and not (k = 'n') then
-				println 'Y';
-			end
-
-			k := 'a';
-			if (11 < 12) and  ('a' <> 'n') then
-				println 'Y', '2';
-			end
-
-			from 
-			k := 'a';
-			until 1 loop
-			end*//
-
-			t[0].a := 100;
-			print 'a';
-			println;
-			print t[0].a;
-			prueba();
-
-	end
-
-	feature prueba is 
-		do
+		if 1 = 1 then
+			print 't', 'r', 'u', 'e';
+		else
+			print 'f', 'a', 'l', 's', 'e';
+		end
 	end
 end
 
-run inicio(1); 
+run main(); 

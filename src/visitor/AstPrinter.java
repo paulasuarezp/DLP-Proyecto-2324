@@ -605,6 +605,18 @@ public class AstPrinter implements Visitor {
 		return null;
 	}
 
+	@Override
+	public Object visit(BooleanType booleanType, Object param) {
+
+		int indent = ((Integer)param);
+
+		// Imprimir los hijos (y recorrer si son nodos del AST)
+
+		// Imprimir el 'toString()' de los atributos (pero no recorrer)
+		printUnknownFields(indent + 1, booleanType, "");
+		return null;
+	}
+
 
 
     //$ -------------------------------------------------------------------------------------

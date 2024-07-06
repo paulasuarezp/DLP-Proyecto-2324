@@ -219,6 +219,12 @@ public class ExceptionThrowerVisitor implements Visitor {
         throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(ArrayType)' has been invoked but it has not been implemented.");
 	}
 
+	@Override
+	public Object visit(BooleanType booleanType, Object param) {
+
+        throw new UnsupportedOperationException("'ExceptionThrowerVisitor.visit(BooleanType)' has been invoked but it has not been implemented.");
+	}
+
     // %% User Members -------------------------
 
         // Methods/attributes in this section will be preserved. Delete if not needed

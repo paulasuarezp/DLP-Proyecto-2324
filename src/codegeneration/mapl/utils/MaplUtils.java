@@ -11,6 +11,7 @@ import java.util.Set;
 import ast.FieldDefinition;
 import ast.VarDefinition;
 import ast.type.ArrayType;
+import ast.type.BooleanType;
 import ast.type.CharType; 
 import ast.type.DoubleType;
 import ast.type.IntType;
@@ -51,6 +52,9 @@ public class MaplUtils {
             case IntType i -> "I";
             case DoubleType f -> "F";
             case CharType c -> "B";
+            // ---------------------------------- MODIFICACIÓN EXAMEN --------------------------------------
+            case BooleanType b -> "I";
+            // ---------------------------------- FIN MODIFICACIÓN EXAMEN --------------------------------------
             default -> throw new IllegalArgumentException("Unrecognized type");
         };
     }

@@ -7,6 +7,7 @@ import java.util.Map;
 import ast.*;
 import ast.expression.Expression;
 import ast.sentence.*;
+import ast.type.BooleanType;
 import ast.type.VoidType;
 import codegeneration.mapl.*;
 import codegeneration.mapl.utils.MaplUtils;
@@ -148,11 +149,53 @@ public class Execute extends AbstractCodeFunction {
 		// value(print.input());
 		// address(print.input());
 
+
+		labelCount++;
+		String falseBoolean = MaplUtils.formatLabel("falseString_", labelCount);
+		String endBoolean = MaplUtils.formatLabel("endBoolean_", labelCount);
+
 		out("\n#LINE " + print.end().getLine());
 		for(Expression e : print.getInput()) {
-			value(e);
-			out("OUT" + MaplUtils.maplSuffix(e.getType()));
+			// ---------------------------------- MODIFICACIÓN EXAMEN --------------------------------------
+			if(e.getType() instanceof BooleanType){
+				value(e);
+				out("PUSHI 1");
+				out("EQI");
+				out("JZ " + falseBoolean);  
+				out("'if block");     
+				//execute(ifElse.trueBlock());
+				out("PUSHB 116"); /* t */
+				out("OUTB"); 
+				out("PUSHB 114"); // r
+				out("OUTB");
+				out("PUSHB 117"); //u
+				out("OUTB");
+				out("PUSHB 101"); //e
+				out("OUTB");                
+				out("JMP " + endBoolean); 
+				out("'else block");               
+				out(falseBoolean + ":");             
+				//execute(ifElse.falseBlock()); 
+				out("PUSHB 102"); //f
+				out("OUTB"); 
+				out("PUSHB 97"); // a
+				out("OUTB");
+				out("PUSHB 108"); //l
+				out("OUTB");
+				out("PUSHB 115"); //s
+				out("OUTB");  
+				out("PUSHB 101"); //e
+				out("OUTB");
+				out("'end");              
+				out(endBoolean + ":");      
+
+			} else {
+				value(e);
+				out("OUT" + MaplUtils.maplSuffix(e.getType()));
+			}
+			// ---------------------------------- FIN: MODIFICACIÓN EXAMEN --------------------------------------
 		}
+
 
 		switch (print.getOp()) {
 			case "println":

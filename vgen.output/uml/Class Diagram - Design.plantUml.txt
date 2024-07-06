@@ -246,4 +246,8 @@ Type <|-[#808080]- ArrayType
 ArrayType o-[#404040,thickness=2]-  IntConstant : dimension >
 ArrayType o-[#404040,thickness=2]-  Type : tipo >
 
+class BooleanType {
+}
+Type <|-[#808080]- BooleanType
+
 @enduml

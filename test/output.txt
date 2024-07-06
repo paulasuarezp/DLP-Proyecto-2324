@@ -54,7 +54,33 @@ ADDI
 LOADI
 PUSHI 3
 EQI
-OUTI
+PUSHI 1
+EQI
+JZ falseString_0002
+'if block
+PUSHB 116
+OUTB
+PUSHB 114
+OUTB
+PUSHB 117
+OUTB
+PUSHB 101
+OUTB
+JMP endBoolean_0002
+'else block
+falseString_0002:
+PUSHB 102
+OUTB
+PUSHB 97
+OUTB
+PUSHB 108
+OUTB
+PUSHB 115
+OUTB
+PUSHB 101
+OUTB
+'end
+endBoolean_0002:
 PUSHB 10
 OUTB
 JMP endif_0001
@@ -65,14 +91,14 @@ endif_0001:
 
 #line 12
 'from
-untilcond_0002:
+untilcond_0003:
 PUSH BP
 PUSH -2
 ADDI
 LOADI
 PUSHI 6
 GEI
-JNZ untilend_0002
+JNZ untilend_0003
 'loop body
 
 #LINE 13
@@ -82,7 +108,33 @@ ADDI
 LOADI
 PUSHI 4
 LTI
-OUTI
+PUSHI 1
+EQI
+JZ falseString_0004
+'if block
+PUSHB 116
+OUTB
+PUSHB 114
+OUTB
+PUSHB 117
+OUTB
+PUSHB 101
+OUTB
+JMP endBoolean_0004
+'else block
+falseString_0004:
+PUSHB 102
+OUTB
+PUSHB 97
+OUTB
+PUSHB 108
+OUTB
+PUSHB 115
+OUTB
+PUSHB 101
+OUTB
+'end
+endBoolean_0004:
 
 #LINE 14
 PUSHB 32
@@ -99,6 +151,6 @@ LOADI
 PUSHI 1
 ADDI
 STOREI
-JMP untilcond_0002
-untilend_0002:
+JMP untilcond_0003
+untilend_0003:
 RET 0, 2, 0

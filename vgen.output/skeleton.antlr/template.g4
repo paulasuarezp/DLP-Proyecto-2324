@@ -32,6 +32,7 @@ type returns[Type ast]
     |                                     { $ast = new VoidType(); }                             
     | name=IDENT                          { $ast = new StructType($name); }                      
     | intConstant type                    { $ast = new ArrayType($intConstant.ast, $type.ast); } 
+    |                                     { $ast = new BooleanType(); }                          
 	;
 
 intConstant returns[IntConstant ast]

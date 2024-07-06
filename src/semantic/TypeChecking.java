@@ -170,10 +170,17 @@ public class TypeChecking extends DefaultVisitor {
 
 		super.visit(loop, param);
 
+		// ---------------------------------- MODIFICACIÓN EXAMEN --------------------------------------
 		// Predicado -> until.type == INTEGER
+		/*
 		predicate(loop.getUntil().getType() instanceof IntType, "La expresión del 'until' debe de ser de tipo INTEGER, no " 
 			+ getTypeName(loop.getUntil().getType()), loop);
+		 */
+		// Predicado -> until.type == BOOLEAN
+		predicate(loop.getUntil().getType() instanceof BooleanType, "La expresión del 'until' debe de ser de tipo BOOLEAN, no " 
+			+ getTypeName(loop.getUntil().getType()), loop);
 
+		// ---------------------------------- FIN: MODIFICACIÓN EXAMEN --------------------------------------
 
 		return null;
 	}
@@ -196,11 +203,16 @@ public class TypeChecking extends DefaultVisitor {
 
 		super.visit(ifElse, param);
 
+		// ---------------------------------- MODIFICACIÓN EXAMEN --------------------------------------
 		// Predicado -> condition.type == INTEGER
-		predicate(ifElse.getCondition().getType() instanceof IntType, "La condición del \'if\' debe de ser de tipo INTEGER, no de tipo " +
+		/* predicate(ifElse.getCondition().getType() instanceof IntType, "La condición del \'if\' debe de ser de tipo INTEGER, no de tipo " +
+			getTypeName(ifElse.getCondition().getType()), ifElse); */
+		
+		// Predicado -> condition.type == BOOLEAN
+		predicate(ifElse.getCondition().getType() instanceof BooleanType, "La condición del \'if\' debe de ser de tipo BOOLEAN, no de tipo " +
 			getTypeName(ifElse.getCondition().getType()), ifElse);
 
-
+		// ---------------------------------- FIN: MODIFICACIÓN EXAMEN --------------------------------------
 		return null;
 	}
 
@@ -235,9 +247,12 @@ public class TypeChecking extends DefaultVisitor {
 		//Regla -> input.all(e -> isPrimitive(e.type))
 		String errorMessage = "";
 		for(Expression e: print.getInput()){
-			errorMessage = String.format("Solo se pueden imprimir (print) expresiones de tipo simple (INTEGER, DOUBLE o CHARACTER), no de tipo %s",
+			// ---------------------------------- MODIFICACIÓN EXAMEN --------------------------------------
+			errorMessage = String.format("Solo se pueden imprimir (print) expresiones de tipo simple (INTEGER, DOUBLE o CHARACTER) o BOOLEAN, no de tipo %s",
 									getTypeName(e.getType()));
-			predicate(isPrimitive(e.getType()), errorMessage, print);
+			boolean checkTypes = isPrimitive(e.getType()) || e.getType() instanceof BooleanType; 
+			predicate(checkTypes, errorMessage, print);
+			// ---------------------------------- FIN: MODIFICACIÓN EXAMEN --------------------------------------
 		}
 		return null;
 	}
@@ -387,19 +402,28 @@ public class TypeChecking extends DefaultVisitor {
 	public Object visit(LogicalExpr logicalExpr, Object param) {
 		super.visit(logicalExpr, param);
 
+		// ---------------------------------- MODIFICACIÓN EXAMEN --------------------------------------
 		//Predicado -> op1.type == INTEGER
-		String errorMessage = "El tipo de la expresión de la izquierda de una operación lógica debe de ser de tipo INTEGER.";
-		predicate(logicalExpr.getOp1().getType() instanceof IntType, errorMessage, logicalExpr);
+		String errorMessage = "El tipo de la expresión de la izquierda de una operación lógica debe de ser de tipo BOOLEAN.";
+		//predicate(logicalExpr.getOp1().getType() instanceof IntType, errorMessage, logicalExpr);
+		//Predicado -> op1.type == BOOLEAN
+		predicate(logicalExpr.getOp1().getType() instanceof BooleanType, errorMessage, logicalExpr);
+		// ---------------------------------- FIN: MODIFICACIÓN EXAMEN --------------------------------------
+
+
 		//Predicado -> sameType(op1.type, op2.type)
 		errorMessage = String.format("Los tipos de la izquierda y derecha deben de ser iguales. No es posible realizar una operación lógica entre un tipo %s y un tipo %s", 
 							getTypeName(logicalExpr.getOp1().getType()), 
 							getTypeName(logicalExpr.getOp2().getType()));
 		predicate(checkSameType(logicalExpr.getOp1().getType(), logicalExpr.getOp2().getType()), errorMessage, logicalExpr);
+		
 
 		//Regla -> logicalExpr.lValue = FALSE
 		logicalExpr.setLvalue(false);
 		//Regla -> logicalExpr.type = op1.type
 		logicalExpr.setType(logicalExpr.getOp1().getType());
+
+		
 		return null;
 	}
 
@@ -427,8 +451,15 @@ public class TypeChecking extends DefaultVisitor {
 		
 		//Regla -> comparationExpr.lValue = FALSE
 		comparationExpr.setLvalue(false);
+
+		// ---------------------------------- MODIFICACIÓN EXAMEN --------------------------------------
 		//Regla -> comparationExpr.type = INTEGER
 		comparationExpr.setType(new IntType());
+
+		//Regla -> comparationExpr.type = BOOLEAN
+		comparationExpr.setType(new BooleanType());
+
+		// ---------------------------------- FIN: MODIFICACIÓN EXAMEN --------------------------------------
 		return null;
 	}
 
@@ -453,14 +484,20 @@ public class TypeChecking extends DefaultVisitor {
 	@Override
 	public Object visit(NotExpr notExpr, Object param) {
 		super.visit(notExpr, param);
+		// ---------------------------------- MODIFICACIÓN EXAMEN --------------------------------------
 		//Predicado -> op.type == INTEGER
-		predicate(notExpr.getOp().getType() instanceof IntType, "El operador 'not' sólo puede aplicarse a expresiones de tipo INTEGER", notExpr);
-		// notExpr.getOp().accept(this, param);
+		//predicate(notExpr.getOp().getType() instanceof IntType, "El operador 'not' sólo puede aplicarse a expresiones de tipo INTEGER", notExpr);
+		//Predicado -> op.type == INTEGER
+		predicate(notExpr.getOp().getType() instanceof BooleanType, "El operador 'not' sólo puede aplicarse a expresiones de tipo BOOLEAN", notExpr);
+		
 		
 		//Regla -> notExpr.lValue = FALSE
 		notExpr.setLvalue(false);
 		//Regla -> notExpr.type = INTEGER
-		notExpr.setType(new IntType());
+		// notExpr.setType(new IntType());
+		//Regla -> notExpr.type = BOOLEAN
+		notExpr.setType(new BooleanType());
+		// ---------------------------------- FIN: MODIFICACIÓN EXAMEN --------------------------------------
 		return null;
 	}
 
@@ -643,6 +680,11 @@ public class TypeChecking extends DefaultVisitor {
 		}else if(type instanceof CharType){
 			return "CHARACTER";
 		}
+		// ---------------------------------- MODIFICACIÓN EXAMEN --------------------------------------
+		else if(type instanceof BooleanType){
+			return "BOOLEAN";
+		}
+		// ---------------------------------- FIN: MODIFICACIÓN EXAMEN --------------------------------------
 
 		return "'INDEFINIDO'";
 	}
